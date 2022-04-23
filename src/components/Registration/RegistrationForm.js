@@ -41,9 +41,9 @@ const RegistrationForm = () => {
     }
 
     //This handler toggles between registration and log-in
-    const switchAuthModeHandler = () => {
-        setIsLogin((prevState) => !prevState);
-    };
+    // const switchAuthModeHandler = () => {
+    //     setIsLogin((prevState) => !prevState);
+    // };
 
     //For validation purposes
     useEffect(()=> {
@@ -85,7 +85,7 @@ const RegistrationForm = () => {
         console.log(password);
 
         setIsLoading(true);
-        let url = SIGN_UP_URL;
+            let url = SIGN_UP_URL;
         RegistrationService.register(user, url)
             .then(response => {
                 console.log(response);
@@ -109,7 +109,8 @@ const RegistrationForm = () => {
 
     return (
         <section className={InputClasses}>
-            <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
+            {/*<h1>{isLogin ? 'Login' : 'Sign Up'}</h1>*/}
+            <h1>Sign Up</h1>
             <form onSubmit={submitHandler}>
                 <div className={classes.control}>
                     <label htmlFor='name'>Full Name</label>
@@ -148,16 +149,17 @@ const RegistrationForm = () => {
                 </div>
                 <div className={classes.actions}>
                     {!isLoading && (
-                        <button>{isLogin ? 'Login' : 'Create Account'}</button>
+                        // <button>{isLogin ? 'Login' : 'Create Account'}</button>
+                        <button>Create Account</button>
                     )}
                     {isLoading && <p>Your inputs are ok!</p>}
-                    <button
-                        type='button'
-                        className={classes.toggle}
-                        onClick={switchAuthModeHandler}
-                    >
-                        {isLogin ? 'Create new account' : 'Login with existing account'}
-                    </button>
+                    {/*<button*/}
+                    {/*    type='button'*/}
+                    {/*    className={classes.toggle}*/}
+                    {/*    onClick={switchAuthModeHandler}*/}
+                    {/*>*/}
+                    {/*    {isLogin ? 'Create new account' : 'Login with existing account'}*/}
+                    {/*</button>*/}
                 </div>
             </form>
         </section>
