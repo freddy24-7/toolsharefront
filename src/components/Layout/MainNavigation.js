@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
-import AuthContext from '../../store/auth-context';
+import AuthContext from '../../context/auth-context';
 import classes from './MainNavigation.module.css';
 
 const MainNavigation = () => {
@@ -11,7 +11,6 @@ const MainNavigation = () => {
 
     const logoutHandler = () => {
         authCtx.logout();
-        // optional: redirect the user
     };
 
     return (
@@ -33,7 +32,7 @@ const MainNavigation = () => {
                     )}
                     {isLoggedIn && (
                         <li>
-                            <Link to='/profile'>Profile</Link>
+                            <Link to='/profile/'>Profile</Link>
                         </li>
                     )}
                     {isLoggedIn && (

@@ -1,14 +1,12 @@
 import { useContext } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-//When done, change to Profile name structure and logic
-
 import Layout from './components/Layout/Layout';
-import UserProfile from './components/Profile/UserProfile';
 import AuthPage from './pages/AuthPage';
 import HomePage from './pages/HomePage';
 import RegisterPage from "./pages/RegisterPage";
-import AuthContext from './store/auth-context';
+import ProfilePage from "./pages/ProfilePage";
+import AuthContext from './context/auth-context';
 
 function App() {
     const authCtx = useContext(AuthContext);
@@ -28,8 +26,8 @@ function App() {
                     <Route path='/register'>
                         <RegisterPage />
                     </Route>)}
-                <Route path='/profile'>
-                    {authCtx.isLoggedIn && <UserProfile />}
+                <Route path='/profile' exact>
+                    {authCtx.isLoggedIn && <ProfilePage /> }
                     {!authCtx.isLoggedIn && <Redirect to='/login' />}
                 </Route>
                 <Route path='*'>
