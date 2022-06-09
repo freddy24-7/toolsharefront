@@ -1,5 +1,7 @@
 export const authHeaders = {
     headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwt')}`
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem('token')}`
     }
 }
+

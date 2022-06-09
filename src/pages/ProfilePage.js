@@ -1,7 +1,8 @@
-import UserProfileList from '../components/Profile/UserProfileList';
+import AvatarProfile from "../components/Profile/AvatarProfile";
+
 
 const ProfilePage = () => {
-    return <UserProfileList />;
+    return <AvatarProfile />;
 };
 
 export default ProfilePage;

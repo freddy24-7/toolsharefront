@@ -6,8 +6,10 @@ import AuthContext from '../../context/auth-context';
 import classes from './AuthForm.module.css';
 import AuthenticationService from "../../services/AuthenticationService";
 import {SIGN_IN_URL} from "../../backend-urls/constants";
+import {authHeaders} from "../../store/auth-helper";
 
-const AuthForm = () => {
+export const AuthForm = ( {Login, error }) => {
+
     const history = useHistory();
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -19,6 +21,7 @@ const AuthForm = () => {
 
     const usernameInputChangeHandler = (event) => {
         setUsername(event.target.value);
+        console.log(username)
     }
     const passwordInputChangeHandler = (event) => {
         setPassword(event.target.value);
@@ -40,6 +43,7 @@ const AuthForm = () => {
                 localStorage.setItem('jwt', data.token)
                 console.log(user);
                 history.push('/profile');
+                console.log(authHeaders)
             })
             .catch((err) => {
                 alert(err.message);
