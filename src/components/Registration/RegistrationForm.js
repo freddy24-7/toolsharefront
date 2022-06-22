@@ -9,29 +9,29 @@ const RegistrationForm = () => {
 
     const history = useHistory();
     //Below are added fields from spring security set-up in backend (user class)
-    const [name, setName] = useState('')
+    // const [name, setName] = useState('')
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
     //Constants used for frontend validation
-    const [enteredNameIsValid, setEnteredNameIsValid] = useState(false)
+    // const [enteredNameIsValid, setEnteredNameIsValid] = useState(false)
     const [enteredUsernameIsValid, setEnteredUsernameIsValid] = useState(false)
     const [enteredPasswordIsValid, setEnteredPasswordIsValid] = useState(false)
-    const [enteredNameTouched, setEnteredNameTouched] = useState(false)
+    // const [enteredNameTouched, setEnteredNameTouched] = useState(false)
     const [enteredUsernameTouched, setEnteredUsernameTouched] = useState(false)
     const [enteredPasswordTouched, setEnteredPasswordTouched] = useState(false)
 
     //Creating the variable that will be used to send data to backend / Spring Security
-    const user = {name, username, password}
+    const user = {username, password}
     console.log(user);
 
     //Variables used for the form submission
     const [isLoading, setIsLoading] = useState(false);
 
     //Change handlers for submission field below
-    const nameInputChangeHandler = (event) => {
-        setName(event.target.value);
-    }
+    // const nameInputChangeHandler = (event) => {
+    //     setName(event.target.value);
+    // }
     const usernameInputChangeHandler = (event) => {
         setUsername(event.target.value);
     }
@@ -41,10 +41,10 @@ const RegistrationForm = () => {
 
     //For validation purposes
     useEffect(()=> {
-        if (enteredNameIsValid) {
-            console.log("enteredNameIsValid is true")
+        if (enteredUsernameIsValid) {
+            console.log("enteredUserNameIsValid is true")
         }
-    }, [enteredNameIsValid]);
+    }, [enteredUsernameIsValid]);
 
 
     //Forms
@@ -52,17 +52,17 @@ const RegistrationForm = () => {
         event.preventDefault();
 
         //Upon submission
-        setEnteredNameTouched(true)
+        // setEnteredNameTouched(true)
         setEnteredUsernameTouched(true)
         setEnteredPasswordTouched(true)
 
         //Validation checks for length of name, username, and password
-        if (name.trim() === '') {
-            setEnteredNameIsValid(false);
-            return;
-        }
-        setEnteredNameIsValid(true)
-        console.log(name);
+        // if (name.trim() === '') {
+        //     setEnteredNameIsValid(false);
+        //     return;
+        // }
+        // setEnteredNameIsValid(true)
+        // console.log(name);
 
         if (username.trim() === '') {
             setEnteredUsernameIsValid(false);
@@ -82,7 +82,8 @@ const RegistrationForm = () => {
         RegistrationService.register(user, SIGN_UP_URL)
             .then(response => {
                 console.log(response);
-                history.push('/login');
+                // history.push('/login');
+                history.push('/profile')
             })
             .catch(error => {
                 console.log(error);
@@ -91,12 +92,12 @@ const RegistrationForm = () => {
     };
 
     //Validation checks for input validity, post submission
-    const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
+    // const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
     const usernameInputIsInvalid = !enteredUsernameIsValid && enteredUsernameTouched;
     const passwordInputIsInvalid = !enteredPasswordIsValid && enteredPasswordTouched;
 
     //Dynamic use of CSS, other styles appear if input is invalid
-    const InputClasses = nameInputIsInvalid || usernameInputIsInvalid || passwordInputIsInvalid
+    const InputClasses = usernameInputIsInvalid || passwordInputIsInvalid
         ? classes.authinvalid
         : classes.auth;
 
@@ -104,18 +105,18 @@ const RegistrationForm = () => {
         <section className={InputClasses}>
             <h1>Sign Up</h1>
             <form onSubmit={submitHandler}>
-                <div className={classes.control}>
-                    <label htmlFor='name'>Full Name</label>
-                    <input
-                        type="text"
-                        placeholder= "Enter full name"
-                        name= "fullName"
-                        className= "form-control"
-                        value={name}
-                        onChange={nameInputChangeHandler}
-                    />
-                    {nameInputIsInvalid && <p className={classes.error}>Please enter a valid name</p>}
-                </div>
+                {/*<div className={classes.control}>*/}
+                {/*    <label htmlFor='name'>Full Name</label>*/}
+                {/*    <input*/}
+                {/*        type="text"*/}
+                {/*        placeholder= "Enter full name"*/}
+                {/*        name= "fullName"*/}
+                {/*        className= "form-control"*/}
+                {/*        value={name}*/}
+                {/*        onChange={nameInputChangeHandler}*/}
+                {/*    />*/}
+                {/*    {nameInputIsInvalid && <p className={classes.error}>Please enter a valid name</p>}*/}
+                {/*</div>*/}
                 <div className={classes.control}>
                     <label htmlFor='username'>Username</label>
                     <input

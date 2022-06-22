@@ -71,3 +71,7 @@
     background-color: transparent;
     color: #37505a;
 }
+.photo {
+    margin: 3rem auto;
+    text-align: center;
+}

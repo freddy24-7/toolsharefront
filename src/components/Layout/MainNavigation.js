@@ -1,12 +1,12 @@
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
 
 import AuthContext from '../../context/auth-context';
 import classes from './MainNavigation.module.css';
 
+
 const MainNavigation = () => {
     const authCtx = useContext(AuthContext);
-
     const isLoggedIn = authCtx.isLoggedIn;
 
     const logoutHandler = () => {
@@ -32,7 +32,17 @@ const MainNavigation = () => {
                     )}
                     {isLoggedIn && (
                         <li>
-                            <Link to='/profile/'>Profile</Link>
+                            <NavLink to='/lending'>Spullen uitlenen?</NavLink>
+                        </li>
+                    )}
+                    {isLoggedIn && (
+                        <li>
+                            <NavLink to='/borrowing'>Spullen lenen?</NavLink>
+                        </li>
+                    )}
+                    {isLoggedIn && (
+                        <li>
+                            <NavLink to='/borrowing'>Lijst van deelneemers</NavLink>
                         </li>
                     )}
                     {isLoggedIn && (

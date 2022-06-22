@@ -3,12 +3,11 @@
 import { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import AuthContext from '../../context/auth-context';
-import classes from './AuthForm.module.css';
+import classes from './LoginForm.module.css';
 import AuthenticationService from "../../services/AuthenticationService";
 import {SIGN_IN_URL} from "../../backend-urls/constants";
-import {authHeaders} from "../../store/auth-helper";
 
-export const AuthForm = ( {Login, error }) => {
+export const LoginForm = () => {
 
     const history = useHistory();
     const [username, setUsername] = useState('')
@@ -16,6 +15,7 @@ export const AuthForm = ( {Login, error }) => {
     const user = {username, password}
     console.log(user);
 
+    //Using "useContext" here for authentication below
     const authCtx = useContext(AuthContext);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -27,6 +27,7 @@ export const AuthForm = ( {Login, error }) => {
         setPassword(event.target.value);
     }
 
+    //Axios call for login and authentication
     const submitHandler = (event) => {
         event.preventDefault();
 
@@ -34,16 +35,19 @@ export const AuthForm = ( {Login, error }) => {
         AuthenticationService.login(user, SIGN_IN_URL)
             .then((response) => {
                 const data = response.data;
+                //Defining user object for backend
                 const user = {
                     token: data.token,
                     username: data.username,
                     password: data.password,
                 };
+                //Authenticating the user
                 authCtx.login(user);
                 localStorage.setItem('jwt', data.token)
+                //checking the data we have access to with a console.log
                 console.log(user);
-                history.push('/profile');
-                console.log(authHeaders)
+                //using template literal to display individual user after login
+                history.push(`/profile/${response.data.username}`)
             })
             .catch((err) => {
                 alert(err.message);
@@ -86,4 +90,4 @@ export const AuthForm = ( {Login, error }) => {
     );
 };
 
-export default AuthForm;
+export default LoginForm;

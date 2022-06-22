@@ -2,11 +2,12 @@ import { useContext } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 import Layout from './components/Layout/Layout';
-import AuthPage from './pages/AuthPage';
+import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import RegisterPage from "./pages/RegisterPage";
-import ProfilePage from "./pages/ProfilePage";
+import IndividualProfileDetails from "./components/Profile/IndividualProfileDetails";
 import AuthContext from './context/auth-context';
+import ProfileForm from "./components/Profile/ProfileForm";
 
 function App() {
     const authCtx = useContext(AuthContext);
@@ -19,7 +20,7 @@ function App() {
                 </Route>
                 {!authCtx.isLoggedIn && (
                     <Route path='/login'>
-                        <AuthPage />
+                        <LoginPage />
                     </Route>
                 )}
                 {!authCtx.isLoggedIn && (
@@ -27,9 +28,13 @@ function App() {
                         <RegisterPage />
                     </Route>)}
                 <Route path='/profile' exact>
-                    {authCtx.isLoggedIn && <ProfilePage /> }
-                    {!authCtx.isLoggedIn && <Redirect to='/login' />}
+                    {!authCtx.isLoggedIn && <ProfileForm/> }
                 </Route>
+                {authCtx.isLoggedIn && (
+                    <Route path='/profile/:id'>
+                        <IndividualProfileDetails /> }
+                        {!authCtx.isLoggedIn && <Redirect to='/login' />}
+                    </Route>)}
                 <Route path='*'>
                     <Redirect to='/' />
                 </Route>

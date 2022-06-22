@@ -1,8 +1,8 @@
-import AvatarProfile from "../components/Profile/AvatarProfile";
+import ProfileForm from "../components/Profile/ProfileForm";
 
 
 const ProfilePage = () => {
-    return <AvatarProfile />;
+    return <ProfileForm />;
 };
 
 export default ProfilePage;
