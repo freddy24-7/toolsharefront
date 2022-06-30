@@ -75,3 +75,6 @@
     margin: 3rem auto;
     text-align: center;
 }
+.error {
+    color: #c493c9;
+}

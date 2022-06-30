@@ -1,17 +1,24 @@
-import { useContext } from 'react';
+import {useContext, useEffect} from 'react';
 import {Link, NavLink} from 'react-router-dom';
 
 import AuthContext from '../../context/auth-context';
 import classes from './MainNavigation.module.css';
+import UserDetailsButton from "./Buttons/UserDetailsButton";
+import LogoutButton from "./Buttons/LogoutButton";
 
+//Passing the props from Layout component
+const MainNavigation = ({ onLogout, setUserDetailsClicked, onClickingUserDetails }) => {
 
-const MainNavigation = () => {
+    //Using useContext to manage the login-state
     const authCtx = useContext(AuthContext);
     const isLoggedIn = authCtx.isLoggedIn;
 
+    //This function uses props to setUserDetailsClicked to false, and logging out the user
     const logoutHandler = () => {
+        setUserDetailsClicked(false)
         authCtx.logout();
     };
+
 
     return (
         <header className={classes.header}>
@@ -20,19 +27,20 @@ const MainNavigation = () => {
             </Link>
             <nav>
                 <ul>
+                    {/*Below links and buttons are conditionally displayed depending on login-state*/}
                     {!isLoggedIn && (
                         <li>
-                            <Link to='/login'>Login</Link>
+                            <NavLink to='/login'>Login</NavLink>
                         </li>
                     )}
                     {!isLoggedIn && (
                         <li>
-                            <Link to='/register'>Register</Link>
+                            <NavLink to='/register'>Register</NavLink>
                         </li>
                     )}
                     {isLoggedIn && (
                         <li>
-                            <NavLink to='/lending'>Spullen uitlenen?</NavLink>
+                            <UserDetailsButton to='/userdata' onClick={onClickingUserDetails}/>
                         </li>
                     )}
                     {isLoggedIn && (
@@ -42,12 +50,21 @@ const MainNavigation = () => {
                     )}
                     {isLoggedIn && (
                         <li>
-                            <NavLink to='/borrowing'>Lijst van deelneemers</NavLink>
+                            <NavLink to='/borrowing'>Spullen uitlenen?</NavLink>
                         </li>
                     )}
                     {isLoggedIn && (
                         <li>
-                            <button onClick={logoutHandler}>Logout</button>
+                            <NavLink to='/userlist' >Lijst van deelneemers</NavLink>
+                        </li>
+                    )}
+                    {isLoggedIn && (
+                        <li>
+                            {/*Props are passed down from Layout Component*/}
+                            <LogoutButton to='/userdata'
+                                          onClick={onLogout}
+                                          onClick={logoutHandler}
+                            />
                         </li>
                     )}
                 </ul>

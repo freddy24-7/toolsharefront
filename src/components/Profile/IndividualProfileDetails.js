@@ -8,12 +8,15 @@ import leafblower from "../../assets/pexels-pixabay-162564.jpg";
 //Displays the username back to the user in the welcome message to the user
 
 const IndividualProfileDetails = () => {
+
     const { id } = useParams();
     return (
         <>
-        <section className={classes.base}>
+        <section className={classes.base} >
             <p className={classes.control}>
-                Fijn dat he hier bent {id}! Hier kan je gratis spullen lenen en uitlenen
+                Fijn dat he hier bent {id}! Hier kan je gratis spullen lenen en uitlenen.
+                <br/>
+                <br/>
                 Klik op een link om te beginnen
             </p>
         </section>

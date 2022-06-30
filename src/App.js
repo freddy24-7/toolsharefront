@@ -5,9 +5,10 @@ import Layout from './components/Layout/Layout';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import RegisterPage from "./pages/RegisterPage";
-import IndividualProfileDetails from "./components/Profile/IndividualProfileDetails";
 import AuthContext from './context/auth-context';
-import ProfileForm from "./components/Profile/ProfileForm";
+import ProfilePage from "./pages/ProfilePage";
+import IndividualProfileDetails from "./components/Profile/IndividualProfileDetails";
+import ConfirmationScreen from "./components/Profile/ConfirmationScreen";
 
 function App() {
     const authCtx = useContext(AuthContext);
@@ -27,12 +28,20 @@ function App() {
                     <Route path='/register'>
                         <RegisterPage />
                     </Route>)}
-                <Route path='/profile' exact>
-                    {!authCtx.isLoggedIn && <ProfileForm/> }
-                </Route>
+
+                {authCtx.isLoggedIn && (
+                    <Route path='/userdata' exact>
+                        <ProfilePage />
+                        {!authCtx.isLoggedIn && <Redirect to='/login' />}
+                    </Route>)}
                 {authCtx.isLoggedIn && (
                     <Route path='/profile/:id'>
-                        <IndividualProfileDetails /> }
+                        <IndividualProfileDetails/>
+                        {!authCtx.isLoggedIn && <Redirect to='/login' />}
+                    </Route>)}
+                {authCtx.isLoggedIn && (
+                    <Route path='/participant/:id'>
+                        <ConfirmationScreen />
                         {!authCtx.isLoggedIn && <Redirect to='/login' />}
                     </Route>)}
                 <Route path='*'>

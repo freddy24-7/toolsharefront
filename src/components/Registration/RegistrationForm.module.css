@@ -90,5 +90,9 @@
 }
 
 .error {
-    color: #b40e0e;
+    color: #c493c9;
+}
+.photo {
+    margin: 3rem auto;
+    text-align: center;
 }

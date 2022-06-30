@@ -1,13 +1,15 @@
-import React, {useState} from 'react';
+import React, {Fragment, useState} from 'react';
 import classes from './ProfileForm.module.css';
 import {useHistory} from 'react-router-dom';
 import ParticipantService from "../../services/ParticipantService";
+import machineworker from "../../assets/pexels-karolina-grabowska-6920104.jpg";
 
-function DisplayNameForm() {
+function ProfileForm({ setUserDetailsClicked }) {
 
     //History hook is used later to navigate the user to the following component
     const history = useHistory();
 
+    //Defining the variables
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
@@ -16,7 +18,10 @@ function DisplayNameForm() {
     //Creating the variable that will be used to send data to backend
     const participant = {firstName, lastName, email, mobileNumber}
 
-    //This code is made to simply the JSX in the return statement
+    //Error-handling
+    const [error, setError] = useState(null);
+
+    //This code section is made to simplify the JSX in the return statement
     const firstNameInputChangeHandler = (event) => {
         setFirstName(event.target.value);
         console.log(firstName)
@@ -44,18 +49,36 @@ function DisplayNameForm() {
                 //Checking in console what data we obtain
                 console.log(response.data)
 
-                history.push('/login')
+                //Closing the form through props received from Layout
+                setUserDetailsClicked(false)
+                //we have access to firstName and we pass that on with a string literal:
+                history.push(`/participant/${response.data.firstName}`)
 
-                }).catch(error => {
-                console.log(error)
-            });
+                // }).catch(error => {
+                // console.log(error)
+            }).catch(error => {
+                //500 is the only backend error response possible in this configuration
+
+                //checking error response stats
+                console.log(error.response.status);
+                //storing it in a variable
+                const errorCheck = (error.response.status)
+                //setting the error
+                if (errorCheck === 500) {
+                    setError("Invalid user details entered. " +
+                        "Please check that your email address has an @-sign and that your mobile number" +
+                        " has ten digits. Name sections also need to be filled out.")
+                }
+            }
+        )
+        ;
 
     }
 
+
     return (
-        // Using fragment
-        <>
-            {/*Here you can insert text*/}
+    // Using fragment
+    <Fragment>
             <section className={classes.base}>
                 <form onSubmit={submitHandler}>
                     <div className={classes.control}>
@@ -104,13 +127,19 @@ function DisplayNameForm() {
                             />
                         </div>
                         <div className={classes.actions}>
-                            <button>Enter</button>
+                            <button>Submit</button>
                         </div>
+                        {/*Tertiary statement displaying server error back to user*/}
+                        {error && <div className={classes.error}> {error} </div>}
                     </div>
                 </form>
             </section>
-        </>
+        <div className={classes.photo}>
+            <img src={machineworker} alt="machineworker" height={300} width={300}/>
+        </div>
+
+    </Fragment>
         );
 
 }
-export default DisplayNameForm;
+export default ProfileForm;

@@ -1,8 +1,7 @@
 import ProfileForm from "../components/Profile/ProfileForm";
 
-
 const ProfilePage = () => {
-    return <ProfileForm />;
+    // return <ProfileForm />;
 };
 
 export default ProfilePage;
