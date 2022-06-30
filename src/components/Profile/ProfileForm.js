@@ -20,6 +20,8 @@ function ProfileForm({ setUserDetailsClicked }) {
 
     //Error-handling
     const [error, setError] = useState(null);
+    //Constant for dynamic CSS display
+    const [errorCSS, setErrorCSS] = useState(false);
 
     //This code section is made to simplify the JSX in the return statement
     const firstNameInputChangeHandler = (event) => {
@@ -66,20 +68,24 @@ function ProfileForm({ setUserDetailsClicked }) {
                 //setting the error
                 if (errorCheck === 500) {
                     setError("Invalid user details entered. " +
-                        "Please check that your email address has an @-sign and that your mobile number" +
+                        "Please check that your email address is valis and that your mobile number" +
                         " has ten digits. Name sections also need to be filled out.")
+                    setErrorCSS(true)
                 }
             }
         )
         ;
 
     }
+    //Dynamic use of CSS, other styles appear if input is invalid
+    const inputClasses = errorCSS
+        ? classes.invalid
+        : classes.base;
 
 
     return (
-    // Using fragment
     <Fragment>
-            <section className={classes.base}>
+            <section className={inputClasses}>
                 <form onSubmit={submitHandler}>
                     <div className={classes.control}>
                         <div className={classes.control}>

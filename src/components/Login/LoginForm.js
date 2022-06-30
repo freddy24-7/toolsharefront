@@ -1,6 +1,6 @@
 //This form is used to login the user after registration
 
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useState, useContext, useEffect, Fragment} from 'react';
 import { useHistory } from 'react-router-dom';
 import AuthContext from '../../context/auth-context';
 import classes from './LoginForm.module.css';
@@ -16,8 +16,10 @@ export const LoginForm = () => {
     const user = {username, password}
     console.log(user);
 
-    //Error-handling
+    //Constant for error-handling
     const [error, setError] = useState(null);
+    //Constant for dynamic CSS display
+    const [errorCSS, setErrorCSS] = useState(false);
 
     //Using "useContext" here for authentication below
     const authCtx = useContext(AuthContext);
@@ -50,6 +52,7 @@ export const LoginForm = () => {
                 localStorage.setItem('jwt', data.token)
                 //checking the data we have access to with a console.log
                 console.log(user);
+                console.log(user.token)
                 //using template literal to display individual user after login
                 history.push(`/profile/${response.data.username}`)
             })
@@ -66,16 +69,20 @@ export const LoginForm = () => {
                 //setting the error
                 if (errorCheck === 403) {
                     setError("Invalid user details entered")
+                    setErrorCSS(true)
                 }
                 setIsLoading(false);
             });
 
     };
-
+    //Dynamic use of CSS, other styles appear if input is invalid
+    const inputClasses = errorCSS
+        ? classes.authinvalid
+        : classes.auth;
 
     return (
-        <>
-        <section className={classes.auth}>
+        <Fragment>
+        <section className={inputClasses}>
             <h1>Login</h1>
             <form onSubmit={submitHandler}>
                 <div className={classes.control}>
@@ -112,7 +119,7 @@ export const LoginForm = () => {
             <div className={classes.photo}>
                 <img src={laptopgirl} alt="laptopgirl" height={300} width={320}/>
             </div>
-        </>
+        </Fragment>
     );
 };
 

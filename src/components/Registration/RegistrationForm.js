@@ -5,7 +5,7 @@
 //Dynamic use of CSS implemented for blank username submission attempts
 
 import {SIGN_UP_URL} from "../../backend-urls/constants";
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, Fragment} from 'react';
 import {useHistory} from 'react-router-dom';
 
 import classes from './RegistrationForm.module.css';
@@ -21,15 +21,14 @@ const RegistrationForm = () => {
     const [password, setPassword] = useState('')
 
     //Constants used for frontend validation
-    // const [enteredNameIsValid, setEnteredNameIsValid] = useState(false)
     const [enteredUsernameIsValid, setEnteredUsernameIsValid] = useState(false)
     const [enteredPasswordIsValid, setEnteredPasswordIsValid] = useState(false)
-    // const [enteredNameTouched, setEnteredNameTouched] = useState(false)
     const [enteredUsernameTouched, setEnteredUsernameTouched] = useState(false)
     const [enteredPasswordTouched, setEnteredPasswordTouched] = useState(false)
-
     const [matchPassword, setMatchPassword] = useState('');
     const [validMatch, setValidMatch] = useState(false);
+
+    //Constant used for frontend validation
     const [error, setError] = useState(null);
 
     //Creating the variable that will be used to send data to backend / Spring Security
@@ -48,9 +47,15 @@ const RegistrationForm = () => {
     }
 
     //For validation purposes
+    //Renders once upon the state change of the dependent constant - when the component "mounts"
+    //Then it unmounts due to the clean-up function, as per the lifecycle logic
     useEffect(()=> {
         if (enteredUsernameIsValid) {
             console.log("enteredUserNameIsValid is true")
+        }
+        return () => {
+            //clean-up
+            console.log("We unmounted")
         }
     }, [enteredUsernameIsValid]);
 
@@ -128,7 +133,7 @@ const RegistrationForm = () => {
         : classes.auth;
 
     return (
-        <>
+        <Fragment>
         <section className={InputClasses}>
             <h1>Sign Up</h1>
             <form onSubmit={submitHandler}>
@@ -180,7 +185,7 @@ const RegistrationForm = () => {
             <div className={classes.photo}>
                 <img src={laptopguy} alt="laptopguy" height={300} width={220}/>
             </div>
-        </>
+        </Fragment>
 
 
     );
