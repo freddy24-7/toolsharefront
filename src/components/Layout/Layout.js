@@ -35,7 +35,7 @@ const Layout = (props) => {
     //Once this function fires, SetUserDetailsClicked is true, and ProfileForm renders
     const userDetailsLauncher = () => {
         setUserDetailsClicked(true)
-        history.push('/add-userdata')
+        history.push('/userdata')
     }
 
     useEffect(() => {

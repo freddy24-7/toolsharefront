@@ -1,5 +1,5 @@
 import {useContext, useEffect} from 'react';
-import {Link, NavLink, useParams} from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
 
 import AuthContext from '../../context/auth-context';
 import classes from './MainNavigation.module.css';
@@ -7,17 +7,12 @@ import UserDetailsButton from "./Buttons/UserDetailsButton";
 import LogoutButton from "./Buttons/LogoutButton";
 
 //Passing the props from Layout component
-const MainNavigation = ({ onLogout, setUserDetailsClicked, onClickingUserDetails }) => {
-
-    const { id } = useParams();
-    console.log(id)
+const MainNavigation = ({ onLogout, setUserDetailsClicked, onClickingUserDetails, id }) => {
 
     //Using useContext to manage the login-state
     const authCtx = useContext(AuthContext);
     const isLoggedIn = authCtx.isLoggedIn;
 
-    const participantId = {id}
-    console.log(participantId)
 
     //This function uses props to setUserDetailsClicked to false, and logging out the user
     const logoutHandler = () => {

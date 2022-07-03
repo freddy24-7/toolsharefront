@@ -3,9 +3,8 @@ import classes from './ProfileForm.module.css';
 import {useHistory, useParams} from 'react-router-dom';
 import ParticipantService from "../../services/ParticipantService";
 import machineworker from "../../assets/pexels-karolina-grabowska-6920104.jpg";
-import ConfirmationScreen from "./ConfirmationScreen";
-import UpdateScreen from "./UpdateScreen";
 import Layout from "../Layout/Layout";
+import LoginForm from "../Login/LoginForm";
 
 function ProfileForm({ setUserDetailsClicked }) {
 
@@ -149,17 +148,14 @@ function ProfileForm({ setUserDetailsClicked }) {
 
     return (
     <Fragment>
-        <UpdateScreen
-        firstName={firstName}
-        lastName={lastName}
-        email={email}
-        mobileNumber={mobileNumber}
-        id={id}
+        <LoginForm
+            id={id}
         />
         <Layout
             form={form}
         />
             <section className={inputClasses}>
+                <div>Welcome {id}</div>
                 <form onSubmit={submitHandler}>
                     <div className={classes.control}>
                         <div className={classes.control}>
