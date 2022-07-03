@@ -1,19 +1,24 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import classes from './ProfileForm.module.css';
-import {useHistory} from 'react-router-dom';
+import {useHistory, useParams} from 'react-router-dom';
 import ParticipantService from "../../services/ParticipantService";
 import machineworker from "../../assets/pexels-karolina-grabowska-6920104.jpg";
+import ConfirmationScreen from "./ConfirmationScreen";
+import UpdateScreen from "./UpdateScreen";
+import Layout from "../Layout/Layout";
 
 function ProfileForm({ setUserDetailsClicked }) {
 
     //History hook is used later to navigate the user to the following component
     const history = useHistory();
+    const { id } = useParams()
 
     //Defining the variables
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [mobileNumber, setMobileNumber] = useState('')
+
 
     //Creating the variable that will be used to send data to backend
     const participant = {firstName, lastName, email, mobileNumber}
@@ -22,6 +27,11 @@ function ProfileForm({ setUserDetailsClicked }) {
     const [error, setError] = useState(null);
     //Constant for dynamic CSS display
     const [errorCSS, setErrorCSS] = useState(false);
+
+    const [form, setForm] = useState(false);
+
+
+
 
     //This code section is made to simplify the JSX in the return statement
     const firstNameInputChangeHandler = (event) => {
@@ -42,49 +52,113 @@ function ProfileForm({ setUserDetailsClicked }) {
     }
 
     //Below is the axios call to the participant class in backend
-    const submitHandler = (e) => {
-        e.preventDefault();
+    const submitHandler = (event) => {
+        event.preventDefault();
 
-        ParticipantService.saveParticipant(participant)
-            .then((response) => {
+        // if (id) {
+        //     ParticipantService.updateParticipant(id, participant)
+        //         .then((response) => {
+        //             //Checking in console what data we obtain
+        //             console.log(response.data)
+        //             setUserDetailsClicked(false)
+        //             history.push(`/participant/${response.data.firstName}`)
+        //             // UpdateTable()
+        //         }).catch(error => {
+        //         console.log(error)
+        //     })
 
-                //Checking in console what data we obtain
-                console.log(response.data)
+            ParticipantService.saveParticipant(participant)
+                .then((response) => {
 
-                //Closing the form through props received from Layout
-                setUserDetailsClicked(false)
-                //we have access to firstName and we pass that on with a string literal:
-                history.push(`/participant/${response.data.firstName}`)
+                    //Checking in console what data we obtain
+                    console.log(response.data)
+                    console.log(response.data.id)
+                    const id = (response.data.id)
+                    const firstName = (response.data.firstName)
+                    const lastName = (response.data.lastName)
+                    const email = (response.data.email)
+                    const mobileNumber = (response.data.mobileNumber)
+                    console.log(id)
+                    // setForm(true)
+                    console.log(firstName)
+                    console.log(lastName)
+                    console.log(email)
+                    console.log(mobileNumber)
 
-                // }).catch(error => {
-                // console.log(error)
-            }).catch(error => {
-                //500 is the only backend error response possible in this configuration
+                    //Closing the form through props received from Layout
+                    // setUserDetailsClicked(false)
 
-                //checking error response stats
-                console.log(error.response.status);
-                //storing it in a variable
-                const errorCheck = (error.response.status)
-                //setting the error
-                if (errorCheck === 500) {
-                    setError("Invalid user details entered. " +
-                        "Please check that your email address is valis and that your mobile number" +
-                        " has ten digits. Name sections also need to be filled out.")
-                    setErrorCSS(true)
+                    //we have access to firstName and we pass that on with a string literal:
+                    history.push(`/participant/${response.data.firstName}`)
+                    setUserDetailsClicked(false)
+                    setForm(true)
+
+                    // }).catch(error => {
+                    // console.log(error)
+                }).catch(error => {
+                    //500 is the only backend error response possible in this configuration
+
+                    //checking error response stats
+                    console.log(error.response.status);
+                    //storing it in a variable
+                    const errorCheck = (error.response.status)
+                    //setting the error
+                    if (errorCheck === 500) {
+                        setError("Invalid user details entered. " +
+                            "Please check that your email address is valid and that your mobile number" +
+                            " has ten digits. Name sections also need to be filled out.")
+                        setErrorCSS(true)
+                    }
+
                 }
-            }
-        )
-        ;
-
+            );
+        // const submissionControl = () => {
+        //     setFormSubmitted(true)
+        // }
     }
+    // }
     //Dynamic use of CSS, other styles appear if input is invalid
     const inputClasses = errorCSS
         ? classes.invalid
         : classes.base;
 
+    // useEffect(() => {
+    //
+    //     ParticipantService.getParticipantById(id)
+    //         .then((response) =>{
+    //             console.log(response)
+    //             setFirstName(response.data.firstName)
+    //             setLastName(response.data.lastName)
+    //             setEmail(response.data.email)
+    //             setMobileNumber(response.data.mobileNumber)
+    //     }).catch(error => {
+    //         console.log(error)
+    //     })
+    // },[])
+    //
+    // const Title = () => {
+    //
+    //     if (id) {
+    //         return <h2 className={classes.control}> Update your details</h2>
+    //     } else{
+    //         return <h2 className={classes.control}> Add details </h2>
+    //     }
+    // }
+
+
 
     return (
     <Fragment>
+        <UpdateScreen
+        firstName={firstName}
+        lastName={lastName}
+        email={email}
+        mobileNumber={mobileNumber}
+        id={id}
+        />
+        <Layout
+            form={form}
+        />
             <section className={inputClasses}>
                 <form onSubmit={submitHandler}>
                     <div className={classes.control}>
@@ -133,7 +207,7 @@ function ProfileForm({ setUserDetailsClicked }) {
                             />
                         </div>
                         <div className={classes.actions}>
-                            <button>Submit</button>
+                            <button onClick={(event) => submitHandler(event)}>Submit</button>
                         </div>
                         {/*Tertiary statement displaying server error back to user*/}
                         {error && <div className={classes.error}> {error} </div>}

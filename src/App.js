@@ -9,6 +9,8 @@ import AuthContext from './context/auth-context';
 import ProfilePage from "./pages/ProfilePage";
 import IndividualProfileDetails from "./components/Profile/IndividualProfileDetails";
 import ConfirmationScreen from "./components/Profile/ConfirmationScreen";
+import ProfileForm from "./components/Profile/ProfileForm";
+import UpdateScreen from "./components/Profile/UpdateScreen";
 
 function App() {
     const authCtx = useContext(AuthContext);
@@ -30,10 +32,20 @@ function App() {
                     </Route>)}
 
                 {authCtx.isLoggedIn && (
-                    <Route path='/userdata' exact>
+                    <Route path='/add-userdata'>
                         <ProfilePage />
                         {!authCtx.isLoggedIn && <Redirect to='/login' />}
                     </Route>)}
+                {/*{authCtx.isLoggedIn && (*/}
+                {/*    <Route path='/edit-userdata' exact>*/}
+                {/*        <UpdateScreen />*/}
+                {/*        {!authCtx.isLoggedIn && <Redirect to='/login' />}*/}
+                {/*    </Route>)}*/}
+                {/*{authCtx.isLoggedIn && (*/}
+                {/*    <Route path='/userdata/'>*/}
+                {/*        <ProfilePage />*/}
+                {/*        {!authCtx.isLoggedIn && <Redirect to='/login' />}*/}
+                {/*    </Route>)}*/}
                 {authCtx.isLoggedIn && (
                     <Route path='/profile/:id'>
                         <IndividualProfileDetails/>
@@ -44,6 +56,11 @@ function App() {
                         <ConfirmationScreen />
                         {!authCtx.isLoggedIn && <Redirect to='/login' />}
                     </Route>)}
+                {/*{authCtx.isLoggedIn && (*/}
+                {/*    <Route path='/participant/edit/:id'>*/}
+                {/*        <ProfilePage />*/}
+                {/*        {!authCtx.isLoggedIn && <Redirect to='/login' />}*/}
+                {/*    </Route>)}*/}
                 <Route path='*'>
                     <Redirect to='/' />
                 </Route>

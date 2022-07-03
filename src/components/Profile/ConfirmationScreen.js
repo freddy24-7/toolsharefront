@@ -1,7 +1,10 @@
-import React from 'react';
-import {useParams} from "react-router-dom";
+import React, {Fragment} from 'react';
+import {useHistory, useParams} from "react-router-dom";
 import classes from "./ProfileForm.module.css";
 import laptopworker from "../../assets/pexels-andrea-piacquadio-761993.jpg";
+import {useState} from 'react';
+import MainNavigation from "../Layout/MainNavigation";
+import Layout from "../Layout/Layout";
 
 //Here we will use route parameters to access individual participants
 //Using "useParams", with "id" as key. Matches the ":id" key from the app component
@@ -10,11 +13,14 @@ import laptopworker from "../../assets/pexels-andrea-piacquadio-761993.jpg";
 const ConfirmationScreen = () => {
 
     const { id } = useParams();
+    console.log(id)
+
+
     return (
         <>
             <section className={classes.base} >
                 <p className={classes.control}>
-                    Ready to go {id}!
+                    Ready to go {id}
                     <br/>
                     <br/>
                     Klik op een link om te beginnen

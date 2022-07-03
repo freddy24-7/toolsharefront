@@ -20,16 +20,30 @@ const authAxios = axios.create(
     }
 )
 
+const changeAxios = axios.create(
+
+    {
+        baseURL: apiURL,
+        headers: {
+            Authorization: `Bearer ${initialToken}`
+        }
+    }
+)
+
+
+
 //Using the authAxios variable here, taking the URL and the relevant class as parameters
 class ParticipantService {
 
     saveParticipant(participant) {
         return authAxios.post(PARTICIPANT_URL, participant);
-
+    }
+    updateParticipant(id, participant){
+        return changeAxios.put(PARTICIPANT_URL + '/' + id, participant)
     }
 
-    updateParticipant(participantId, participant){
-        return authAxios.put(PARTICIPANT_URL + '/' + participantId, participant)
+    getParticipantById(id){
+        return changeAxios.put(PARTICIPANT_URL + '/' + id);
     }
 
 }

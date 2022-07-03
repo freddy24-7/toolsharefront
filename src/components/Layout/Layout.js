@@ -3,6 +3,7 @@ import {Fragment, useCallback, useEffect, useMemo, useState} from 'react';
 import MainNavigation from './MainNavigation';
 import ProfileForm from "../Profile/ProfileForm";
 import {useHistory, useLocation} from "react-router-dom";
+import UpdateScreen from "../Profile/UpdateScreen";
 
 const Layout = (props) => {
 
@@ -34,7 +35,7 @@ const Layout = (props) => {
     //Once this function fires, SetUserDetailsClicked is true, and ProfileForm renders
     const userDetailsLauncher = () => {
         setUserDetailsClicked(true)
-        history.push('/userdata')
+        history.push('/add-userdata')
     }
 
     useEffect(() => {
@@ -84,9 +85,13 @@ const Layout = (props) => {
                 setUserDetailsClicked={setUserDetailsClicked}/>
             {/*Launching ProfileForm conditionally, above state must be "true" for component to launch*/}
             {userDetailsClicked &&
-            <ProfileForm
-                setUserDetailsClicked={setUserDetailsClicked}
-            />}
+                <ProfileForm
+                    setUserDetailsClicked={setUserDetailsClicked}
+                />}
+            {(userDetailsClicked && props.form) &&
+                <UpdateScreen
+                    setUserDetailsClicked={setUserDetailsClicked}
+                />}
             <main>{props.children}</main>
         </Fragment>
     );
