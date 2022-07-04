@@ -6,7 +6,7 @@ const UserDetailsButton = ( {onClick} ) => {
 
         // Prop-drillingThe onClick prop fires the UserDetailFuntion in the Layout component
         <button className={classes.button} onClick={onClick}>
-            <span>Mijn details</span>
+            <span>Edit my details</span>
         </button>
     );
 };

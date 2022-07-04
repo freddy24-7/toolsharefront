@@ -55,6 +55,8 @@ export const LoginForm = () => {
                 console.log(user.token)
                 //using template literal to display individual user after login
                 history.push(`/profile/${response.data.username}`)
+                // history.push('/profile')
+
             })
             // .catch((err) => {
             //     alert(err.message);

@@ -48,7 +48,7 @@ function App() {
                 {/*    </Route>)}*/}
                 {authCtx.isLoggedIn && (
                     <Route path='/profile/:id'>
-                        <IndividualProfileDetails/>
+                        <ProfileForm />
                         {!authCtx.isLoggedIn && <Redirect to='/login' />}
                     </Route>)}
                 {authCtx.isLoggedIn && (

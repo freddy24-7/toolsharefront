@@ -1,11 +1,11 @@
-import {Fragment, useCallback, useEffect, useMemo, useState} from 'react';
-
+import {Fragment, useCallback, useEffect, useMemo, useState, useContext} from 'react';
 import MainNavigation from './MainNavigation';
 import ProfileForm from "../Profile/ProfileForm";
-import {useHistory, useLocation} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import UpdateScreen from "../Profile/UpdateScreen";
+import AuthContext from "../../context/auth-context";
 
-const Layout = (props) => {
+const Layout = ({children }) => {
 
     //history used to navigate the user after either clicking on user details or on logout
     const history = useHistory();
@@ -15,6 +15,13 @@ const Layout = (props) => {
 
     //Define variable to manage back and forward buttons
     const [ locationKeys, setLocationKeys ] = useState([])
+
+    const[formSubmission, setFormSubmission]= useState(false);
+
+    // //Using useContext to manage the login-state
+    // const authCtx = useContext(AuthContext);
+    // const isLoggedIn = authCtx.isLoggedIn;
+
 
     //this function navigates the user away upon logout. Logout function in MainNavigaton sets the state back to false
     //and ProfileForm closes
@@ -31,6 +38,14 @@ const Layout = (props) => {
     //     console.log("I render every time")
     //     // This method is expensive
     // });
+
+    //This function uses props to setUserDetailsClicked to false, and logging out the user
+    // const logoutHandler = () => {
+    //     setUserDetailsClicked(false)
+    //     authCtx.logout();
+    // };
+
+
 
     //Once this function fires, SetUserDetailsClicked is true, and ProfileForm renders
     const userDetailsLauncher = () => {
@@ -82,17 +97,25 @@ const Layout = (props) => {
                 // Setting the required props
                 onClickingUserDetails={userDetailsLauncher}
                 onLogout={hideUserDetailsLauncher}
-                setUserDetailsClicked={setUserDetailsClicked}/>
+                setUserDetailsClicked={setUserDetailsClicked}
+                userDetailsClicked={userDetailsClicked}
+            />
+            <ProfileForm
+                setFormSubmission={setFormSubmission}
+                formSubmission={formSubmission}
+
+            />
+
             {/*Launching ProfileForm conditionally, above state must be "true" for component to launch*/}
             {userDetailsClicked &&
-                <ProfileForm
-                    setUserDetailsClicked={setUserDetailsClicked}
-                />}
-            {(userDetailsClicked && props.form) &&
                 <UpdateScreen
                     setUserDetailsClicked={setUserDetailsClicked}
                 />}
-            <main>{props.children}</main>
+            {/*{(userDetailsClicked && props.form) &&*/}
+            {/*    <UpdateScreen*/}
+            {/*        setUserDetailsClicked={setUserDetailsClicked}*/}
+            {/*    />}*/}
+            <main>{children}</main>
         </Fragment>
     );
 };

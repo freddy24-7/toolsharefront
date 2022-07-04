@@ -1,5 +1,5 @@
-import {useContext, useEffect} from 'react';
-import {Link, NavLink, useParams} from 'react-router-dom';
+import {useContext, useEffect, useMemo} from 'react';
+import {Link, NavLink} from 'react-router-dom';
 
 import AuthContext from '../../context/auth-context';
 import classes from './MainNavigation.module.css';
@@ -7,23 +7,38 @@ import UserDetailsButton from "./Buttons/UserDetailsButton";
 import LogoutButton from "./Buttons/LogoutButton";
 
 //Passing the props from Layout component
-const MainNavigation = ({ onLogout, setUserDetailsClicked, onClickingUserDetails }) => {
+const MainNavigation = ({ onLogout, setUserDetailsClicked, onClickingUserDetails, formSubmission, logoutHandler  }) => {
 
-    const { id } = useParams();
-    console.log(id)
+    // const { id } = useParams();
+    // console.log(id)
 
     //Using useContext to manage the login-state
     const authCtx = useContext(AuthContext);
     const isLoggedIn = authCtx.isLoggedIn;
 
-    const participantId = {id}
-    console.log(participantId)
+    // const participantId = {id}
+    // console.log(participantId)
 
-    //This function uses props to setUserDetailsClicked to false, and logging out the user
-    const logoutHandler = () => {
-        setUserDetailsClicked(false)
-        authCtx.logout();
-    };
+
+    useEffect(() => {
+        console.log("I render once")
+        console.log(formSubmission)
+        const formIsSubmitted = {formSubmission}
+        console.log(formIsSubmitted)
+
+        //This function uses props to setUserDetailsClicked to false, and logging out the user
+        const logoutHandler = () => {
+            setUserDetailsClicked(false)
+            authCtx.logout();
+        };
+
+        return () => {
+            //clean-up
+            console.log("We unmounted")
+        }
+    },[formSubmission]);
+
+
 
 
     return (
@@ -49,7 +64,8 @@ const MainNavigation = ({ onLogout, setUserDetailsClicked, onClickingUserDetails
                             <UserDetailsButton to='/userdata' onClick={onClickingUserDetails}/>
                         </li>
                     )}
-                    {isLoggedIn && (
+
+                    {(isLoggedIn && formSubmission) && (
                         <li>
                             <NavLink to='/borrowing'>Spullen lenen?</NavLink>
                         </li>

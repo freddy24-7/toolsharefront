@@ -6,8 +6,9 @@ import machineworker from "../../assets/pexels-karolina-grabowska-6920104.jpg";
 import ConfirmationScreen from "./ConfirmationScreen";
 import UpdateScreen from "./UpdateScreen";
 import Layout from "../Layout/Layout";
+import MainNavigation from "../Layout/MainNavigation";
 
-function ProfileForm({ setUserDetailsClicked }) {
+function ProfileForm({ setUserDetailsClicked, formSubmission, setFormSubmission }) {
 
     //History hook is used later to navigate the user to the following component
     const history = useHistory();
@@ -27,9 +28,6 @@ function ProfileForm({ setUserDetailsClicked }) {
     const [error, setError] = useState(null);
     //Constant for dynamic CSS display
     const [errorCSS, setErrorCSS] = useState(false);
-
-    const [form, setForm] = useState(false);
-
 
 
 
@@ -79,7 +77,6 @@ function ProfileForm({ setUserDetailsClicked }) {
                     const email = (response.data.email)
                     const mobileNumber = (response.data.mobileNumber)
                     console.log(id)
-                    // setForm(true)
                     console.log(firstName)
                     console.log(lastName)
                     console.log(email)
@@ -90,8 +87,6 @@ function ProfileForm({ setUserDetailsClicked }) {
 
                     //we have access to firstName and we pass that on with a string literal:
                     history.push(`/participant/${response.data.firstName}`)
-                    setUserDetailsClicked(false)
-                    setForm(true)
 
                     // }).catch(error => {
                     // console.log(error)
@@ -110,12 +105,14 @@ function ProfileForm({ setUserDetailsClicked }) {
                         setErrorCSS(true)
                     }
 
-                }
-            );
+                })
+            ;
+
         // const submissionControl = () => {
         //     setFormSubmitted(true)
         // }
     }
+
     // }
     //Dynamic use of CSS, other styles appear if input is invalid
     const inputClasses = errorCSS
@@ -145,21 +142,35 @@ function ProfileForm({ setUserDetailsClicked }) {
     //     }
     // }
 
+    // const submissionManager = (event) => {
+    //     event.preventDefault();
+    //     setFormSubmission(true)
+    // }
+    // console.log(formSubmission)
 
 
     return (
     <Fragment>
-        <UpdateScreen
-        firstName={firstName}
-        lastName={lastName}
-        email={email}
-        mobileNumber={mobileNumber}
-        id={id}
-        />
-        <Layout
-            form={form}
-        />
+        {/*<UpdateScreen*/}
+        {/*firstName={firstName}*/}
+        {/*lastName={lastName}*/}
+        {/*email={email}*/}
+        {/*mobileNumber={mobileNumber}*/}
+        {/*id={id}*/}
+        {/*/>*/}
             <section className={inputClasses}>
+                <div>
+                    <p className={classes.control}>
+                        Welkom {id}!
+                        <br/>
+                        <br/>
+                        Om te beginnen hebben we
+                        <br/>
+                        wat extra infomatie nodig
+                        <br/>
+                        <br/>
+                    </p>
+                </div>
                 <form onSubmit={submitHandler}>
                     <div className={classes.control}>
                         <div className={classes.control}>
@@ -207,7 +218,10 @@ function ProfileForm({ setUserDetailsClicked }) {
                             />
                         </div>
                         <div className={classes.actions}>
-                            <button onClick={(event) => submitHandler(event)}>Submit</button>
+                            <button
+                                onClick={(event) => submitHandler(event)}
+                                onClick={(event) => setFormSubmission(true)}
+                            >Submit</button>
                         </div>
                         {/*Tertiary statement displaying server error back to user*/}
                         {error && <div className={classes.error}> {error} </div>}
