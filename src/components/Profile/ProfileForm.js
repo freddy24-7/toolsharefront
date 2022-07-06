@@ -1,19 +1,21 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import classes from './ProfileForm.module.css';
-import {useHistory} from 'react-router-dom';
+import {useHistory, useParams} from 'react-router-dom';
 import ParticipantService from "../../services/ParticipantService";
 import machineworker from "../../assets/pexels-karolina-grabowska-6920104.jpg";
 
-function ProfileForm({ setUserDetailsClicked }) {
+function ProfileForm({ setFormS }) {
 
     //History hook is used later to navigate the user to the following component
     const history = useHistory();
+    const { id } = useParams()
 
     //Defining the variables
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [mobileNumber, setMobileNumber] = useState('')
+
 
     //Creating the variable that will be used to send data to backend
     const participant = {firstName, lastName, email, mobileNumber}
@@ -22,6 +24,7 @@ function ProfileForm({ setUserDetailsClicked }) {
     const [error, setError] = useState(null);
     //Constant for dynamic CSS display
     const [errorCSS, setErrorCSS] = useState(false);
+
 
     //This code section is made to simplify the JSX in the return statement
     const firstNameInputChangeHandler = (event) => {
@@ -42,22 +45,30 @@ function ProfileForm({ setUserDetailsClicked }) {
     }
 
     //Below is the axios call to the participant class in backend
-    const submitHandler = (e) => {
-        e.preventDefault();
+    const submitHandler = (event) => {
+        event.preventDefault();
 
         ParticipantService.saveParticipant(participant)
             .then((response) => {
 
                 //Checking in console what data we obtain
                 console.log(response.data)
+                console.log(response.data.id)
+                const id = (response.data.id)
+                const firstName = (response.data.firstName)
+                const lastName = (response.data.lastName)
+                const email = (response.data.email)
+                const mobileNumber = (response.data.mobileNumber)
+                console.log(id)
+                // setForm(true)
+                console.log(firstName)
+                console.log(lastName)
+                console.log(email)
+                console.log(mobileNumber)
 
-                //Closing the form through props received from Layout
-                setUserDetailsClicked(false)
                 //we have access to firstName and we pass that on with a string literal:
                 history.push(`/participant/${response.data.firstName}`)
 
-                // }).catch(error => {
-                // console.log(error)
             }).catch(error => {
                 //500 is the only backend error response possible in this configuration
 
@@ -68,15 +79,15 @@ function ProfileForm({ setUserDetailsClicked }) {
                 //setting the error
                 if (errorCheck === 500) {
                     setError("Invalid user details entered. " +
-                        "Please check that your email address is valis and that your mobile number" +
+                        "Please check that your email address is valid and that your mobile number" +
                         " has ten digits. Name sections also need to be filled out.")
                     setErrorCSS(true)
                 }
-            }
-        )
-        ;
 
+            }
+        );
     }
+
     //Dynamic use of CSS, other styles appear if input is invalid
     const inputClasses = errorCSS
         ? classes.invalid
@@ -84,8 +95,11 @@ function ProfileForm({ setUserDetailsClicked }) {
 
 
     return (
-    <Fragment>
+        <Fragment>
             <section className={inputClasses}>
+                <div>Welcome {id}!</div>
+                <br/>
+                <br/>
                 <form onSubmit={submitHandler}>
                     <div className={classes.control}>
                         <div className={classes.control}>
@@ -133,19 +147,22 @@ function ProfileForm({ setUserDetailsClicked }) {
                             />
                         </div>
                         <div className={classes.actions}>
-                            <button>Submit</button>
+                            <button onClick={(event) => submitHandler(event)}
+                                    // Below an anonymous function to set the value of the form
+                                    onClick={()=> setFormS(true)}
+                            >Submit</button>
                         </div>
                         {/*Tertiary statement displaying server error back to user*/}
                         {error && <div className={classes.error}> {error} </div>}
                     </div>
                 </form>
             </section>
-        <div className={classes.photo}>
-            <img src={machineworker} alt="machineworker" height={300} width={300}/>
-        </div>
+            <div className={classes.photo}>
+                <img src={machineworker} alt="machineworker" height={300} width={300}/>
+            </div>
 
-    </Fragment>
-        );
+        </Fragment>
+    );
 
 }
 export default ProfileForm;

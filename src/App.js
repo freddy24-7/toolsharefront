@@ -6,9 +6,9 @@ import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import RegisterPage from "./pages/RegisterPage";
 import AuthContext from './context/auth-context';
-import ProfilePage from "./pages/ProfilePage";
 import IndividualProfileDetails from "./components/Profile/IndividualProfileDetails";
 import ConfirmationScreen from "./components/Profile/ConfirmationScreen";
+import ProfileForm from "./components/Profile/ProfileForm";
 
 function App() {
     const authCtx = useContext(AuthContext);
@@ -16,37 +16,30 @@ function App() {
     return (
         <Layout>
             <Switch>
-                <Route path='/' exact>
-                    <HomePage />
-                </Route>
                 {!authCtx.isLoggedIn && (
-                    <Route path='/login'>
-                        <LoginPage />
+                    <Route path='/login'component={LoginPage}>
                     </Route>
                 )}
                 {!authCtx.isLoggedIn && (
-                    <Route path='/register'>
-                        <RegisterPage />
+                    <Route path='/register' component={RegisterPage}>
                     </Route>)}
-
-                {authCtx.isLoggedIn && (
-                    <Route path='/userdata' exact>
-                        <ProfilePage />
-                        {!authCtx.isLoggedIn && <Redirect to='/login' />}
-                    </Route>)}
-                {authCtx.isLoggedIn && (
-                    <Route path='/profile/:id'>
-                        <IndividualProfileDetails/>
-                        {!authCtx.isLoggedIn && <Redirect to='/login' />}
-                    </Route>)}
-                {authCtx.isLoggedIn && (
-                    <Route path='/participant/:id'>
-                        <ConfirmationScreen />
-                        {!authCtx.isLoggedIn && <Redirect to='/login' />}
-                    </Route>)}
-                <Route path='*'>
-                    <Redirect to='/' />
-                </Route>
+                {/*{authCtx.isLoggedIn && (*/}
+                {/*    <Route path='/participant/:id/' exact*/}
+                {/*           component={ProfileForm}*/}
+                {/*    >*/}
+                {/*        {!authCtx.isLoggedIn && <Redirect to='/login' />}*/}
+                {/*    </Route>)}*/}
+                {/*{authCtx.isLoggedIn && (*/}
+                {/*    <Route path='/participant/confirm/:id' component={ConfirmationScreen}>*/}
+                {/*        {!authCtx.isLoggedIn && <Redirect to='/login' />}*/}
+                {/*    </Route>)}*/}
+                {!authCtx.isLoggedIn && (
+                    <Route exact path='/' component={HomePage}>
+                    </Route>
+                )}
+                {/*<Route path='*'>*/}
+                {/*    <Redirect to='/' />*/}
+                {/*</Route>*/}
             </Switch>
         </Layout>
     );

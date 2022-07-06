@@ -1,5 +1,5 @@
 import {useContext, useEffect} from 'react';
-import {Link, NavLink} from 'react-router-dom';
+import {Link, NavLink, useHistory} from 'react-router-dom';
 
 import AuthContext from '../../context/auth-context';
 import classes from './MainNavigation.module.css';
@@ -7,7 +7,29 @@ import UserDetailsButton from "./Buttons/UserDetailsButton";
 import LogoutButton from "./Buttons/LogoutButton";
 
 //Passing the props from Layout component
-const MainNavigation = ({ onLogout, setUserDetailsClicked, onClickingUserDetails }) => {
+const MainNavigation = ({ setFormS, formS }) => {
+
+    console.log(formS)
+
+    const history = useHistory();
+
+    //This component receives the formS prop via Layout (parent) when the user presses the submit-button
+    //in Profile Form. The state can be used to display navigation content conditionally.
+    //However, without the two below useEffect code blocks, the state goes back to null upon refresh
+    //The bottom useEffect sets the state, the other useEffect gets it as it render only once and picks up the state
+    //from local storage
+
+    useEffect(()=> {
+        const data = localStorage.getItem('submission');
+        if (data) {
+            setFormS(JSON.parse(data))
+        }
+    },[]);
+
+    useEffect(() => {
+            localStorage.setItem("submission", JSON.stringify(formS));
+        });
+
 
     //Using useContext to manage the login-state
     const authCtx = useContext(AuthContext);
@@ -15,10 +37,11 @@ const MainNavigation = ({ onLogout, setUserDetailsClicked, onClickingUserDetails
 
     //This function uses props to setUserDetailsClicked to false, and logging out the user
     const logoutHandler = () => {
-        setUserDetailsClicked(false)
+        setFormS(null);
+        localStorage.removeItem('submission')
         authCtx.logout();
+        history.push('/')
     };
-
 
     return (
         <header className={classes.header}>
@@ -38,22 +61,22 @@ const MainNavigation = ({ onLogout, setUserDetailsClicked, onClickingUserDetails
                             <NavLink to='/register'>Register</NavLink>
                         </li>
                     )}
-                    {isLoggedIn && (
+                    {formS && (
                         <li>
-                            <UserDetailsButton to='/userdata' onClick={onClickingUserDetails}/>
+                            <UserDetailsButton to='/userdata' />
                         </li>
                     )}
-                    {isLoggedIn && (
+                    {formS && (
                         <li>
                             <NavLink to='/borrowing'>Spullen lenen?</NavLink>
                         </li>
                     )}
-                    {isLoggedIn && (
+                    {formS && (
                         <li>
                             <NavLink to='/borrowing'>Spullen uitlenen?</NavLink>
                         </li>
                     )}
-                    {isLoggedIn && (
+                    {formS && (
                         <li>
                             <NavLink to='/userlist' >Lijst van deelneemers</NavLink>
                         </li>
@@ -62,7 +85,6 @@ const MainNavigation = ({ onLogout, setUserDetailsClicked, onClickingUserDetails
                         <li>
                             {/*Props are passed down from Layout Component*/}
                             <LogoutButton to='/userdata'
-                                          onClick={onLogout}
                                           onClick={logoutHandler}
                             />
                         </li>
