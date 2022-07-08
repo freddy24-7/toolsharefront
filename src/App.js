@@ -24,15 +24,15 @@ function App() {
                     <Route path='/register' component={RegisterPage}>
                     </Route>)}
                 {/*{authCtx.isLoggedIn && (*/}
-                {/*    <Route path='/participant/:id/' exact*/}
+                {/*    <Route path='/profile/:id/' exact*/}
                 {/*           component={ProfileForm}*/}
                 {/*    >*/}
                 {/*        {!authCtx.isLoggedIn && <Redirect to='/login' />}*/}
                 {/*    </Route>)}*/}
-                {/*{authCtx.isLoggedIn && (*/}
-                {/*    <Route path='/participant/confirm/:id' component={ConfirmationScreen}>*/}
-                {/*        {!authCtx.isLoggedIn && <Redirect to='/login' />}*/}
-                {/*    </Route>)}*/}
+                {authCtx.isLoggedIn && (
+                    <Route path='/participant/:id' component={ConfirmationScreen}>
+                        {!authCtx.isLoggedIn && <Redirect to='/login' />}
+                    </Route>)}
                 {!authCtx.isLoggedIn && (
                     <Route exact path='/' component={HomePage}>
                     </Route>

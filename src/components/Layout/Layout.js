@@ -64,7 +64,6 @@ const Layout = ({ children }) => {
                 formS={formS}
                 setFormS={setFormS}
             />
-
             {/*// Launching ProfileForm conditionally, above state must be "true" for component to launch*/}
             {/*The below structure allows the ProfileForm-component to load if login has happened, but not after*/}
             {/*profile-form submission.*/}
@@ -72,12 +71,6 @@ const Layout = ({ children }) => {
             {(isLoggedIn && !formS) ?
                 <ProfileForm
                     setFormS={setFormS}
-                    formS={formS}
-                />
-                : null
-            }
-            {(isLoggedIn && formS) ?
-                <ConfirmationScreen
                     formS={formS}
                 />
                 : null

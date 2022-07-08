@@ -54,7 +54,7 @@ export const LoginForm = () => {
                 console.log(user);
                 console.log(user.token)
                 //using template literal to display individual user after login
-                history.push(`/participant/${response.data.username}`)
+                history.push(`/profile/${response.data.username}`)
             })
             .catch(error => {
                 //403 is the only backend error response possible in this configuration

@@ -67,7 +67,9 @@ function ProfileForm({ setFormS }) {
                 console.log(mobileNumber)
 
                 //we have access to firstName and we pass that on with a string literal:
+                // history.push(`/participant/${response.data.firstName}`)
                 history.push(`/participant/${response.data.firstName}`)
+                setFormS(true)
 
             }).catch(error => {
                 //500 is the only backend error response possible in this configuration
@@ -97,7 +99,9 @@ function ProfileForm({ setFormS }) {
     return (
         <Fragment>
             <section className={inputClasses}>
-                <div>Welcome {id}!</div>
+                <div>Welcome!
+                    <br/>
+                    Please add some more details to get started</div>
                 <br/>
                 <br/>
                 <form onSubmit={submitHandler}>
@@ -147,9 +151,8 @@ function ProfileForm({ setFormS }) {
                             />
                         </div>
                         <div className={classes.actions}>
-                            <button onClick={(event) => submitHandler(event)}
-                                    // Below an anonymous function to set the value of the form
-                                    onClick={()=> setFormS(true)}
+                            <button
+                                onClick={(event) => submitHandler(event)}
                             >Submit</button>
                         </div>
                         {/*Tertiary statement displaying server error back to user*/}

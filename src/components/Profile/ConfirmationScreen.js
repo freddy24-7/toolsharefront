@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useParams} from "react-router-dom";
 import classes from "./ProfileForm.module.css";
 import laptopworker from "../../assets/pexels-andrea-piacquadio-761993.jpg";
@@ -10,11 +10,14 @@ import laptopworker from "../../assets/pexels-andrea-piacquadio-761993.jpg";
 const ConfirmationScreen = () => {
 
     const { id } = useParams();
+    console.log(id);
+
+
     return (
         <>
             <section className={classes.base} >
                 <p className={classes.control}>
-                    Ready to go {id}!
+                    <p className={classes.success}>Ready to go {id}!</p>
                     <br/>
                     <br/>
                     Klik op een link om te beginnen
