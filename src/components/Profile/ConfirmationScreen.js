@@ -7,9 +7,8 @@ import laptopworker from "../../assets/pexels-andrea-piacquadio-761993.jpg";
 //Using "useParams", with "id" as key. Matches the ":id" key from the app component
 //Displays the username back to the user in the welcome message to the user
 
-const ConfirmationScreen = () => {
+const ConfirmationScreen = ( {id} ) => {
 
-    const { id } = useParams();
     return (
         <>
             <section className={classes.base} >

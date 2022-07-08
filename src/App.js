@@ -1,19 +1,42 @@
-import { useContext } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import {Fragment, useContext} from 'react';
+import {Switch, Route, Redirect, useParams} from 'react-router-dom';
 
 import Layout from './components/Layout/Layout';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import RegisterPage from "./pages/RegisterPage";
 import AuthContext from './context/auth-context';
-import IndividualProfileDetails from "./components/Profile/IndividualProfileDetails";
+import {useState} from "react";
 import ConfirmationScreen from "./components/Profile/ConfirmationScreen";
-import ProfileForm from "./components/Profile/ProfileForm";
+import {useEffect} from "react";
 
 function App() {
     const authCtx = useContext(AuthContext);
 
+    useEffect(()=> {
+        const data = localStorage.getItem('submission');
+        if (data) {
+            setFormS(JSON.parse(data))
+        }
+    },[]);
+
+    useEffect(() => {
+        localStorage.setItem("submission", JSON.stringify(formS));
+    });
+
+    //This variable is further worked on in child components through props
+    const [formS, setFormS]= useState(false);
+
+    //
+    const { id } = useParams();
+
     return (
+        <Fragment>
+            <Layout
+                formS={formS}
+                setFormS={setFormS}
+                id={id}
+            />
         <Layout>
             <Switch>
                 {!authCtx.isLoggedIn && (
@@ -29,19 +52,23 @@ function App() {
                 {/*    >*/}
                 {/*        {!authCtx.isLoggedIn && <Redirect to='/login' />}*/}
                 {/*    </Route>)}*/}
-                {/*{authCtx.isLoggedIn && (*/}
-                {/*    <Route path='/participant/confirm/:id' component={ConfirmationScreen}>*/}
-                {/*        {!authCtx.isLoggedIn && <Redirect to='/login' />}*/}
-                {/*    </Route>)}*/}
+                {(authCtx.isLoggedIn && formS) ?
+                    <Route path='/participant/confirm/:id' component={ConfirmationScreen}>
+                        {!authCtx.isLoggedIn && <Redirect to='/login'/>}
+                    </Route>
+                    : null
+                }
                 {!authCtx.isLoggedIn && (
                     <Route exact path='/' component={HomePage}>
                     </Route>
                 )}
+
                 {/*<Route path='*'>*/}
                 {/*    <Redirect to='/' />*/}
                 {/*</Route>*/}
             </Switch>
         </Layout>
+        </Fragment>
     );
 }
 

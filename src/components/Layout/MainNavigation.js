@@ -5,6 +5,7 @@ import AuthContext from '../../context/auth-context';
 import classes from './MainNavigation.module.css';
 import UserDetailsButton from "./Buttons/UserDetailsButton";
 import LogoutButton from "./Buttons/LogoutButton";
+import ConfirmationScreen from "../Profile/ConfirmationScreen";
 
 //Passing the props from Layout component
 const MainNavigation = ({ setFormS, formS }) => {
@@ -19,16 +20,7 @@ const MainNavigation = ({ setFormS, formS }) => {
     //The bottom useEffect sets the state, the other useEffect gets it as it render only once and picks up the state
     //from local storage
 
-    useEffect(()=> {
-        const data = localStorage.getItem('submission');
-        if (data) {
-            setFormS(JSON.parse(data))
-        }
-    },[]);
 
-    useEffect(() => {
-            localStorage.setItem("submission", JSON.stringify(formS));
-        });
 
 
     //Using useContext to manage the login-state

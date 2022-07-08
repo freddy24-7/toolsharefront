@@ -2,22 +2,23 @@ import {Fragment, useCallback, useEffect, useMemo, useState} from 'react';
 
 import MainNavigation from './MainNavigation';
 import ProfileForm from "../Profile/ProfileForm";
-import {useHistory} from "react-router-dom";
+import {Route, useHistory, useParams} from "react-router-dom";
 import {useContext} from "react";
 import AuthContext from "../../context/auth-context";
 import ConfirmationScreen from "../Profile/ConfirmationScreen";
+import HomePage from "../../pages/HomePage";
+import IndividualProfileDetails from "../Profile/IndividualProfileDetails";
 
 
 //PROPS-USECASE: We want to close the ProfileForm when form is submitted
-//Step 1-5 in parent component, step 6-7 in child component
+//Step 1- in parent component, step 5 in child component
 //Step 1: import Profile-form to parent component (here: Layout)
 //Step 2: Define the useState variable (here: formS)
-//Step 3: Define a function that sets the state and pushes the user to the next location (here: hideUserDetailsLauncher)
-//Step 4: In the JSX under the return statement, we render the ProfileForm conditionally
-//Step 5: Also in the JSX, we set the prop and give it an "on-name", here "onSubmit", and make it point to the function defined in step 3
-//Step 6: We pass the prop to the child component, here deconstructed as "onSubmit". We place the prop at the "button" as onClick={onSubmit}
+//Step 3: In the JSX under the return statement, we render the ProfileForm conditionally
+//Step 4: Also in the JSX, we set the prop and give it an "on-name", here "onSubmit", and make it point to the function defined in step 3
+//Step 5: We pass the prop to the child component, here deconstructed as "onSubmit". We place the prop at the "button" as onClick={onSubmit}
 
-const Layout = ({ children }) => {
+const Layout = ({ children, formS, setFormS, id }) => {
 
     //Using useContext to manage the login-state
     const authCtx = useContext(AuthContext);
@@ -55,8 +56,7 @@ const Layout = ({ children }) => {
         })
     }, [ locationKeys ])
 
-    //This variable is further worked on in child components through props
-    const [formS, setFormS]= useState(false);
+
 
     return (
         <Fragment>
@@ -64,7 +64,6 @@ const Layout = ({ children }) => {
                 formS={formS}
                 setFormS={setFormS}
             />
-
             {/*// Launching ProfileForm conditionally, above state must be "true" for component to launch*/}
             {/*The below structure allows the ProfileForm-component to load if login has happened, but not after*/}
             {/*profile-form submission.*/}
@@ -76,12 +75,14 @@ const Layout = ({ children }) => {
                 />
                 : null
             }
-            {(isLoggedIn && formS) ?
-                <ConfirmationScreen
-                    formS={formS}
-                />
-                : null
-            }
+            {/*{(isLoggedIn && formS) ?*/}
+            {/*    <ConfirmationScreen*/}
+            {/*        formS={formS}*/}
+            {/*        id={id}*/}
+            {/*    />*/}
+            {/*    : null}*/}
+            {/*)*/}
+            {/*}*/}
             {/*"Children" are here used to create a wrapper component that makes a "header" for the whole application*/}
             {/*In the app-component, this Layout-component wraps the other components */}
             <main>{children}</main>
