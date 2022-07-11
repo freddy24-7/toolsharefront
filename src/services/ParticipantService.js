@@ -25,11 +25,17 @@ class ParticipantService {
 
     saveParticipant(participant) {
         return authAxios.post(PARTICIPANT_URL, participant);
+    }
 
+    getAllParticipants() {
+        return authAxios.get(PARTICIPANT_URL);
     }
 
     updateParticipant(participantId, participant){
         return authAxios.put(PARTICIPANT_URL + '/' + participantId, participant)
+    }
+    deleteParticipant(participantId){
+        return authAxios.delete(PARTICIPANT_URL + '/' + participantId)
     }
 
 }

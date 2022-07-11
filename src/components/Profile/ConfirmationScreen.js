@@ -16,12 +16,12 @@ const ConfirmationScreen = () => {
     return (
         <>
             <section className={classes.base} >
-                <p className={classes.control}>
+                <div className={classes.control}>
                     <p className={classes.success}>Ready to go {id}!</p>
                     <br/>
                     <br/>
                     Klik op een link om te beginnen
-                </p>
+                </div>
             </section>
             <div className={classes.photo}>
                 <img src={laptopworker} alt="laptopworker" height={600} width={580}/>

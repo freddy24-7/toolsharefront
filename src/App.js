@@ -9,6 +9,7 @@ import AuthContext from './context/auth-context';
 import IndividualProfileDetails from "./components/Profile/IndividualProfileDetails";
 import ConfirmationScreen from "./components/Profile/ConfirmationScreen";
 import ProfileForm from "./components/Profile/ProfileForm";
+import ParticipantList from "./components/Profile/ParticipantList";
 
 function App() {
     const authCtx = useContext(AuthContext);
@@ -33,6 +34,10 @@ function App() {
                     <Route path='/participant/:id' component={ConfirmationScreen}>
                         {!authCtx.isLoggedIn && <Redirect to='/login' />}
                     </Route>)}
+                {/*{authCtx.isLoggedIn && (*/}
+                {/*    <Route path='/participants' component={ParticipantList}>*/}
+                {/*        {!authCtx.isLoggedIn && <Redirect to='/login' />}*/}
+                {/*    </Route>)}*/}
                 {!authCtx.isLoggedIn && (
                     <Route exact path='/' component={HomePage}>
                     </Route>

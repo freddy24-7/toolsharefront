@@ -3,6 +3,7 @@ import classes from './ProfileForm.module.css';
 import {useHistory, useParams} from 'react-router-dom';
 import ParticipantService from "../../services/ParticipantService";
 import machineworker from "../../assets/pexels-karolina-grabowska-6920104.jpg";
+import ParticipantList from "./ParticipantList";
 
 function ProfileForm({ setFormS }) {
 
@@ -16,7 +17,6 @@ function ProfileForm({ setFormS }) {
     const [email, setEmail] = useState('')
     const [mobileNumber, setMobileNumber] = useState('')
 
-
     //Creating the variable that will be used to send data to backend
     const participant = {firstName, lastName, email, mobileNumber}
 
@@ -24,7 +24,6 @@ function ProfileForm({ setFormS }) {
     const [error, setError] = useState(null);
     //Constant for dynamic CSS display
     const [errorCSS, setErrorCSS] = useState(false);
-
 
     //This code section is made to simplify the JSX in the return statement
     const firstNameInputChangeHandler = (event) => {
@@ -43,6 +42,7 @@ function ProfileForm({ setFormS }) {
         setMobileNumber(event.target.value);
         console.log(mobileNumber)
     }
+
 
     //Below is the axios call to the participant class in backend
     const submitHandler = (event) => {
@@ -100,6 +100,7 @@ function ProfileForm({ setFormS }) {
         <Fragment>
             <section className={inputClasses}>
                 <div>Welcome!
+                    <br/>
                     <br/>
                     Please add some more details to get started</div>
                 <br/>

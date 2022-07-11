@@ -53,3 +53,9 @@
     background-color: #ebe4db;
     color: #737a80;
 }
+
+.card {
+    background: #ebe4db;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    border-radius: 10px;
+}

@@ -5,9 +5,10 @@ import AuthContext from '../../context/auth-context';
 import classes from './MainNavigation.module.css';
 import UserDetailsButton from "./Buttons/UserDetailsButton";
 import LogoutButton from "./Buttons/LogoutButton";
+import ListButton from "./Buttons/ListButton";
 
 //Passing the props from Layout component
-const MainNavigation = ({ setFormS, formS }) => {
+const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListClicked }) => {
 
     console.log(formS)
 
@@ -35,13 +36,16 @@ const MainNavigation = ({ setFormS, formS }) => {
     const authCtx = useContext(AuthContext);
     const isLoggedIn = authCtx.isLoggedIn;
 
+
     //This function uses props to setUserDetailsClicked to false, and logging out the user
     const logoutHandler = () => {
         setFormS(null);
+        setParticipantListClicked(false);
         localStorage.removeItem('submission')
         authCtx.logout();
         history.push('/')
     };
+
 
     return (
         <header className={classes.header}>
@@ -78,7 +82,10 @@ const MainNavigation = ({ setFormS, formS }) => {
                     )}
                     {formS && (
                         <li>
-                            <NavLink to='/userlist' >Lijst van deelneemers</NavLink>
+                            {/*Props are passed down from Layout Component*/}
+                            <ListButton to='/participants'
+                                        onClick={onClick}
+                            />
                         </li>
                     )}
                     {isLoggedIn && (
@@ -86,6 +93,7 @@ const MainNavigation = ({ setFormS, formS }) => {
                             {/*Props are passed down from Layout Component*/}
                             <LogoutButton to='/userdata'
                                           onClick={logoutHandler}
+                                          onMove={onMove}
                             />
                         </li>
                     )}
