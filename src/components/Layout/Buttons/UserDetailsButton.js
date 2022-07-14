@@ -1,10 +1,12 @@
 import React from 'react';
 import classes from './Button.module.css'
 
-const UserDetailsButton = ( {onClick} ) => {
+const UserDetailsButton = ( {onEdit} ) => {
     return (
 
-        <button className={classes.button} onClick={onClick}>
+        <button className={classes.button}
+                onClick={onEdit}
+        >
             <span>Edit mijn details</span>
         </button>
     );

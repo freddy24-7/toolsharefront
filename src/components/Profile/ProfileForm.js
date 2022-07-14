@@ -5,25 +5,17 @@ import ParticipantService from "../../services/ParticipantService";
 import machineworker from "../../assets/pexels-karolina-grabowska-6920104.jpg";
 import ParticipantList from "./ParticipantList";
 
-function ProfileForm({ setFormS }) {
+function ProfileForm({ setFormS, firstName, setFirstName, lastName, setLastName, email, setEmail,
+                         mobileNumber, setMobileNumber, submitHandler,
+                     error, setError, errorCSS, setErrorCSS, id}) {
 
     //History hook is used later to navigate the user to the following component
     const history = useHistory();
-    const { id } = useParams()
+    // const { id } = useParams()
 
-    //Defining the variables
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('')
-    const [email, setEmail] = useState('')
-    const [mobileNumber, setMobileNumber] = useState('')
+    console.log(firstName)
+    console.log(id)
 
-    //Creating the variable that will be used to send data to backend
-    const participant = {firstName, lastName, email, mobileNumber}
-
-    //Error-handling
-    const [error, setError] = useState(null);
-    //Constant for dynamic CSS display
-    const [errorCSS, setErrorCSS] = useState(false);
 
     //This code section is made to simplify the JSX in the return statement
     const firstNameInputChangeHandler = (event) => {
@@ -44,56 +36,18 @@ function ProfileForm({ setFormS }) {
     }
 
 
-    //Below is the axios call to the participant class in backend
-    const submitHandler = (event) => {
-        event.preventDefault();
-
-        ParticipantService.saveParticipant(participant)
-            .then((response) => {
-
-                //Checking in console what data we obtain
-                console.log(response.data)
-                console.log(response.data.id)
-                const id = (response.data.id)
-                const firstName = (response.data.firstName)
-                const lastName = (response.data.lastName)
-                const email = (response.data.email)
-                const mobileNumber = (response.data.mobileNumber)
-                console.log(id)
-                // setForm(true)
-                console.log(firstName)
-                console.log(lastName)
-                console.log(email)
-                console.log(mobileNumber)
-
-                //we have access to firstName and we pass that on with a string literal:
-                // history.push(`/participant/${response.data.firstName}`)
-                history.push(`/participant/${response.data.firstName}`)
-                setFormS(true)
-
-            }).catch(error => {
-                //500 is the only backend error response possible in this configuration
-
-                //checking error response stats
-                console.log(error.response.status);
-                //storing it in a variable
-                const errorCheck = (error.response.status)
-                //setting the error
-                if (errorCheck === 500) {
-                    setError("Invalid user details entered. " +
-                        "Please check that your email address is valid and that your mobile number" +
-                        " has ten digits. Name sections also need to be filled out.")
-                    setErrorCSS(true)
-                }
-
-            }
-        );
-    }
-
     //Dynamic use of CSS, other styles appear if input is invalid
     const inputClasses = errorCSS
         ? classes.invalid
         : classes.base;
+
+    //clean-up code
+    useEffect(() => {
+        return () => {
+            setError(null);
+            setErrorCSS(false);
+        }
+    });
 
 
     return (

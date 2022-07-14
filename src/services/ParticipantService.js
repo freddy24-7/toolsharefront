@@ -30,9 +30,15 @@ class ParticipantService {
     getAllParticipants() {
         return authAxios.get(PARTICIPANT_URL);
     }
+    // getParticipantById(id){
+    //     return authAxios.get(`${PARTICIPANT_URL}/${id}`);
+    // }
+    getParticipantById(id){
+        return authAxios.get(PARTICIPANT_URL + '/', id);
+    }
 
-    updateParticipant(participantId, participant){
-        return authAxios.put(PARTICIPANT_URL + '/' + participantId, participant)
+    updateParticipant(id, participant){
+        return authAxios.put(PARTICIPANT_URL + '/' + id, participant)
     }
     deleteParticipant(participantId){
         return authAxios.delete(PARTICIPANT_URL + '/' + participantId)

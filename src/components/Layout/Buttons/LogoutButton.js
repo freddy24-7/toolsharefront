@@ -4,14 +4,14 @@ import classes from "./Button.module.css";
 
 //Passing the props into the logout
 //Props-drilling used to pass the onLogout prop all the way down from Layout component
-const LogoutButton = ( {onClick, onLogout, onMove } ) => {
+const LogoutButton = ( {onClick, onLogout, onMove, onDetailsMove } ) => {
     return (
         <button className={classes.button}
                 onClick={onMove}
+                onClick={onDetailsMove}
                 onClick={onClick}
 
-            // onMouseEnter={onMove}
-                // onChange={onMove}
+
         >
             <span>Logout</span>
         </button>

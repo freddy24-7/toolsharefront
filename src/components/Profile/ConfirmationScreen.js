@@ -10,8 +10,13 @@ import laptopworker from "../../assets/pexels-andrea-piacquadio-761993.jpg";
 const ConfirmationScreen = () => {
 
     const { id } = useParams();
-    console.log(id);
 
+    useEffect(() => {
+        return () => {
+
+            console.log("clean-up")
+        }
+    });
 
     return (
         <>

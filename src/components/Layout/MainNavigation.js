@@ -7,8 +7,10 @@ import UserDetailsButton from "./Buttons/UserDetailsButton";
 import LogoutButton from "./Buttons/LogoutButton";
 import ListButton from "./Buttons/ListButton";
 
+
 //Passing the props from Layout component
-const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListClicked }) => {
+const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListClicked,
+    onDetailsClick, onDetailsMove, setParticipantDetailsClicked, handleEdit }) => {
 
     console.log(formS)
 
@@ -47,6 +49,9 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
     };
 
 
+
+
+
     return (
         <header className={classes.header}>
             <Link to='/'>
@@ -65,11 +70,7 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
                             <NavLink to='/register'>Register</NavLink>
                         </li>
                     )}
-                    {formS && (
-                        <li>
-                            <UserDetailsButton to='/userdata' />
-                        </li>
-                    )}
+
                     {formS && (
                         <li>
                             <NavLink to='/borrowing'>Spullen lenen?</NavLink>
@@ -88,12 +89,21 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
                             />
                         </li>
                     )}
+                    {formS && (
+                        <li>
+                            {/*Props are passed down from Layout Component*/}
+                            <UserDetailsButton
+                                onEdit={handleEdit}
+                            />
+                        </li>
+                    )}
                     {isLoggedIn && (
                         <li>
                             {/*Props are passed down from Layout Component*/}
                             <LogoutButton to='/userdata'
                                           onClick={logoutHandler}
                                           onMove={onMove}
+                                          onDetailsMove={onDetailsMove}
                             />
                         </li>
                     )}
