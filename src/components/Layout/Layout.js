@@ -67,7 +67,6 @@ const Layout = ({ children }) => {
                     // Back event
                     console.log("back button pressed")
                     history.push('/')
-                    // setUserDetailsClicked(false)
                 }
             }
         })
@@ -76,7 +75,6 @@ const Layout = ({ children }) => {
     //This variable is further worked on in child components through props
     const [formS, setFormS]= useState(false);
 
-    // const [participantList, setParticipantList] = useState([]);
 
     //Setting the state used to launch ParticipantList component on click
     const[participantListClicked, setParticipantListClicked]= useState(false);
@@ -101,7 +99,6 @@ const Layout = ({ children }) => {
         setParticipantDetailsClicked(false);
         history.push('/')
     }
-
 
         //Below is the axios call to the participant class in backend
         const submitHandler = (event) => {
@@ -130,9 +127,8 @@ const Layout = ({ children }) => {
 
                     //we have access to firstName and we pass that on with a string literal:
                     // history.push(`/participant/${response.data.firstName}`)
-                    history.push(`/participant/${response.data.firstName}`)
+                    history.push(`/participant/${firstName}`)
                     setFormS(true)
-
 
                 }).catch(error => {
                     //500 is the only backend error response possible in this configuration
@@ -174,6 +170,10 @@ const Layout = ({ children }) => {
                 setParticipantDetailsClicked={setParticipantDetailsClicked}
                 id={id}
                 handleEdit={handleEdit}
+                setFirstName={setFirstName}
+                setLastName={setLastName}
+                setEmail={setEmail}
+                setMobileNumber={setMobileNumber}
             />
 
             {/*// Launching ProfileForm conditionally, above state must be "true" for component to launch*/}
@@ -224,6 +224,10 @@ const Layout = ({ children }) => {
                     setMobileNumber={setMobileNumber}
                     id={id}
                     setId={setId}
+                    error={error}
+                    setError={setError}
+                    errorCSS={errorCSS}
+                    setErrorCSS={setErrorCSS}
                 />
                 </Route>
             {/*    : null*/}

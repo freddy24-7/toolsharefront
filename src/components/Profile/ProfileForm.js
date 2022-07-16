@@ -1,17 +1,21 @@
-import React, {Fragment, useEffect, useState} from 'react';
+import React, {Fragment, useEffect, useRef, useState} from 'react';
 import classes from './ProfileForm.module.css';
 import {useHistory, useParams} from 'react-router-dom';
 import ParticipantService from "../../services/ParticipantService";
 import machineworker from "../../assets/pexels-karolina-grabowska-6920104.jpg";
 import ParticipantList from "./ParticipantList";
 
-function ProfileForm({ setFormS, firstName, setFirstName, lastName, setLastName, email, setEmail,
+function ProfileForm({ setFormS, formS, firstName, setFirstName, lastName, setLastName, email, setEmail,
                          mobileNumber, setMobileNumber, submitHandler,
-                     error, setError, errorCSS, setErrorCSS, id}) {
+                     error, setError, errorCSS, setErrorCSS, id }) {
+
+    //Forcing re-rendering of the component to reset states
+    useEffect(  () => {
+        console.log("ProfileForm component mounted");
+    }, []);
 
     //History hook is used later to navigate the user to the following component
     const history = useHistory();
-    // const { id } = useParams()
 
     console.log(firstName)
     console.log(id)
@@ -40,14 +44,6 @@ function ProfileForm({ setFormS, firstName, setFirstName, lastName, setLastName,
     const inputClasses = errorCSS
         ? classes.invalid
         : classes.base;
-
-    //clean-up code
-    useEffect(() => {
-        return () => {
-            setError(null);
-            setErrorCSS(false);
-        }
-    });
 
 
     return (

@@ -14,6 +14,12 @@ import laptopguy from "../../assets/pexels-mikhail-nilov-6964367.jpg";
 
 const RegistrationForm = () => {
 
+    //Forcing re-rendering of the component to reset states
+    useEffect(  () => {
+        console.log("RegistrationForm component mounted");
+    }, []);
+
+
     const history = useHistory();
     //Below are added fields from spring security set-up in backend (user class)
     // const [name, setName] = useState('')
@@ -99,6 +105,7 @@ const RegistrationForm = () => {
 
         setIsLoading(true);
 
+
         //Axios call, pushing the user to the login-page or handling errors
         //useHistory use to redirect the user to the login-page
         RegistrationService.register(user, SIGN_UP_URL)
@@ -120,6 +127,8 @@ const RegistrationForm = () => {
                 }
                 setIsLoading(false);
             });
+
+
     };
 
     //Validation checks for input validity, post submission

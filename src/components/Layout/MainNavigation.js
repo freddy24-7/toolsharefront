@@ -10,7 +10,8 @@ import ListButton from "./Buttons/ListButton";
 
 //Passing the props from Layout component
 const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListClicked,
-    onDetailsClick, onDetailsMove, setParticipantDetailsClicked, handleEdit }) => {
+    onDetailsClick, onDetailsMove, setParticipantDetailsClicked, handleEdit,
+                        setFirstName, setLastName, setEmail, setMobileNumber}) => {
 
     console.log(formS)
 
@@ -42,15 +43,16 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
     //This function uses props to setUserDetailsClicked to false, and logging out the user
     const logoutHandler = () => {
         setFormS(null);
+        setFirstName('');
+        setLastName('');
+        setEmail('');
+        setMobileNumber('');
         setParticipantListClicked(false);
+        // localStorage.removeItem('jwt');
         localStorage.removeItem('submission')
         authCtx.logout();
         history.push('/')
     };
-
-
-
-
 
     return (
         <header className={classes.header}>
