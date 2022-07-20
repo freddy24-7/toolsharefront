@@ -10,7 +10,7 @@ console.log(initialToken)
 const apiURL = PARTICIPANT_URL
 
 //Creating a variable that grants access, taking the initial token as parameter
-//At this stage, back-end was also upated to allow foe the "Authorization-header" (in addition to "Content-Type")
+//At this stage, back-end was also updated to allow foe the "Authorization-header" (in addition to "Content-Type")
 const authAxios = axios.create(
     {
         baseURL: apiURL,
@@ -19,6 +19,9 @@ const authAxios = axios.create(
         }
     }
 )
+
+
+
 
 //Using the authAxios variable here, taking the URL and the relevant class as parameters
 class ParticipantService {
@@ -33,13 +36,21 @@ class ParticipantService {
     // getParticipantById(id){
     //     return authAxios.get(`${PARTICIPANT_URL}/${id}`);
     // }
-    getParticipantById(id){
-        return authAxios.get(PARTICIPANT_URL + '/', id);
+    // getParticipantById(id){
+    //     return authAxios.get(PARTICIPANT_URL + '/', id);
+    // }
+    // getParticipantById(){
+    //     return getParticipant();
+    //
+    // }
+    getEmployeeById(id){
+        return axios.put(PARTICIPANT_URL + '/' + id);
     }
 
     updateParticipant(id, participant){
         return authAxios.put(PARTICIPANT_URL + '/' + id, participant)
     }
+
     deleteParticipant(participantId){
         return authAxios.delete(PARTICIPANT_URL + '/' + participantId)
     }

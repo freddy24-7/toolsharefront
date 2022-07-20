@@ -67,7 +67,6 @@ const Layout = ({ children }) => {
                     // Back event
                     console.log("back button pressed")
                     history.push('/')
-                    // setUserDetailsClicked(false)
                 }
             }
         })
