@@ -21,8 +21,6 @@ const authAxios = axios.create(
 )
 
 
-
-
 //Using the authAxios variable here, taking the URL and the relevant class as parameters
 class ParticipantService {
 
@@ -33,19 +31,8 @@ class ParticipantService {
     getAllParticipants() {
         return authAxios.get(PARTICIPANT_URL);
     }
-    // getParticipantById(id){
-    //     return authAxios.get(`${PARTICIPANT_URL}/${id}`);
-    // }
-    // getParticipantById(id){
-    //     return authAxios.get(PARTICIPANT_URL + '/', id);
-    // }
-    // getParticipantById(){
-    //     return getParticipant();
-    //
-    // }
-    getEmployeeById(id){
-        return axios.put(PARTICIPANT_URL + '/' + id);
-    }
+
+
 
     updateParticipant(id, participant){
         return authAxios.put(PARTICIPANT_URL + '/' + id, participant)

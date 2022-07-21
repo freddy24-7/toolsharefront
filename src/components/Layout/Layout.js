@@ -72,10 +72,11 @@ const Layout = ({ children }) => {
         })
     }, [ locationKeys ])
 
-    //This variable is further worked on in child components through props
+    //This form-submission variable is further worked on in child components through props
     const [formS, setFormS]= useState(false);
 
-    // const [participantList, setParticipantList] = useState([]);
+    //This edit-submission variable is further worked on in child components through props
+    const [editS, setEditS]= useState(false);
 
     //Setting the state used to launch ParticipantList component on click
     const[participantListClicked, setParticipantListClicked]= useState(false);
@@ -132,19 +133,23 @@ const Layout = ({ children }) => {
                     history.push(`/participant/${response.data.firstName}`)
                     setFormS(true)
 
-
                 }).catch(error => {
                     //500 is the only backend error response possible in this configuration
 
                     //checking error response stats
                     console.log(error.response.status);
+                    console.log(error.response.data);
                     //storing it in a variable
                     const errorCheck = (error.response.status)
+                    console.log(errorCheck)
+
                     //setting the error
                     if (errorCheck === 500) {
                         setError("Invalid user details entered. " +
                             "Please check that your email address is valid and that your mobile number" +
-                            " has ten digits. Name sections also need to be filled out.")
+                            " has ten digits. Name sections also need to be filled out." +
+                            " This error would also occur if you have entered an email address that is " +
+                            "already in use. You may therefore also try with another email address.")
                         setErrorCSS(true)
                     }
 
@@ -152,6 +157,8 @@ const Layout = ({ children }) => {
             );
 
         }
+
+
 
 
     const handleEdit = () => {
@@ -211,23 +218,15 @@ const Layout = ({ children }) => {
             {/*{(participantDetailsClicked && formS) ?*/}
                 <Route path='/edit/:id'>
                 <IndividualDetails
-                    setFormS={setFormS}
-                    formS={formS}
-                    firstName={firstName}
-                    setFirstName={setFirstName}
-                    lastName={lastName}
-                    setLastName={setLastName}
-                    email={email}
-                    setEmail={setEmail}
-                    mobileNumber={mobileNumber}
-                    setMobileNumber={setMobileNumber}
-                    id={id}
-                    setId={setId}
+                    editS={editS}
+                    setEditS={setEditS}
+                    setError={setError}
+                    errorCSS={errorCSS}
                 />
                 </Route>
             {/*    : null*/}
             {/*}*/}
-            {(!participantListClicked && !participantDetailsClicked && formS) ?
+            {(!participantListClicked && !participantDetailsClicked && formS) || editS ?
                 <Route path='/participant/:id'>
                 <ConfirmationScreen
                 />

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import {useParams} from "react-router-dom";
 import classes from "./ProfileForm.module.css";
 import laptopworker from "../../assets/pexels-andrea-piacquadio-761993.jpg";
@@ -11,15 +11,13 @@ const ConfirmationScreen = () => {
 
     const { id } = useParams();
 
+    //ensure that component loads
     useEffect(() => {
-        return () => {
-
-            console.log("clean-up")
-        }
-    });
+        console.log(id)
+    })
 
     return (
-        <>
+        <Fragment>
             <section className={classes.base} >
                 <div className={classes.control}>
                     <p className={classes.success}>Ready to go {id}!</p>
@@ -31,7 +29,7 @@ const ConfirmationScreen = () => {
             <div className={classes.photo}>
                 <img src={laptopworker} alt="laptopworker" height={600} width={580}/>
             </div>
-        </>
+        </Fragment>
 
 
     );

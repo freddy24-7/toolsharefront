@@ -65,7 +65,7 @@ const RegistrationForm = () => {
 
     useEffect(() => {
         setValidMatch(password === matchPassword);
-    }, [matchPassword])
+    }, [matchPassword, password])
 
 
     //Forms
@@ -131,6 +131,11 @@ const RegistrationForm = () => {
     const InputClasses = usernameInputIsInvalid || passwordInputIsInvalid
         ? classes.authinvalid
         : classes.auth;
+
+    useEffect(() => {
+        //re-rendering the component
+        console.log("We re-rendered")
+    } , [enteredUsernameIsValid, enteredPasswordIsValid, enteredUsernameTouched, enteredPasswordTouched])
 
     return (
         <Fragment>

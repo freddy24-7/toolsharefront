@@ -6,6 +6,7 @@ import classes from './MainNavigation.module.css';
 import UserDetailsButton from "./Buttons/UserDetailsButton";
 import LogoutButton from "./Buttons/LogoutButton";
 import ListButton from "./Buttons/ListButton";
+import {resetFirstInputPolyfill} from "web-vitals/dist/modules/lib/polyfills/firstInputPolyfill";
 
 
 //Passing the props from Layout component
@@ -44,6 +45,7 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
         setFormS(null);
         setParticipantListClicked(false);
         localStorage.removeItem('submission')
+        localStorage.removeItem('jwt')
         authCtx.logout();
         history.push('/')
     };

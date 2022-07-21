@@ -1,8 +1,7 @@
-import React, {Fragment, useEffect, useState} from 'react';
+import React, {Fragment, useEffect, useReducer, useState} from 'react';
 import classes from './ProfileForm.module.css';
 import {useHistory, useParams} from "react-router-dom";
 import leafblower from "../../assets/pexels-pixabay-162564.jpg";
-import ParticipantService from "../../services/ParticipantService";
 
 import {PARTICIPANT_URL} from "../../backend-urls/constants";
 import axios from 'axios';
@@ -19,7 +18,7 @@ console.log(initialToken)
 //Using "useParams", with "id" as key. Matches the ":id" key from the app component
 //Displays the username back to the user in the welcome message to the user
 
-const IndividualDetails = ( {error, errorCSS} ) => {
+const IndividualDetails = ( {error, errorCSS, editS, setEditS} ) => {
 
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
@@ -29,11 +28,13 @@ const IndividualDetails = ( {error, errorCSS} ) => {
     const participant = {firstName, lastName, email, mobileNumber}
 
     const {id} = useParams()
-
     const history = useHistory();
-    console.log(id)
     const participantId = id;
     console.log(participantId)
+
+
+
+    //AXIOS update calls:
 
     //axios edit call
     const editAxios = axios.put(apiURL + '/' + id, {firstName, lastName, email, mobileNumber}, {
@@ -62,7 +63,8 @@ const IndividualDetails = ( {error, errorCSS} ) => {
                 editAxios
                     .then((response) => {
                         console.log(response)
-                        // history.push('/participants')
+                        history.push(`/participant/${response.data.firstName}`)
+                        setEditS(true)
                     }).catch(error => {
                     console.log(error)
                     console.log(error.response.data)
@@ -85,13 +87,26 @@ const IndividualDetails = ( {error, errorCSS} ) => {
             } ).catch(error => {
                 console.log(error)
             } )
-        } , [])
+        } , [getAxios])
 
 
     //Dynamic use of CSS, other styles appear if input is invalid
     const inputClasses = errorCSS
         ? classes.invalid
         : classes.base;
+
+
+    useEffect(()=> {
+        const data = localStorage.getItem('detailsEdited');
+        if (data) {
+            setEditS(JSON.parse(data))
+        }
+    },[]);
+
+    useEffect(() => {
+        localStorage.setItem("detailsEdited", JSON.stringify(editS));
+    });
+
 
 
     return (
@@ -155,6 +170,7 @@ const IndividualDetails = ( {error, errorCSS} ) => {
                         <div className={classes.actions}>
                             <button
                                 onClick={(event) => UpdateParticipant(event)}
+
                             >Submit</button>
                         </div>
                         {/*Tertiary statement displaying server error back to user*/}
