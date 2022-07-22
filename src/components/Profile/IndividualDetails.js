@@ -19,7 +19,7 @@ console.log(initialToken)
 //Using "useParams", with "id" as key. Matches the ":id" key from the app component
 //Displays the username back to the user in the welcome message to the user
 
-const IndividualDetails = ( {error, errorCSS} ) => {
+const IndividualDetails = ( {error, errorCSS, editS, setEditS} ) => {
 
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
@@ -62,7 +62,8 @@ const IndividualDetails = ( {error, errorCSS} ) => {
                 editAxios
                     .then((response) => {
                         console.log(response)
-                        // history.push('/participants')
+                        history.push(`/participant/${response.data.firstName}`)
+                        setEditS(true)
                     }).catch(error => {
                     console.log(error)
                     console.log(error.response.data)
@@ -84,6 +85,7 @@ const IndividualDetails = ( {error, errorCSS} ) => {
                 setMobileNumber(response.data.mobileNumber)
             } ).catch(error => {
                 console.log(error)
+                console.log(error.response.data)
             } )
         } , [])
 
@@ -92,6 +94,17 @@ const IndividualDetails = ( {error, errorCSS} ) => {
     const inputClasses = errorCSS
         ? classes.invalid
         : classes.base;
+
+    useEffect(()=> {
+        const data = localStorage.getItem('detailsEdited');
+        if (data) {
+            setEditS((data))
+        }
+    },[]);
+
+    useEffect(() => {
+        localStorage.setItem('detailsEdited', JSON.stringify(editS));
+    });
 
 
     return (

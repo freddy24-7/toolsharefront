@@ -11,12 +11,10 @@ const ConfirmationScreen = () => {
 
     const { id } = useParams();
 
+    //ensure that component loads
     useEffect(() => {
-        return () => {
-
-            console.log("clean-up")
-        }
-    });
+        console.log(id)
+    })
 
     return (
         <>

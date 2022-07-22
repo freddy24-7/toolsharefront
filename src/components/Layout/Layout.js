@@ -75,7 +75,8 @@ const Layout = ({ children }) => {
     //This variable is further worked on in child components through props
     const [formS, setFormS]= useState(false);
 
-    // const [participantList, setParticipantList] = useState([]);
+    //This edit-submission variable is further worked on in child components through props
+    const [editS, setEditS]= useState(false);
 
     //Setting the state used to launch ParticipantList component on click
     const[participantListClicked, setParticipantListClicked]= useState(false);
@@ -141,11 +142,13 @@ const Layout = ({ children }) => {
                     //storing it in a variable
                     const errorCheck = (error.response.status)
                     //setting the error
-                    if (errorCheck === 500) {
-                        setError("Invalid user details entered. " +
-                            "Please check that your email address is valid and that your mobile number" +
-                            " has ten digits. Name sections also need to be filled out.")
-                        setErrorCSS(true)
+                if (errorCheck === 500) {
+                    setError("Invalid user details entered. " +
+                        "Please check that your email address is valid and that your mobile number" +
+                        " has ten digits. Name sections also need to be filled out." +
+                        " This error would also occur if you have entered an email address that is " +
+                        "already in use. You may therefore also try with another email address.")
+                    setErrorCSS(true)
                     }
 
                 }
@@ -223,11 +226,13 @@ const Layout = ({ children }) => {
                     setMobileNumber={setMobileNumber}
                     id={id}
                     setId={setId}
+                    editS={editS}
+                    setEditS={setEditS}
                 />
                 </Route>
             {/*    : null*/}
             {/*}*/}
-            {(!participantListClicked && !participantDetailsClicked && formS) ?
+            {(!participantListClicked && !participantDetailsClicked && formS) || editS ?
                 <Route path='/participant/:id'>
                 <ConfirmationScreen
                 />

@@ -41,15 +41,6 @@ function ProfileForm({ setFormS, firstName, setFirstName, lastName, setLastName,
         ? classes.invalid
         : classes.base;
 
-    //clean-up code
-    useEffect(() => {
-        return () => {
-            setError(null);
-            setErrorCSS(false);
-        }
-    });
-
-
     return (
         <Fragment>
             <section className={inputClasses}>
