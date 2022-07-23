@@ -95,12 +95,14 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS} ) => {
         ? classes.invalid
         : classes.base;
 
+    //Launches whenever there is a change in the edit input, given the dependency array
+    //These two useEffects persists the changes made in the input
     useEffect(()=> {
         const data = localStorage.getItem('detailsEdited');
         if (data) {
             setEditS((data))
         }
-    },[]);
+    },[setEditS]);
 
     useEffect(() => {
         localStorage.setItem('detailsEdited', JSON.stringify(editS));

@@ -157,10 +157,12 @@ const Layout = ({ children }) => {
         }
 
 
-    const handleEdit = () => {
+    //Opens the edit component, closes the other components
+        const handleEdit = () => {
         history.push(`/edit/${id}`);
         console.log("edit button pressed")
         setParticipantDetailsClicked(true);
+        setParticipantListClicked(false)
     }
 
     return (
@@ -211,27 +213,28 @@ const Layout = ({ children }) => {
                 : null
             }
             {/*Same logic for ParticipantList component*/}
-            {/*{(participantDetailsClicked && formS) ?*/}
+            {(participantDetailsClicked && formS) ?
                 <Route path='/edit/:id'>
-                <IndividualDetails
-                    setFormS={setFormS}
-                    formS={formS}
-                    firstName={firstName}
-                    setFirstName={setFirstName}
-                    lastName={lastName}
-                    setLastName={setLastName}
-                    email={email}
-                    setEmail={setEmail}
-                    mobileNumber={mobileNumber}
-                    setMobileNumber={setMobileNumber}
-                    id={id}
-                    setId={setId}
-                    editS={editS}
-                    setEditS={setEditS}
-                />
+                    <IndividualDetails
+                        setFormS={setFormS}
+                        formS={formS}
+                        firstName={firstName}
+                        setFirstName={setFirstName}
+                        lastName={lastName}
+                        setLastName={setLastName}
+                        email={email}
+                        setEmail={setEmail}
+                        mobileNumber={mobileNumber}
+                        setMobileNumber={setMobileNumber}
+                        id={id}
+                        setId={setId}
+                        editS={editS}
+                        setEditS={setEditS}
+                    />
                 </Route>
-            {/*    : null*/}
-            {/*}*/}
+                : null
+            }
+
             {(!participantListClicked && !participantDetailsClicked && formS) || editS ?
                 <Route path='/participant/:id'>
                 <ConfirmationScreen
