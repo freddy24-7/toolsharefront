@@ -6,6 +6,7 @@ import ParticipantService from "../../services/ParticipantService";
 
 import {PARTICIPANT_URL} from "../../backend-urls/constants";
 import axios from 'axios';
+import UserDetailsButton from "../Layout/Buttons/UserDetailsButton";
 
 //specifying back-end URL
 const apiURL = PARTICIPANT_URL;
@@ -19,7 +20,7 @@ console.log(initialToken)
 //Using "useParams", with "id" as key. Matches the ":id" key from the app component
 //Displays the username back to the user in the welcome message to the user
 
-const IndividualDetails = ( {error, errorCSS, editS, setEditS} ) => {
+const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete, formS} ) => {
 
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
@@ -50,6 +51,7 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS} ) => {
         },
         'credentials': 'include'
     })
+
 
     const UpdateParticipant = async (event) => {
         event.preventDefault();
@@ -108,9 +110,21 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS} ) => {
         localStorage.setItem('detailsEdited', JSON.stringify(editS));
     });
 
+    const deleteParticipant = (event) => {
+        handleDelete(event);
+    }
+
 
     return (
         <Fragment>
+            {/*{formS && (*/}
+            {/*    <li>*/}
+            {/*        /!*Props are passed down from Layout Component*!/*/}
+            {/*        <DeleteParticipantButton*/}
+            {/*            onEdit={handleDelete}*/}
+            {/*        />*/}
+            {/*    </li>*/}
+            {/*)}*/}
             <section className={inputClasses}>
                 <div>
                     <p>Change details here:</p>
@@ -176,6 +190,13 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS} ) => {
                         {error && <div className={classes.error}> {error} </div>}
                     </div>
                 </form>
+                <br/>
+                <br/>
+                <p className={classes.warning}>DANGER ZONE</p>
+                <p>Do you wish to delete your records?</p>
+                <p>You will no longer be able to trade</p>
+                <button onClick={(event) => deleteParticipant(event)}
+                >Delete</button>
             </section>
         <div className={classes.photo}>
             <img src={leafblower} alt="leafblower" height={600} width={580}/>

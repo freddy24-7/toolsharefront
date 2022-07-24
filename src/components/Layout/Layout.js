@@ -9,6 +9,7 @@ import ParticipantList from "../Profile/ParticipantList";
 import IndividualDetails from "../Profile/IndividualDetails";
 import ConfirmationScreen from "../Profile/ConfirmationScreen";
 import ParticipantService from "../../services/ParticipantService";
+import ConfirmDeleteParticipant from "../Profile/ConfirmDeleteParticipant";
 
 
 //PROPS-USECASE: We want to close the ProfileForm when form is submitted
@@ -132,6 +133,10 @@ const Layout = ({ children }) => {
                     // history.push(`/participant/${response.data.firstName}`)
                     history.push(`/participant/${response.data.firstName}`)
                     setFormS(true)
+                    setFirstName("");
+                    setLastName("");
+                    setEmail("");
+                    setMobileNumber("");
 
 
                 }).catch(error => {
@@ -164,6 +169,16 @@ const Layout = ({ children }) => {
         setParticipantDetailsClicked(true);
         setParticipantListClicked(false)
     }
+    const [deleted, setDeleted] = useState(false);
+
+    //Opens the delete component, closes the other components
+    const handleDelete = () => {
+        history.push(`/delete/${id}`);
+        console.log("delete button pressed")
+        setParticipantDetailsClicked(false);
+        setParticipantListClicked(false)
+        setDeleted(true)
+    }
 
     return (
         <Fragment>
@@ -178,6 +193,8 @@ const Layout = ({ children }) => {
                 setParticipantDetailsClicked={setParticipantDetailsClicked}
                 id={id}
                 handleEdit={handleEdit}
+                setDeleted={setDeleted}
+                deleted={deleted}
             />
 
             {/*// Launching ProfileForm conditionally, above state must be "true" for component to launch*/}
@@ -206,14 +223,14 @@ const Layout = ({ children }) => {
                 : null
             }
             {/*Same logic for ParticipantList component*/}
-            {(participantListClicked && formS) ?
+            {(participantListClicked && formS ) ?
                 <ParticipantList
                     // participants={participantList}
                 />
                 : null
             }
             {/*Same logic for ParticipantList component*/}
-            {(participantDetailsClicked && formS) ?
+            {(participantDetailsClicked && formS ) ?
                 <Route path='/edit/:id'>
                     <IndividualDetails
                         setFormS={setFormS}
@@ -230,6 +247,8 @@ const Layout = ({ children }) => {
                         setId={setId}
                         editS={editS}
                         setEditS={setEditS}
+                        formS={formS}
+                        handleDelete={handleDelete}
                     />
                 </Route>
                 : null
@@ -239,6 +258,14 @@ const Layout = ({ children }) => {
                 <Route path='/participant/:id'>
                 <ConfirmationScreen
                 />
+                </Route>
+                : null
+            }
+            {(!participantListClicked && !participantDetailsClicked && formS) || !editS ?
+                <Route path='/delete/:id'>
+                    <ConfirmDeleteParticipant
+                        handleDelete={handleDelete}
+                    />
                 </Route>
                 : null
             }

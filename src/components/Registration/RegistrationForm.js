@@ -14,6 +14,11 @@ import laptopguy from "../../assets/pexels-mikhail-nilov-6964367.jpg";
 
 const RegistrationForm = () => {
 
+    //ensure that component loads
+    useEffect(() => {
+        console.log("RegistrationForm loaded")
+    })
+
     const history = useHistory();
     //Below are added fields from spring security set-up in backend (user class)
     // const [name, setName] = useState('')

@@ -24,24 +24,7 @@ function App() {
                 {!authCtx.isLoggedIn && (
                     <Route path='/register' component={RegisterPage}>
                     </Route>)}
-                {/*{authCtx.isLoggedIn && (*/}
-                {/*    <Route path='/profile/:id/' exact*/}
-                {/*           component={ProfileForm}*/}
-                {/*    >*/}
-                {/*        {!authCtx.isLoggedIn && <Redirect to='/login' />}*/}
-                {/*    </Route>)}*/}
-                {/*{authCtx.isLoggedIn && (*/}
-                {/*    <Route path='/participant/:id' component={ConfirmationScreen}>*/}
-                {/*        {!authCtx.isLoggedIn && <Redirect to='/login' />}*/}
-                {/*    </Route>)}*/}
-                {/*{authCtx.isLoggedIn && (*/}
-                {/*    <Route path='/edit/:id' component={IndividualDetails}>*/}
-                {/*        {!authCtx.isLoggedIn && <Redirect to='/login' />}*/}
-                {/*    </Route>)}*/}
-                {/*{authCtx.isLoggedIn && (*/}
-                {/*    <Route path='/participants' component={ParticipantList}>*/}
-                {/*        {!authCtx.isLoggedIn && <Redirect to='/login' />}*/}
-                {/*    </Route>)}*/}
+
                 {!authCtx.isLoggedIn && (
                     <Route exact path='/' component={HomePage}>
                     </Route>

@@ -123,3 +123,8 @@
     color: #37505a;
     margin-bottom: 8px;
 }
+
+.warning {
+    font-size: 20px;
+    color: orangered;
+}

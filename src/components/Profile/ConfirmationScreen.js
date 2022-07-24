@@ -15,6 +15,12 @@ const ConfirmationScreen = () => {
     useEffect(() => {
         console.log(id)
     })
+    //clean up
+    useEffect(() => {
+        return () => {
+            console.log("clean up")
+        }
+    } , [id])
 
     return (
         <>

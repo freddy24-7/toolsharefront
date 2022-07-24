@@ -9,6 +9,11 @@ function ProfileForm({ setFormS, firstName, setFirstName, lastName, setLastName,
                          mobileNumber, setMobileNumber, submitHandler,
                      error, setError, errorCSS, setErrorCSS, id}) {
 
+    //ensure that component loads
+    useEffect(() => {
+        console.log(id)
+    })
+
     //History hook is used later to navigate the user to the following component
     const history = useHistory();
     // const { id } = useParams()

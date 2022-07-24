@@ -1,16 +1,17 @@
 import {useContext, useEffect} from 'react';
-import {Link, NavLink, useHistory} from 'react-router-dom';
+import {Link, NavLink, Route, useHistory} from 'react-router-dom';
 
 import AuthContext from '../../context/auth-context';
 import classes from './MainNavigation.module.css';
 import UserDetailsButton from "./Buttons/UserDetailsButton";
 import LogoutButton from "./Buttons/LogoutButton";
 import ListButton from "./Buttons/ListButton";
+import ConfirmDeleteParticipant from "../Profile/ConfirmDeleteParticipant";
 
 
 //Passing the props from Layout component
 const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListClicked,
-    onDetailsClick, onDetailsMove, setParticipantDetailsClicked, handleEdit }) => {
+    onDetailsClick, onDetailsMove, setParticipantDetailsClicked, handleEdit, handleDelete, deleted, setDeleted }) => {
 
     console.log(formS)
 
@@ -43,7 +44,10 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
     const logoutHandler = () => {
         setFormS(null);
         setParticipantListClicked(false);
+        setParticipantDetailsClicked(false);
+        setDeleted(false);
         localStorage.removeItem('submission')
+        localStorage.removeItem('detailsEdited')
         // localStorage.removeItem('jwt')
         authCtx.logout();
         history.push('/')
@@ -72,32 +76,41 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
                         </li>
                     )}
 
-                    {formS && (
+                    {(formS && !deleted) ?
                         <li>
                             <NavLink to='/borrowing'>Spullen lenen?</NavLink>
                         </li>
-                    )}
-                    {formS && (
+                        : null
+                    }
+                    {(formS && !deleted)  ?
                         <li>
                             <NavLink to='/borrowing'>Spullen uitlenen?</NavLink>
                         </li>
-                    )}
-                    {formS && (
+                        : null
+                    }
+                    {/*{formS && !deleted && (*/}
+                    {/*    <li>*/}
+                    {/*        <NavLink to='/borrowing'>Spullen uitlenen?</NavLink>*/}
+                    {/*    </li>*/}
+                    {/*)}*/}
+                    {(formS && !deleted) ?
                         <li>
                             {/*Props are passed down from Layout Component*/}
                             <ListButton to='/participants'
                                         onClick={onClick}
                             />
                         </li>
-                    )}
-                    {formS && (
+                        : null
+                    }
+                    {(formS && !deleted) ?
                         <li>
                             {/*Props are passed down from Layout Component*/}
                             <UserDetailsButton
                                 onEdit={handleEdit}
                             />
                         </li>
-                    )}
+                        : null
+                    }
                     {isLoggedIn && (
                         <li>
                             {/*Props are passed down from Layout Component*/}
