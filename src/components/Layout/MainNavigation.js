@@ -48,7 +48,7 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
         setDeleted(false);
         localStorage.removeItem('submission')
         localStorage.removeItem('detailsEdited')
-        // localStorage.removeItem('jwt')
+        localStorage.removeItem('jwt')
         authCtx.logout();
         history.push('/')
     };

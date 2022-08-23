@@ -113,8 +113,10 @@ const Layout = ({ children }) => {
                 .then((response) => {
 
                     //Checking in console what data we obtain
+                    console.log(response)
                     console.log(response.data)
                     console.log(response.data.id)
+
                     const currentId = (response.data.id)
                     const firstName = (response.data.firstName)
                     const lastName = (response.data.lastName)
@@ -129,7 +131,7 @@ const Layout = ({ children }) => {
                     console.log(email)
                     console.log(mobileNumber)
 
-                    //we have access to firstName and we pass that on with a string literal:
+                    //we have access to firstName, and we pass that on with a string literal:
                     // history.push(`/participant/${response.data.firstName}`)
                     history.push(`/participant/${response.data.firstName}`)
                     setFormS(true)
@@ -138,26 +140,34 @@ const Layout = ({ children }) => {
                     setEmail("");
                     setMobileNumber("");
 
+                }).catch(function (error) {
 
-                }).catch(error => {
-                    //500 is the only backend error response possible in this configuration
-
-                    //checking error response stats
-                    console.log(error.response.status);
-                    //storing it in a variable
-                    const errorCheck = (error.response.status)
-                    //setting the error
-                if (errorCheck === 500) {
-                    setError("Invalid user details entered. " +
-                        "Please check that your email address is valid and that your mobile number" +
-                        " has ten digits. Name sections also need to be filled out." +
-                        " This error would also occur if you have entered an email address that is " +
-                        "already in use. You may therefore also try with another email address.")
-                    setErrorCSS(true)
+                    if (error.response) {
+                        // Request made and server responded
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                        const errorCheck = (error.response.status)
+                        //setting the error
+                        if (errorCheck === 500) {
+                            setError("Invalid user details entered. " +
+                                "Please check that your email address is valid and that your mobile number" +
+                                " has ten digits. Name sections also need to be filled out." +
+                                " This error would also occur if you have entered an email address that is " +
+                                "already in use. You may therefore also try with another email address.")
+                            setErrorCSS(true)
+                        }
+                    } else if (error.request) {
+                        // The request was made but no response was received
+                        console.log(error.request);
+                    } else {
+                        // Something happened in setting up the request that triggered an Error
+                        console.log('Error', error.message);
                     }
 
-                }
-            );
+            });
+
+
 
         }
 
