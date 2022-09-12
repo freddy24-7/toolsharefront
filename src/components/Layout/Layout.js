@@ -23,6 +23,24 @@ import ConfirmDeleteParticipant from "../Profile/ConfirmDeleteParticipant";
 
 const Layout = ({ children }) => {
 
+    const [participants, setParticipants] = useState([]);
+    //Getting existing users in database
+    useEffect(() => {
+        ParticipantService.getAllParticipants().then((response) => {
+            console.log(response.data)
+            setParticipants(response.data);
+
+            const found = participants.find(element => {
+                return element.id === 2;
+            });
+
+            console.log(found);
+
+        }).catch(error => {
+            console.log(error)
+        })
+    },[]);
+
     //Defining the variables
     const [id, setId] = useState(null);
     const [firstName, setFirstName] = useState('')
@@ -114,8 +132,8 @@ const Layout = ({ children }) => {
 
                     //Checking in console what data we obtain
                     console.log(response)
-                    console.log(response.data)
-                    console.log(response.data.id)
+                    // console.log(response.data)
+                    // console.log(response.data.id)
 
                     const currentId = (response.data.id)
                     const firstName = (response.data.firstName)
@@ -133,7 +151,7 @@ const Layout = ({ children }) => {
 
                     //we have access to firstName, and we pass that on with a string literal:
                     // history.push(`/participant/${response.data.firstName}`)
-                    history.push(`/participant/${response.data.firstName}`)
+                    // history.push(`/participant/${response.data.firstName}`)
                     setFormS(true)
                     setFirstName("");
                     setLastName("");
@@ -155,6 +173,12 @@ const Layout = ({ children }) => {
                                 " has ten digits. Name sections also need to be filled out." +
                                 " This error would also occur if you have entered an email address that is " +
                                 "already in use. You may therefore also try with another email address.")
+                            setErrorCSS(true)
+                        } else if (errorCheck === 403) {
+                            setError("The server has declined the request. " +
+                                "A likely reason is that another participant is already " +
+                                " logged in to the server from the device that you are using. " +
+                                "You may try to reload the page and submit again.")
                             setErrorCSS(true)
                         }
                     } else if (error.request) {

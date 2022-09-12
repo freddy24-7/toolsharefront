@@ -4,15 +4,45 @@ import {useHistory, useParams} from 'react-router-dom';
 import ParticipantService from "../../services/ParticipantService";
 import machineworker from "../../assets/pexels-karolina-grabowska-6920104.jpg";
 import ParticipantList from "./ParticipantList";
+import axios from "axios";
+
+import {PARTICIPANT_URL} from "../../backend-urls/constants";
+//specifying back-end URL
+const apiURL = PARTICIPANT_URL;
 
 function ProfileForm({ setFormS, firstName, setFirstName, lastName, setLastName, email, setEmail,
                          mobileNumber, setMobileNumber, submitHandler,
                      error, setError, errorCSS, setErrorCSS, id}) {
 
-    //ensure that component loads
+    //This code forces a reload to obtain participant data
+    const reloadCount = Number(sessionStorage.getItem('reloadCount')) || 0;
     useEffect(() => {
-        console.log(id)
-    })
+        if(reloadCount < 2) {
+            sessionStorage.setItem('reloadCount', String(reloadCount + 1));
+            window.location.reload();
+        } else {
+            sessionStorage.removeItem('reloadCount');
+        }
+    }, []);
+
+    const [participants, setParticipants] = useState([]);
+
+    //Getting existing users in database
+    useEffect(() => {
+        ParticipantService.getAllParticipants().then((response) => {
+            console.log(response.data)
+            setParticipants(response.data);
+            //cycle through response data
+            //match user id then send the user to start page
+            //if not working, move page to start-page
+            //check first if you can solve it with the above console.log to check
+
+
+        }).catch(error => {
+                console.log(error)
+            })
+    },[]);
+
 
     //History hook is used later to navigate the user to the following component
     const history = useHistory();
@@ -48,6 +78,7 @@ function ProfileForm({ setFormS, firstName, setFirstName, lastName, setLastName,
 
     return (
         <Fragment>
+            <div>{ JSON.stringify({ reloadCount }) }</div>
             <section className={inputClasses}>
                 <div>Welcome!
                     <br/>

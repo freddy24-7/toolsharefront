@@ -35,6 +35,13 @@ export const LoginForm = () => {
         setPassword(event.target.value);
     }
 
+    // //check if user is already registered as participant
+    // useEffect(() => {
+    //     ParticipantService.getAllParticipants().then((response) => {
+    //         console.log(response.data)
+    //     })
+    // })
+
     //Axios call for login and authentication
     const submitHandler = (event) => {
         event.preventDefault();
@@ -58,23 +65,26 @@ export const LoginForm = () => {
                 console.log(user.id);
                 console.log(user.token)
 
-                //check if user is already registered as participant
+                //check if there is a participant with a foreign key equal to the user id
+
                 ParticipantService.getAllParticipants().then((response) => {
                     const data = response.data;
                     console.log(data);
 
-                    for (let i = 0; i < data.length; i++) {
-                        console.log(data[i].user.id);
-                        console.log(data[i].id);
-                        console.log(user.id);
-                        if (data[i].user.id == data[i].id) {
-                            console.log("User is already registered as participant")
-                            // history.push('/participant')
-                        } else {
-                            console.log("User is not registered as participant")
-                        }
-                    }
-                })
+                });
+
+                    // for (let i = 0; i < data.length; i++) {
+                    //     console.log(data[i].user.id);
+                    //     console.log(data[i].id);
+                    //     console.log(user.id);
+                    //     if (data[i].user.id == data[i].id) {
+                    //         console.log("User is already registered as participant")
+                    //         // history.push('/participant')
+                    //     } else {
+                    //         console.log("User is not registered as participant")
+                    //     }
+                    // }
+                // })
 
                 //using template literal to display individual user after login
                 history.push(`/profile/${response.data.username}`)
@@ -95,6 +105,15 @@ export const LoginForm = () => {
             });
 
     };
+
+    // ParticipantService.getAllParticipants().then((response) => {
+    //     const data = response.data;
+    //     console.log(data);
+    // })
+    // const [participants, setParticipants] = useState([]);
+
+
+
     //Dynamic use of CSS, other styles appear if input is invalid
     const inputClasses = errorCSS
         ? classes.authinvalid
