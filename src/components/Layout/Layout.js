@@ -10,6 +10,8 @@ import IndividualDetails from "../Profile/IndividualDetails";
 import ConfirmationScreen from "../Profile/ConfirmationScreen";
 import ParticipantService from "../../services/ParticipantService";
 import ConfirmDeleteParticipant from "../Profile/ConfirmDeleteParticipant";
+import LoginForm from "../Login/LoginForm";
+import RegistrationForm from "../Registration/RegistrationForm";
 
 
 //PROPS-USECASE: We want to close the ProfileForm when form is submitted
@@ -23,19 +25,54 @@ import ConfirmDeleteParticipant from "../Profile/ConfirmDeleteParticipant";
 
 const Layout = ({ children }) => {
 
+    const [userId, setUserId] = useState('');
+    const [idValue, setIdValue] = useState('');
+
+    //Below block obtains the stored userid
+    const [currentLoggedInId, setCurrentLoggedInId] = useState(() => {
+        // getting stored value
+        const currentId = localStorage.getItem("userId");
+        setIdValue(JSON.parse(currentId));
+    });
+    console.log(idValue);
+    console.log(currentLoggedInId)
+
+    //Here we cycle through participant-object to check if user is already registered as participant
     const [participants, setParticipants] = useState([]);
     //Getting existing users in database
     useEffect(() => {
         ParticipantService.getAllParticipants().then((response) => {
             console.log(response.data)
             setParticipants(response.data);
-
-            const found = participants.find(element => {
-                return element.id === 2;
-            });
-
-            console.log(found);
-
+            const participants = response.data;
+            console.log(participants);
+            console.log(idValue)
+            for (let i = 0; i < participants.length; i++) {
+                if (participants[i].user.id == idValue) {
+                    console.log("exists")
+                    console.log(participants[i])
+                    const currentLoggedInParticipant = participants[i]
+                    console.log(currentLoggedInParticipant)
+                    const currentId = (currentLoggedInParticipant.id)
+                    const firstName = (currentLoggedInParticipant.firstName)
+                    const lastName = (currentLoggedInParticipant.lastName)
+                    const email = (currentLoggedInParticipant.email)
+                    const mobileNumber = (currentLoggedInParticipant.mobileNumber)
+                    console.log(currentId)
+                    console.log(firstName)
+                    console.log(lastName)
+                    console.log(email)
+                    console.log(mobileNumber)
+                    console.log(currentId)
+                    setId(currentId)
+                    console.log(id)
+                    history.push(`/participant/${currentLoggedInParticipant.firstName}`)
+                    setFormS(true);
+                } else {
+                    console.log("this user is not a participant yet")
+                    setFormS(false);
+                }
+            }
         }).catch(error => {
             console.log(error)
         })
@@ -93,6 +130,7 @@ const Layout = ({ children }) => {
 
     //This variable is further worked on in child components through props
     const [formS, setFormS]= useState(false);
+    const [loginReady, setLoginReady]= useState(false);
 
     //This edit-submission variable is further worked on in child components through props
     const [editS, setEditS]= useState(false);
@@ -151,7 +189,7 @@ const Layout = ({ children }) => {
 
                     //we have access to firstName, and we pass that on with a string literal:
                     // history.push(`/participant/${response.data.firstName}`)
-                    // history.push(`/participant/${response.data.firstName}`)
+                    history.push(`/participant/${response.data.firstName}`)
                     setFormS(true)
                     setFirstName("");
                     setLastName("");
@@ -216,7 +254,6 @@ const Layout = ({ children }) => {
 
     return (
         <Fragment>
-            {/*setting the props to the child component*/}
             <MainNavigation
                 formS={formS}
                 setFormS={setFormS}

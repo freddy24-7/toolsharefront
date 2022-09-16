@@ -7,15 +7,13 @@ import classes from './LoginForm.module.css';
 import AuthenticationService from "../../services/AuthenticationService";
 import {SIGN_IN_URL} from "../../backend-urls/constants";
 import laptopgirl from "../../assets/pexels-jopwell-2422286.jpg";
-import ParticipantService from "../../services/ParticipantService";
 
-export const LoginForm = () => {
+export const LoginForm = ({userId, setUserId}) => {
 
     const history = useHistory();
-    const [id, SetId] = useState('');
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const user = {id, username, password}
+    const user = {userId, username, password}
     console.log(user);
 
     //Constant for error-handling
@@ -34,13 +32,6 @@ export const LoginForm = () => {
     const passwordInputChangeHandler = (event) => {
         setPassword(event.target.value);
     }
-
-    // //check if user is already registered as participant
-    // useEffect(() => {
-    //     ParticipantService.getAllParticipants().then((response) => {
-    //         console.log(response.data)
-    //     })
-    // })
 
     //Axios call for login and authentication
     const submitHandler = (event) => {
@@ -63,31 +54,11 @@ export const LoginForm = () => {
                 //checking the data we have access to with a console.log
                 console.log(user);
                 console.log(user.id);
+                localStorage.setItem('userId', user.id)
                 console.log(user.token)
 
-                //check if there is a participant with a foreign key equal to the user id
-
-                ParticipantService.getAllParticipants().then((response) => {
-                    const data = response.data;
-                    console.log(data);
-
-                });
-
-                    // for (let i = 0; i < data.length; i++) {
-                    //     console.log(data[i].user.id);
-                    //     console.log(data[i].id);
-                    //     console.log(user.id);
-                    //     if (data[i].user.id == data[i].id) {
-                    //         console.log("User is already registered as participant")
-                    //         // history.push('/participant')
-                    //     } else {
-                    //         console.log("User is not registered as participant")
-                    //     }
-                    // }
-                // })
-
                 //using template literal to display individual user after login
-                history.push(`/profile/${response.data.username}`)
+                // history.push(`/profile/${response.data.username}`)
             })
             .catch(error => {
                 //403 is the only backend error response possible in this configuration
@@ -105,14 +76,6 @@ export const LoginForm = () => {
             });
 
     };
-
-    // ParticipantService.getAllParticipants().then((response) => {
-    //     const data = response.data;
-    //     console.log(data);
-    // })
-    // const [participants, setParticipants] = useState([]);
-
-
 
     //Dynamic use of CSS, other styles appear if input is invalid
     const inputClasses = errorCSS

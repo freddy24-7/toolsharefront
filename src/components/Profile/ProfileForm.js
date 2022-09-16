@@ -78,7 +78,6 @@ function ProfileForm({ setFormS, firstName, setFirstName, lastName, setLastName,
 
     return (
         <Fragment>
-            <div>{ JSON.stringify({ reloadCount }) }</div>
             <section className={inputClasses}>
                 <div>Welcome!
                     <br/>
