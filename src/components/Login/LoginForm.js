@@ -110,7 +110,7 @@ export const LoginForm = ({userId, setUserId}) => {
                 </div>
                 <div className={classes.actions}>
                     {!isLoading && (
-                        <button>Login</button>
+                        <button className={classes.button}>Login</button>
                     )}
                     {isLoading && <p>Sending request...</p>}
                     {/*Tertiary statement displaying server error back to user*/}

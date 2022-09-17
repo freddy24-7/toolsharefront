@@ -178,7 +178,7 @@ const RegistrationForm = () => {
                 </div>
                 <div className={classes.actions}>
                     {!isLoading && (
-                        <button>Create Account</button>
+                        <button className={classes.button}>Create Account</button>
                     )}
                     {/*Tertiary statements based on frontend validation of username and password*/}
                     {/*and backend validation of password*/}

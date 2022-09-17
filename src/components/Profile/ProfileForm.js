@@ -133,6 +133,7 @@ function ProfileForm({ setFormS, firstName, setFirstName, lastName, setLastName,
                         </div>
                         <div className={classes.actions}>
                             <button
+                                className={classes.button}
                                 onClick={(event) => submitHandler(event)}
                             >Submit</button>
                         </div>

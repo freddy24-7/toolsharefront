@@ -6,7 +6,9 @@ import classes from './MainNavigation.module.css';
 import UserDetailsButton from "./Buttons/UserDetailsButton";
 import LogoutButton from "./Buttons/LogoutButton";
 import ListButton from "./Buttons/ListButton";
+import BorrowButton from "./Buttons/BorrowButton";
 import ConfirmDeleteParticipant from "../Profile/ConfirmDeleteParticipant";
+import LendButton from "./Buttons/LendButton";
 
 
 //Passing the props from Layout component
@@ -79,13 +81,15 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
 
                     {(formS && !deleted) ?
                         <li>
-                            <NavLink to='/borrowing'>Spullen lenen?</NavLink>
+                            <LendButton to='/lending'
+                            />
                         </li>
                         : null
                     }
                     {(formS && !deleted)  ?
                         <li>
-                            <NavLink to='/borrowing'>Spullen uitlenen?</NavLink>
+                            <BorrowButton to='/borrowing'
+                            />
                         </li>
                         : null
                     }
