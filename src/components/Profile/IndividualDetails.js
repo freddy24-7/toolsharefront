@@ -2,11 +2,9 @@ import React, {Fragment, useEffect, useState} from 'react';
 import classes from './ProfileForm.module.css';
 import {useHistory, useParams} from "react-router-dom";
 import leafblower from "../../assets/pexels-pixabay-162564.jpg";
-import ParticipantService from "../../services/ParticipantService";
 
 import {PARTICIPANT_URL} from "../../backend-urls/constants";
 import axios from 'axios';
-import UserDetailsButton from "../Layout/Buttons/UserDetailsButton";
 
 //specifying back-end URL
 const apiURL = PARTICIPANT_URL;
@@ -52,7 +50,6 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete, for
         'credentials': 'include'
     })
 
-
     const UpdateParticipant = async (event) => {
         event.preventDefault();
 
@@ -91,7 +88,6 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete, for
             } )
         } , [])
 
-
     //Dynamic use of CSS, other styles appear if input is invalid
     const inputClasses = errorCSS
         ? classes.invalid
@@ -114,17 +110,8 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete, for
         handleDelete(event);
     }
 
-
     return (
         <Fragment>
-            {/*{formS && (*/}
-            {/*    <li>*/}
-            {/*        /!*Props are passed down from Layout Component*!/*/}
-            {/*        <DeleteParticipantButton*/}
-            {/*            onEdit={handleDelete}*/}
-            {/*        />*/}
-            {/*    </li>*/}
-            {/*)}*/}
             <section className={inputClasses}>
                 <div>
                     <p>Change details here:</p>
@@ -202,8 +189,6 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete, for
             <img src={leafblower} alt="leafblower" height={600} width={580}/>
         </div>
         </Fragment>
-
-
     );
 };
 

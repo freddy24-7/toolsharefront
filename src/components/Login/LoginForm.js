@@ -8,7 +8,7 @@ import AuthenticationService from "../../services/AuthenticationService";
 import {SIGN_IN_URL} from "../../backend-urls/constants";
 import laptopgirl from "../../assets/pexels-jopwell-2422286.jpg";
 
-export const LoginForm = ({userId, setUserId}) => {
+export const LoginForm = ({userId}) => {
 
     const history = useHistory();
     const [username, setUsername] = useState('')

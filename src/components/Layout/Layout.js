@@ -10,9 +10,6 @@ import IndividualDetails from "../Profile/IndividualDetails";
 import ConfirmationScreen from "../Profile/ConfirmationScreen";
 import ParticipantService from "../../services/ParticipantService";
 import ConfirmDeleteParticipant from "../Profile/ConfirmDeleteParticipant";
-import LoginForm from "../Login/LoginForm";
-import RegistrationForm from "../Registration/RegistrationForm";
-
 
 //PROPS-USECASE: We want to close the ProfileForm when form is submitted
 //Step 1-5 in parent component, step 6-7 in child component
@@ -26,6 +23,7 @@ import RegistrationForm from "../Registration/RegistrationForm";
 const Layout = ({ children }) => {
 
     const [userId, setUserId] = useState('');
+
     const [idValue, setIdValue] = useState('');
 
     //Below block obtains the stored userid
@@ -159,7 +157,6 @@ const Layout = ({ children }) => {
         history.push('/')
     }
 
-
         //Below is the axios call to the participant class in backend
         const submitHandler = (event) => {
             event.preventDefault();
@@ -170,9 +167,6 @@ const Layout = ({ children }) => {
 
                     //Checking in console what data we obtain
                     console.log(response)
-                    // console.log(response.data)
-                    // console.log(response.data.id)
-
                     const currentId = (response.data.id)
                     const firstName = (response.data.firstName)
                     const lastName = (response.data.lastName)
@@ -226,11 +220,7 @@ const Layout = ({ children }) => {
                         // Something happened in setting up the request that triggered an Error
                         console.log('Error', error.message);
                     }
-
             });
-
-
-
         }
 
 
@@ -300,7 +290,7 @@ const Layout = ({ children }) => {
                 />
                 : null
             }
-            {/*Same logic for ParticipantList component*/}
+            {/*Same logic for Individual details component*/}
             {(participantDetailsClicked && formS ) ?
                 <Route path='/edit/:id'>
                     <IndividualDetails

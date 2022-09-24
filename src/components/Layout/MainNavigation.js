@@ -13,7 +13,7 @@ import LendButton from "./Buttons/LendButton";
 
 //Passing the props from Layout component
 const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListClicked,
-    onDetailsClick, onDetailsMove, setParticipantDetailsClicked, handleEdit, handleDelete, deleted, setDeleted }) => {
+                            onDetailsMove, setParticipantDetailsClicked, handleEdit, deleted, setDeleted }) => {
 
     console.log(formS)
 
@@ -55,10 +55,6 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
         authCtx.logout();
         history.push('/')
     };
-
-
-
-
 
     return (
         <header className={classes.header}>

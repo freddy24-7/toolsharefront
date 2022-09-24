@@ -1,18 +1,12 @@
 import React, {Fragment, useEffect, useState} from 'react';
 import classes from './ProfileForm.module.css';
-import {useHistory, useParams} from 'react-router-dom';
 import ParticipantService from "../../services/ParticipantService";
 import machineworker from "../../assets/pexels-karolina-grabowska-6920104.jpg";
-import ParticipantList from "./ParticipantList";
-import axios from "axios";
 
-import {PARTICIPANT_URL} from "../../backend-urls/constants";
-//specifying back-end URL
-const apiURL = PARTICIPANT_URL;
-
-function ProfileForm({ setFormS, firstName, setFirstName, lastName, setLastName, email, setEmail,
+function ProfileForm({
+                         firstName, setFirstName, lastName, setLastName, email, setEmail,
                          mobileNumber, setMobileNumber, submitHandler,
-                     error, setError, errorCSS, setErrorCSS, id}) {
+                     error, errorCSS, id}) {
 
     //This code forces a reload to obtain participant data
     const reloadCount = Number(sessionStorage.getItem('reloadCount')) || 0;
@@ -31,26 +25,14 @@ function ProfileForm({ setFormS, firstName, setFirstName, lastName, setLastName,
     useEffect(() => {
         ParticipantService.getAllParticipants().then((response) => {
             console.log(response.data)
-            setParticipants(response.data);
-            //cycle through response data
-            //match user id then send the user to start page
-            //if not working, move page to start-page
-            //check first if you can solve it with the above console.log to check
-
-
+            setParticipants(response.data)
         }).catch(error => {
                 console.log(error)
             })
     },[]);
 
-
-    //History hook is used later to navigate the user to the following component
-    const history = useHistory();
-    // const { id } = useParams()
-
     console.log(firstName)
     console.log(id)
-
 
     //This code section is made to simplify the JSX in the return statement
     const firstNameInputChangeHandler = (event) => {
@@ -69,7 +51,6 @@ function ProfileForm({ setFormS, firstName, setFirstName, lastName, setLastName,
         setMobileNumber(event.target.value);
         console.log(mobileNumber)
     }
-
 
     //Dynamic use of CSS, other styles appear if input is invalid
     const inputClasses = errorCSS
@@ -148,6 +129,5 @@ function ProfileForm({ setFormS, firstName, setFirstName, lastName, setLastName,
 
         </Fragment>
     );
-
 }
 export default ProfileForm;

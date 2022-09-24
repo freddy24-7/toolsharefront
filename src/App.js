@@ -6,10 +6,6 @@ import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import RegisterPage from "./pages/RegisterPage";
 import AuthContext from './context/auth-context';
-import IndividualDetails from "./components/Profile/IndividualDetails";
-import ConfirmationScreen from "./components/Profile/ConfirmationScreen";
-import ProfileForm from "./components/Profile/ProfileForm";
-import ParticipantList from "./components/Profile/ParticipantList";
 
 function App() {
     const authCtx = useContext(AuthContext);

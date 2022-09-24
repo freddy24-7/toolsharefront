@@ -32,29 +32,6 @@ const ConfirmDeleteParticipant = () => {
 
     });
 
-
-
-    //Delete participant
-    // const confirmDeleteParticipant = async (event) => {
-    //     event.preventDefault();
-    //     console.log(participantId)
-    //     if (participantId) {
-    //         try {
-    //             deleteAxios
-    //                 .then((response) => {
-    //                     console.log(response)
-    //                     history.push('/');
-    //                 }).catch(error => {
-    //                 console.log(error)
-    //                 console.log(error.response.data)
-    //             })
-    //         } finally {
-    //             console.log('finally')
-    //         }
-    //     }
-    // }
-
-
     return (
         <Fragment>
         <div>

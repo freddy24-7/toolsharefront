@@ -21,7 +21,6 @@ const RegistrationForm = () => {
 
     const history = useHistory();
     //Below are added fields from spring security set-up in backend (user class)
-    // const [name, setName] = useState('')
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
@@ -71,7 +70,6 @@ const RegistrationForm = () => {
     useEffect(() => {
         setValidMatch(password === matchPassword);
     }, [matchPassword])
-
 
     //Forms
     const submitHandler = (event) => {
@@ -128,7 +126,6 @@ const RegistrationForm = () => {
     };
 
     //Validation checks for input validity, post submission
-    // const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
     const usernameInputIsInvalid = !enteredUsernameIsValid && enteredUsernameTouched;
     const passwordInputIsInvalid = !enteredPasswordIsValid && enteredPasswordTouched;
 
@@ -191,8 +188,6 @@ const RegistrationForm = () => {
                 <img src={laptopguy} alt="laptopguy" height={300} width={220}/>
             </div>
         </Fragment>
-
-
     );
 };
 

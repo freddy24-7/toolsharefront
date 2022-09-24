@@ -14,9 +14,7 @@ const ParticipantList = () => {
             console.log(error)
         }
         )
-}, [])
-
-
+    }, [])
 
     return (
         <ul>
