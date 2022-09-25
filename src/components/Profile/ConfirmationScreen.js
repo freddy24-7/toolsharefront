@@ -1,8 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import classes from "./ProfileForm.module.css";
 import laptopworker from "../../assets/pexels-andrea-piacquadio-761993.jpg";
 import { useForm } from "react-hook-form";
+import {FILE_UPLOAD_URL} from "../../backend-urls/constants";
+
 
 
 //Here we will use route parameters to access individual participants
@@ -11,37 +13,50 @@ import { useForm } from "react-hook-form";
 
 const ConfirmationScreen = () => {
 
-    const { id } = useParams();
 
-    // //ensure that component loads
+    // //This code forces a reload to obtain participant data
+    // const reloadCount = Number(sessionStorage.getItem('reloadCount')) || 0;
     // useEffect(() => {
-    //     console.log(id)
-    // })
-    // //clean up
-    // useEffect(() => {
-    //     return () => {
-    //         console.log("clean up")
+    //     if(reloadCount < 2) {
+    //         sessionStorage.setItem('reloadCount', String(reloadCount + 1));
+    //         window.location.reload();
+    //     } else {
+    //         sessionStorage.removeItem('reloadCount');
     //     }
-    // } , [id])
+    // }, []);
+
+    const {id} = useParams();
+
+    //ensure that component loads
+    useEffect(() => {
+        console.log(id)
+    })
+    //clean up
+    useEffect(() => {
+        return () => {
+            console.log("clean up")
+        }
+    } , [id])
+
 
     //using react hook form for image upload
-    const { register, handleSubmit } = useForm();
+    const {register, handleSubmit} = useForm();
 
     //state variable for downloading the file
     const [obtainPhotoURL, setObtainPhotoURL] = useState('');
 
     //setting up variables
-    let baseUrl = "http://localhost:8080/api/imagefile/upload";
     let downloadUrl;
     let obtainPhoto;
 
     const onSubmit = async (data) => {
+
         const formData = new FormData();
         formData.append("file", data.file[0]);
         console.log(formData)
 
         //using fetchAPI to post the file
-        const result = await fetch(baseUrl, {
+        const result = await fetch(FILE_UPLOAD_URL, {
             method: "POST",
             body: formData,
         }).then((result) => result.json());
@@ -54,16 +69,83 @@ const ConfirmationScreen = () => {
         console.log(downloadUrl)
 
         //using fetchAPI to obtain the file
-        obtainPhoto = await fetch(downloadUrl,{
+        obtainPhoto = await fetch(downloadUrl, {
             method: "GET"
         });
         //updating the state
         setObtainPhotoURL(obtainPhoto.url);
+
     };
-    //as the state is updated, we now have access to the download-image data
     console.log(obtainPhotoURL)
 
-    return (
+    useEffect(()=> {
+        const data = localStorage.getItem('fileURL');
+        console.log(data)
+        if (data !== null) {
+            setObtainPhotoURL(JSON.parse(data))
+        }
+    },[]);
+    console.log(obtainPhotoURL)
+
+    useEffect(()=> {
+    localStorage.setItem('fileURL', JSON.stringify(obtainPhotoURL))
+    },[obtainPhotoURL]);
+
+
+
+
+    //Below block obtains the stored userid
+    // const [currentLoggedInId, setCurrentLoggedInId] = useState(() => {
+    //     // getting stored value
+    // const currentPhoto = localStorage.getItem("fileURL");
+    // console.log(currentPhoto)
+    // setObtainPhotoURL(JSON.parse(currentPhoto));
+    // // });
+    // console.log(obtainPhotoURL)
+
+
+
+
+
+    // const [fileAttachment, setFileAttachment] = useState(false);
+    //
+    // useEffect(()=>{
+    //     console.log(obtainPhotoURL)
+    //     localStorage.setItem('photoUrl', obtainPhotoURL)
+    //     //Below block obtains the stored userid
+    //     // getting stored value
+    //     const currentFile = localStorage.getItem("photoUrl");
+    //     setFileAttachment(JSON.parse(currentFile));
+    // },[onSubmit]);
+
+    if (obtainPhotoURL) {
+
+        return (
+            <>
+                <section className={classes.base} >
+                    <div className={classes.control}>
+                        <p className={classes.success}>Ready to go {id}!</p>
+                        <br/>
+                        <br/>
+                        <p>Klik op een link om te beginnen. </p>
+                        <p>U kunt ook een photo file van jezelf kiezen</p>
+                        <p>om de foto hieronder te vervangen</p>
+                    </div>
+                </section>
+                <div className={classes.photo}>
+                    <form onSubmit={handleSubmit(onSubmit)} >
+                        <input type="file" {...register("file")} />
+                        <input type="submit" className={classes.submit}/>
+                    </form>
+                    <div>
+                        <img src={obtainPhotoURL} alt="Your image" height={600} width={580}/>
+                    </div>
+                </div>
+            </>
+        );
+    } else {
+
+        return (
         <>
             <section className={classes.base} >
                 <div className={classes.control}>
@@ -89,8 +171,8 @@ const ConfirmationScreen = () => {
             </div>
 
         </>
-
     );
+    }
 };
 
 
