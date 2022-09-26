@@ -4,11 +4,11 @@ import ParticipantService from "../../services/ParticipantService";
 import machineworker from "../../assets/pexels-karolina-grabowska-6920104.jpg";
 import {useForm} from "react-hook-form";
 import {FILE_UPLOAD_URL} from "../../backend-urls/constants";
+import useFileUpload from "../../hooks/useFileUpload";
 
-function ProfileForm({
-                         firstName, setFirstName, lastName, setLastName, email, setEmail,
+function ProfileForm({firstName, setFirstName, lastName, setLastName, email, setEmail,
                          mobileNumber, setMobileNumber, submitHandler,
-                     error, errorCSS, id}) {
+                     error, errorCSS, id, photoURL, setPhotoURL}, item) {
 
 
     //This code forces a reload to obtain participant data
@@ -36,6 +36,7 @@ function ProfileForm({
 
     console.log(firstName)
     console.log(id)
+    console.log(photoURL)
 
     //This code section is made to simplify the JSX in the return statement
     const firstNameInputChangeHandler = (event) => {
@@ -55,10 +56,27 @@ function ProfileForm({
         console.log(mobileNumber)
     }
 
+    //using react hook form for image upload
+    const {register, handleSubmit} = useForm();
+    //using the useFileUpload custom hook
+    const { obtainPhotoURL, onSubmit, setObtainPhotoURL } = useFileUpload ();
+
+    const URLChangeHandler = (event) => {
+        setObtainPhotoURL(obtainPhotoURL);
+        setPhotoURL(obtainPhotoURL)
+    }
+
     //Dynamic use of CSS, other styles appear if input is invalid
     const inputClasses = errorCSS
         ? classes.invalid
         : classes.base;
+
+    console.log(photoURL)
+
+    // const URLHandler = () => {
+    //     setPhotoURL(obtainPhotoURL);
+    //     console.log(photoURL)
+    // }
 
     return (
         <Fragment>
@@ -66,10 +84,22 @@ function ProfileForm({
                 <div>Welcome!
                     <br/>
                     <br/>
-                    Please add some more details to get started</div>
+                    Please add some more details to get started
+                    <br/>
+                    Please start with adding your photo
+                </div>
                 <br/>
                 <br/>
-                <form onSubmit={submitHandler}>
+                <div className={classes.photo}>
+                    <form onSubmit={handleSubmit(onSubmit)} >
+                        <input type="file" {...register("file")} />
+                        <input type="submit" className={classes.submit}/>
+                    </form>
+                    {/*<div>*/}
+                    {/*    <img src={obtainPhotoURL} alt="Your image" height={600} width={580}/>*/}
+                    {/*</div>*/}
+                </div>
+                <form onSubmit={submitHandler} key={item.id}>
                     <div className={classes.control}>
                         <div className={classes.control}>
                             <label htmlFor='first name'>Please enter your first name</label>
@@ -115,6 +145,17 @@ function ProfileForm({
                                 onChange={mobileNumberInputChangeHandler}
                             />
                         </div>
+                        <div className={classes.control}>
+                            <label htmlFor='File URL'>File URL</label>
+                            <input
+                                type="url"
+                                placeholder="File URL"
+                                name="url"
+                                className="form-control"
+                                value={photoURL}
+                                onChange={URLChangeHandler}
+                            />
+                        </div>
                         <div className={classes.actions}>
                             <button
                                 className={classes.button}
@@ -126,9 +167,6 @@ function ProfileForm({
                     </div>
                 </form>
             </section>
-            <div className={classes.photo}>
-                <img src={machineworker} alt="machineworker" height={300} width={300}/>
-            </div>
 
         </Fragment>
     );

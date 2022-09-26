@@ -56,11 +56,13 @@ const Layout = ({ children }) => {
                     const lastName = (currentLoggedInParticipant.lastName)
                     const email = (currentLoggedInParticipant.email)
                     const mobileNumber = (currentLoggedInParticipant.mobileNumber)
+                    const photoURL = (currentLoggedInParticipant.photoURL)
                     console.log(currentId)
                     console.log(firstName)
                     console.log(lastName)
                     console.log(email)
                     console.log(mobileNumber)
+                    console.log(photoURL)
                     console.log(currentId)
                     setId(currentId)
                     console.log(id)
@@ -82,9 +84,11 @@ const Layout = ({ children }) => {
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [mobileNumber, setMobileNumber] = useState('')
+    const [photoURL, setPhotoURL] = useState('')
+
 
     //Creating the variable that will be used to send data to backend
-    const participant = {firstName, lastName, email, mobileNumber}
+    const participant = {firstName, lastName, email, mobileNumber, photoURL}
 
     //Error-handling
     const [error, setError] = useState(null);
@@ -172,23 +176,24 @@ const Layout = ({ children }) => {
                     const lastName = (response.data.lastName)
                     const email = (response.data.email)
                     const mobileNumber = (response.data.mobileNumber)
+                    const photoURL = (response.data.photoURL)
                     console.log(currentId)
                     setId(currentId)
                     console.log(id)
-                    // setForm(true)
                     console.log(firstName)
                     console.log(lastName)
                     console.log(email)
                     console.log(mobileNumber)
+                    console.log(photoURL)
 
                     //we have access to firstName, and we pass that on with a string literal:
-                    // history.push(`/participant/${response.data.firstName}`)
                     history.push(`/participant/${response.data.firstName}`)
                     setFormS(true)
                     setFirstName("");
                     setLastName("");
                     setEmail("");
                     setMobileNumber("");
+                    setPhotoURL("");
 
                 }).catch(function (error) {
 
@@ -280,6 +285,8 @@ const Layout = ({ children }) => {
                     errorCSS={errorCSS}
                     setErrorCSS={setErrorCSS}
                     id={id}
+                    photoURL={photoURL}
+                    setPhotoURL={setPhotoURL}
                 />
                 : null
             }
