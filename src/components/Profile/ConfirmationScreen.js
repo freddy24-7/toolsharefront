@@ -38,10 +38,6 @@ const ConfirmationScreen = () => {
             setObtainPhotoURL(JSON.parse(data))
         }
     },[]);
-    console.log(obtainPhotoURL)
-    useEffect(()=> {
-        localStorage.setItem('fileURL', JSON.stringify(obtainPhotoURL))
-    },[obtainPhotoURL]);
 
     //conditional render: if there is a photoURL, the photo is displayed
     //if not, a default photo is displayed that the user can replace
@@ -56,8 +52,6 @@ const ConfirmationScreen = () => {
                         <br/>
                         <br/>
                         <p>Klik op een link om te beginnen. </p>
-                        <p>U kunt ook een photo file van jezelf kiezen</p>
-                        <p>om de foto hieronder te vervangen</p>
                     </div>
                 </section>
                 <div className={classes.photo}>

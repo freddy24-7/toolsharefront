@@ -73,10 +73,10 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
 
     console.log(photoURL)
 
-    // const URLHandler = () => {
-    //     setPhotoURL(obtainPhotoURL);
-    //     console.log(photoURL)
-    // }
+    console.log(photoURL)
+    useEffect(()=> {
+        localStorage.setItem('fileURL', JSON.stringify(photoURL))
+    },[photoURL]);
 
     return (
         <Fragment>
@@ -86,10 +86,10 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
                     <br/>
                     Please add some more details to get started
                     <br/>
-                    Please start with adding your photo
+                    <br/>
+                    Please start with adding your photo.
+                        Choose file, press submit, then type any key in the next line (FILE URL)
                 </div>
-                <br/>
-                <br/>
                 <div className={classes.photo}>
                     <form onSubmit={handleSubmit(onSubmit)} >
                         <input type="file" {...register("file")} />
@@ -100,7 +100,18 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
                     {/*</div>*/}
                 </div>
                 <form onSubmit={submitHandler} key={item.id}>
-                    <div className={classes.control}>
+                    <div className={classes.click}>
+                        <div className={classes.control}>
+                            <label htmlFor='File URL'>File URL</label>
+                            <input
+                                type="url"
+                                placeholder="Click, then type any key to upload"
+                                name="url"
+                                className="form-control"
+                                value={photoURL}
+                                onChange={URLChangeHandler}
+                            />
+                        </div>
                         <div className={classes.control}>
                             <label htmlFor='first name'>Please enter your first name</label>
                             <input
@@ -145,17 +156,6 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
                                 onChange={mobileNumberInputChangeHandler}
                             />
                         </div>
-                        <div className={classes.control}>
-                            <label htmlFor='File URL'>File URL</label>
-                            <input
-                                type="url"
-                                placeholder="File URL"
-                                name="url"
-                                className="form-control"
-                                value={photoURL}
-                                onChange={URLChangeHandler}
-                            />
-                        </div>
                         <div className={classes.actions}>
                             <button
                                 className={classes.button}
@@ -167,6 +167,9 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
                     </div>
                 </form>
             </section>
+            <div className={classes.photo}>
+                <img src={machineworker} alt="machineworker" height={300} width={300}/>
+            </div>
 
         </Fragment>
     );

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {FILE_UPLOAD_URL} from "../backend-urls/constants";
 
 //Below we are defining a custom hook and returning the variable values
