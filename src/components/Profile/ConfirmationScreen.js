@@ -3,27 +3,13 @@ import {useParams} from "react-router-dom";
 import classes from "./ProfileForm.module.css";
 import laptopworker from "../../assets/pexels-andrea-piacquadio-761993.jpg";
 import { useForm } from "react-hook-form";
-import {FILE_UPLOAD_URL} from "../../backend-urls/constants";
-
-
+import useFileUpload from "../../hooks/useFileUpload";
 
 //Here we will use route parameters to access individual participants
 //Using "useParams", with "id" as key. Matches the ":id" key from the app component
 //Displays the username back to the user in the welcome message to the user
 
 const ConfirmationScreen = () => {
-
-
-    // //This code forces a reload to obtain participant data
-    // const reloadCount = Number(sessionStorage.getItem('reloadCount')) || 0;
-    // useEffect(() => {
-    //     if(reloadCount < 2) {
-    //         sessionStorage.setItem('reloadCount', String(reloadCount + 1));
-    //         window.location.reload();
-    //     } else {
-    //         sessionStorage.removeItem('reloadCount');
-    //     }
-    // }, []);
 
     const {id} = useParams();
 
@@ -38,46 +24,13 @@ const ConfirmationScreen = () => {
         }
     } , [id])
 
-
     //using react hook form for image upload
     const {register, handleSubmit} = useForm();
 
-    //state variable for downloading the file
-    const [obtainPhotoURL, setObtainPhotoURL] = useState('');
+    //using the useFileUpload custom hook
+    const { obtainPhotoURL, onSubmit, setObtainPhotoURL } = useFileUpload ();
 
-    //setting up variables
-    let downloadUrl;
-    let obtainPhoto;
-
-    const onSubmit = async (data) => {
-
-        const formData = new FormData();
-        formData.append("file", data.file[0]);
-        console.log(formData)
-
-        //using fetchAPI to post the file
-        const result = await fetch(FILE_UPLOAD_URL, {
-            method: "POST",
-            body: formData,
-        }).then((result) => result.json());
-
-        console.log(result)
-        //server sends back the url to be used for downloading the image
-        console.log(result.downloadURL)
-        //storing the download-url in a variable
-        downloadUrl = result.downloadURL;
-        console.log(downloadUrl)
-
-        //using fetchAPI to obtain the file
-        obtainPhoto = await fetch(downloadUrl, {
-            method: "GET"
-        });
-        //updating the state
-        setObtainPhotoURL(obtainPhoto.url);
-
-    };
-    console.log(obtainPhotoURL)
-
+    //Below code block persists uploaded image on refresh
     useEffect(()=> {
         const data = localStorage.getItem('fileURL');
         console.log(data)
@@ -86,37 +39,12 @@ const ConfirmationScreen = () => {
         }
     },[]);
     console.log(obtainPhotoURL)
-
     useEffect(()=> {
-    localStorage.setItem('fileURL', JSON.stringify(obtainPhotoURL))
+        localStorage.setItem('fileURL', JSON.stringify(obtainPhotoURL))
     },[obtainPhotoURL]);
 
-
-
-
-    //Below block obtains the stored userid
-    // const [currentLoggedInId, setCurrentLoggedInId] = useState(() => {
-    //     // getting stored value
-    // const currentPhoto = localStorage.getItem("fileURL");
-    // console.log(currentPhoto)
-    // setObtainPhotoURL(JSON.parse(currentPhoto));
-    // // });
-    // console.log(obtainPhotoURL)
-
-
-
-
-
-    // const [fileAttachment, setFileAttachment] = useState(false);
-    //
-    // useEffect(()=>{
-    //     console.log(obtainPhotoURL)
-    //     localStorage.setItem('photoUrl', obtainPhotoURL)
-    //     //Below block obtains the stored userid
-    //     // getting stored value
-    //     const currentFile = localStorage.getItem("photoUrl");
-    //     setFileAttachment(JSON.parse(currentFile));
-    // },[onSubmit]);
+    //conditional render: if there is a photoURL, the photo is displayed
+    //if not, a default photo is displayed that the user can replace
 
     if (obtainPhotoURL) {
 

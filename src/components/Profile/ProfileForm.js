@@ -2,6 +2,8 @@ import React, {Fragment, useEffect, useState} from 'react';
 import classes from './ProfileForm.module.css';
 import ParticipantService from "../../services/ParticipantService";
 import machineworker from "../../assets/pexels-karolina-grabowska-6920104.jpg";
+import {useForm} from "react-hook-form";
+import {FILE_UPLOAD_URL} from "../../backend-urls/constants";
 
 function ProfileForm({
                          firstName, setFirstName, lastName, setLastName, email, setEmail,
