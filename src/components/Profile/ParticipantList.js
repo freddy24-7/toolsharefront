@@ -23,7 +23,10 @@ const ParticipantList = () => {
                 participants.map(participant =>
                 ( <div className={classes.preview} key={participant.id}>
                     <h3>Name: {participant.firstName} {participant.lastName}</h3>
-                    <h4>Email: {participant.email} / Phone: {participant.mobileNumber}</h4>
+                    <h4>Email: {participant.email} / Phone: {participant.mobileNumber} </h4>
+                    <div className={classes.photo}>
+                        <img src={participant.photoURL} height={150} width={145}/>
+                    </div>
                 </div>))}
         </ul>
     );
