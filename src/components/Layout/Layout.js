@@ -132,7 +132,6 @@ const Layout = ({ children }) => {
 
     //This variable is further worked on in child components through props
     const [formS, setFormS]= useState(false);
-    const [loginReady, setLoginReady]= useState(false);
 
     //This edit-submission variable is further worked on in child components through props
     const [editS, setEditS]= useState(false);
