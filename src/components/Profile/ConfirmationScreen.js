@@ -16,6 +16,8 @@ const ConfirmationScreen = () => {
     //ensure that component loads
     useEffect(() => {
         console.log(id)
+
+
     })
     //clean up
     useEffect(() => {
