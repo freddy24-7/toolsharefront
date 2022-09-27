@@ -1,9 +1,19 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {useParams} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import classes from "./ProfileForm.module.css";
 import laptopworker from "../../assets/pexels-andrea-piacquadio-761993.jpg";
 import { useForm } from "react-hook-form";
 import useFileUpload from "../../hooks/useFileUpload";
+import axios from "axios";
+import {PARTICIPANT_URL} from "../../backend-urls/constants";
+
+//specifying back-end URL
+const apiURL = PARTICIPANT_URL;
+
+//Obtaining token from local storage to access resource
+//Key is specified in LoginForm.js and needs to be consistent
+const initialToken = localStorage.getItem('jwt');
+console.log(initialToken)
 
 //Here we will use route parameters to access individual participants
 //Using "useParams", with "id" as key. Matches the ":id" key from the app component
@@ -13,57 +23,68 @@ const ConfirmationScreen = () => {
 
     const {id} = useParams();
 
-    //ensure that component loads
-    useEffect(() => {
-        console.log(id)
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [email, setEmail] = useState('')
+    const [mobileNumber, setMobileNumber] = useState('')
+    const [photoURL, setPhotoURL] = useState('')
 
+    const participant = {firstName, lastName, email, mobileNumber, photoURL}
 
+    console.log(id)
+    const participantId = id;
+    console.log(participantId)
+
+    //axios get by id call
+    const getAxios = axios.get(apiURL + '/' + id, {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        'credentials': 'include'
     })
-    //clean up
     useEffect(() => {
-        return () => {
-            console.log("clean up")
-        }
-    } , [id])
+        getAxios
+            .then((response) => {
+                console.log(response)
+                setFirstName(response.data.firstName)
+                setLastName(response.data.lastName)
+                setEmail(response.data.email)
+                setMobileNumber(response.data.mobileNumber)
+                setPhotoURL(response.data.photoURL)
+            } ).catch(error => {
+            console.log(error)
+            console.log(error.response.data)
+        } )
+    })
 
-    //using react hook form for image upload
-    const {register, handleSubmit} = useForm();
-
-    //using the useFileUpload custom hook
-    const { obtainPhotoURL, onSubmit, setObtainPhotoURL } = useFileUpload ();
-
-    //Below code block persists uploaded image on refresh
+    //Persist photo to display to user on refresh
     useEffect(()=> {
-        const data = localStorage.getItem('fileURL');
-        console.log(data)
-        if (data !== null) {
-            setObtainPhotoURL(JSON.parse(data))
+        const data = localStorage.getItem('photo');
+        if (data) {
+            setPhotoURL(JSON.parse(data))
         }
     },[]);
 
-    //conditional render: if there is a photoURL, the photo is displayed
-    //if not, a default photo is displayed that the user can replace
+    useEffect(() => {
+        localStorage.setItem("photo", JSON.stringify(photoURL));
+    });
 
-    if (obtainPhotoURL) {
+    // conditional render: if there is a photoURL, the photo is displayed
+    // if not, a default photo is displayed that the user can replace
+    if (photoURL) {
 
         return (
             <>
                 <section className={classes.base} >
                     <div className={classes.control}>
-                        <p className={classes.success}>Ready to go {id}!</p>
+                        <p className={classes.success}>Ready to go {firstName}!</p>
                         <br/>
                         <br/>
                         <p>Klik op een link om te beginnen. </p>
                     </div>
                 </section>
                 <div className={classes.photo}>
-                    <form onSubmit={handleSubmit(onSubmit)} >
-                        <input type="file" {...register("file")} />
-                        <input type="submit" className={classes.submit}/>
-                    </form>
-                    <div>
-                        <img src={obtainPhotoURL} alt="Your image" height={600} width={580}/>
-                    </div>
+                    <img src={photoURL} height={600} width={580}/>
                 </div>
             </>
         );
@@ -73,27 +94,15 @@ const ConfirmationScreen = () => {
         <>
             <section className={classes.base} >
                 <div className={classes.control}>
-                    <p className={classes.success}>Ready to go {id}!</p>
+                    <p className={classes.success}>Ready to go {firstName}!</p>
                     <br/>
                     <br/>
                     <p>Klik op een link om te beginnen. </p>
-                    <p>U kunt ook een photo file van jezelf kiezen</p>
-                    <p>om de foto hieronder te vervangen</p>
                 </div>
             </section>
             <div className={classes.photo}>
-                <form onSubmit={handleSubmit(onSubmit)} >
-                    <input type="file" {...register("file")} />
-                    <input type="submit" className={classes.submit}/>
-                </form>
-                <div>
-                    <img src={obtainPhotoURL} alt="Your image" height={600} width={580}/>
-                </div>
-            </div>
-            <div className={classes.photo}>
                 <img src={laptopworker} alt="laptopworker" height={600} width={580}/>
             </div>
-
         </>
     );
     }

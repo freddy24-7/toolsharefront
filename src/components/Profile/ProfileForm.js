@@ -73,10 +73,10 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
 
     console.log(photoURL)
 
-    console.log(photoURL)
-    useEffect(()=> {
-        localStorage.setItem('fileURL', JSON.stringify(photoURL))
-    },[photoURL]);
+    // console.log(photoURL)
+    // useEffect(()=> {
+    //     localStorage.setItem('fileURL', JSON.stringify(photoURL))
+    // },[]);
 
     return (
         <Fragment>
