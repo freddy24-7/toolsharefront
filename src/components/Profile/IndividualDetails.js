@@ -183,7 +183,7 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete, for
                 <p>Do you wish to delete your records?</p>
                 <p>You will no longer be able to trade</p>
                 <button onClick={(event) => deleteParticipant(event)}
-                >Delete</button>
+                >Delete all my records</button>
             </section>
         <div className={classes.photo}>
             <img src={leafblower} alt="leafblower" height={600} width={580}/>

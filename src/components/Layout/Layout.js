@@ -10,6 +10,8 @@ import IndividualDetails from "../Profile/IndividualDetails";
 import ConfirmationScreen from "../Profile/ConfirmationScreen";
 import ParticipantService from "../../services/ParticipantService";
 import ConfirmDeleteParticipant from "../Profile/ConfirmDeleteParticipant";
+import useBackButtons from "../../hooks/useBackButtons";
+import useFileUpload from "../../hooks/useFileUpload";
 
 //PROPS-USECASE: We want to close the ProfileForm when form is submitted
 //Step 1-5 in parent component, step 6-7 in child component
@@ -34,6 +36,9 @@ const Layout = ({ children }) => {
     });
     console.log(idValue);
     console.log(currentLoggedInId)
+
+    //using the useBackButtons custom hook
+    const { locationKeys, setLocationKeys } = useBackButtons ();
 
     //Here we cycle through participant-object to check if user is already registered as participant
     const [participants, setParticipants] = useState([]);
@@ -101,35 +106,6 @@ const Layout = ({ children }) => {
 
     //history used to navigate the user after either clicking on user details or on logout
     const history = useHistory();
-
-    //Define variable to manage back and forward buttons
-    const [ locationKeys, setLocationKeys ] = useState([])
-
-    //This useEffect manages the browserbuttons (back-button and forward-button), to allow the
-    //state to be updated based on back and forward browser-clicks
-    useEffect(() => {
-        return history.listen(location => {
-            if (history.action === 'PUSH') {
-                setLocationKeys([ location.key ])
-            }
-            if (history.action === 'POP') {
-                if (locationKeys[1] === location.key) {
-                    setLocationKeys(([ _, ...keys ]) => keys)
-                    //Forward event:
-                    //We want to force the user to use the in-built buttons as much as possible
-                    //in this application. The way the back-event code is written, no forward event is possible
-                    //from this location
-
-                } else {
-                    setLocationKeys((keys) => [ location.key, ...keys ])
-                    // Back event
-                    console.log("back button pressed")
-                    history.push('/login')
-                    window.location.reload()
-                }
-            }
-        })
-    })
 
     //This variable is further worked on in child components through props
     const [formS, setFormS]= useState(false);
