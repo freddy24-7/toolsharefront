@@ -124,11 +124,12 @@ const Layout = ({ children }) => {
                     setLocationKeys((keys) => [ location.key, ...keys ])
                     // Back event
                     console.log("back button pressed")
-                    history.push('/')
+                    history.push('/login')
+                    window.location.reload()
                 }
             }
         })
-    }, [ locationKeys ])
+    })
 
     //This variable is further worked on in child components through props
     const [formS, setFormS]= useState(false);
