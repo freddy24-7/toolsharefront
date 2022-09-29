@@ -1,17 +1,19 @@
 import { useContext } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-import Layout from './components/Layout/Layout';
+import LayoutWrapper from './components/Layout/LayoutWrapper';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import RegisterPage from "./pages/RegisterPage";
 import AuthContext from './context/auth-context';
 
 function App() {
+    //These variable manages the security set up for the whole application (JWT)
     const authCtx = useContext(AuthContext);
 
     return (
-        <Layout>
+        //The code in the LayoutWrapper component encapsulates the whole application
+        <LayoutWrapper>
             <Switch>
                 {!authCtx.isLoggedIn && (
                     <Route path='/login'component={LoginPage}>
@@ -25,11 +27,11 @@ function App() {
                     <Route exact path='/' component={HomePage}>
                     </Route>
                 )}
-                {/*<Route path='*'>*/}
-                {/*    <Redirect to='/' />*/}
-                {/*</Route>*/}
+                <Route path='*'>
+                    <Redirect to='/' />
+                </Route>
             </Switch>
-        </Layout>
+        </LayoutWrapper>
     );
 }
 

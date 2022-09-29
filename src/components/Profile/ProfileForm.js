@@ -3,13 +3,16 @@ import classes from './ProfileForm.module.css';
 import ParticipantService from "../../services/ParticipantService";
 import machineworker from "../../assets/pexels-karolina-grabowska-6920104.jpg";
 import {useForm} from "react-hook-form";
-import {FILE_UPLOAD_URL} from "../../backend-urls/constants";
 import useFileUpload from "../../hooks/useFileUpload";
+import useAxiosCall from "../../hooks/useAxiosCall";
 
 function ProfileForm({firstName, setFirstName, lastName, setLastName, email, setEmail,
                          mobileNumber, setMobileNumber, submitHandler,
                      error, errorCSS, id, photoURL, setPhotoURL}, item) {
 
+    //Getting existing users in database
+    //Using custom hook useAxiosCall to get all the participants from the list
+    const { participants, setParticipants } = useAxiosCall ();
 
     //This code forces a reload to obtain participant data
     const reloadCount = Number(sessionStorage.getItem('reloadCount')) || 0;
@@ -21,18 +24,6 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
             sessionStorage.removeItem('reloadCount');
         }
     }, []);
-
-    const [participants, setParticipants] = useState([]);
-
-    //Getting existing users in database
-    useEffect(() => {
-        ParticipantService.getAllParticipants().then((response) => {
-            console.log(response.data)
-            setParticipants(response.data)
-        }).catch(error => {
-                console.log(error)
-            })
-    },[]);
 
     console.log(firstName)
     console.log(id)
@@ -55,12 +46,10 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
         setMobileNumber(event.target.value);
         console.log(mobileNumber)
     }
-
     //using react hook form for image upload
     const {register, handleSubmit} = useForm();
     //using the useFileUpload custom hook
     const { obtainPhotoURL, onSubmit, setObtainPhotoURL } = useFileUpload ();
-
     const URLChangeHandler = (event) => {
         setObtainPhotoURL(obtainPhotoURL);
         setPhotoURL(obtainPhotoURL)
@@ -70,13 +59,7 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
     const inputClasses = errorCSS
         ? classes.invalid
         : classes.base;
-
     console.log(photoURL)
-
-    // console.log(photoURL)
-    // useEffect(()=> {
-    //     localStorage.setItem('fileURL', JSON.stringify(photoURL))
-    // },[]);
 
     return (
         <Fragment>
@@ -95,9 +78,6 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
                         <input type="file" {...register("file")} />
                         <input type="submit" className={classes.submit}/>
                     </form>
-                    {/*<div>*/}
-                    {/*    <img src={obtainPhotoURL} alt="Your image" height={600} width={580}/>*/}
-                    {/*</div>*/}
                 </div>
                 <form onSubmit={submitHandler} key={item.id}>
                     <div className={classes.click}>
@@ -162,7 +142,7 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
                                 onClick={(event) => submitHandler(event)}
                             >Submit</button>
                         </div>
-                        {/*Tertiary statement displaying server error back to user*/}
+                        {/*Terniary statement displaying server error back to user*/}
                         {error && <div className={classes.error}> {error} </div>}
                     </div>
                 </form>

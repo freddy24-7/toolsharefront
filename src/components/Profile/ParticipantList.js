@@ -1,20 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import ParticipantService from "../../services/ParticipantService";
 import classes from './ProfileForm.module.css';
+import useFileUpload from "../../hooks/useFileUpload";
+import useAxiosCall from "../../hooks/useAxiosCall";
 
 const ParticipantList = () => {
 
-    const [participants, setParticipants] = useState([]);
-
-    useEffect(() => {
-        ParticipantService.getAllParticipants().then((response) => {
-            console.log(response.data)
-            setParticipants(response.data);
-        }).catch(error => {
-            console.log(error)
-        }
-        )
-    }, [])
+    //Using custom hook useAxiosCall to get all the participants from the list
+    const { participants, setParticipants } = useAxiosCall ();
 
     return (
         <ul>

@@ -11,7 +11,7 @@ import ConfirmDeleteParticipant from "../Profile/ConfirmDeleteParticipant";
 import LendButton from "./Buttons/LendButton";
 
 
-//Passing the props from Layout component
+//Passing the props from LayoutWrapper component
 const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListClicked,
                             onDetailsMove, setParticipantDetailsClicked, handleEdit, deleted, setDeleted }) => {
 
@@ -19,7 +19,7 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
 
     const history = useHistory();
 
-    //This component receives the formS prop via Layout (parent) when the user presses the submit-button
+    //This component receives the formS prop via LayoutWrapper (parent) when the user presses the submit-button
     //in Profile Form. The state can be used to display navigation content conditionally.
     //However, without the two below useEffect code blocks, the state goes back to null upon refresh
     //The bottom useEffect sets the state, the other useEffect gets it as it render only once and picks up the state
@@ -96,7 +96,7 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
                     {/*)}*/}
                     {(formS && !deleted) ?
                         <li>
-                            {/*Props are passed down from Layout Component*/}
+                            {/*Props are passed down from LayoutWrapper Component*/}
                             <ListButton to='/participants'
                                         onClick={onClick}
                             />
@@ -105,7 +105,7 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
                     }
                     {(formS && !deleted) ?
                         <li>
-                            {/*Props are passed down from Layout Component*/}
+                            {/*Props are passed down from LayoutWrapper Component*/}
                             <UserDetailsButton
                                 onEdit={handleEdit}
                             />
@@ -114,7 +114,7 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
                     }
                     {isLoggedIn && (
                         <li>
-                            {/*Props are passed down from Layout Component*/}
+                            {/*Props are passed down from LayoutWrapper Component*/}
                             <LogoutButton to='/userdata'
                                           onClick={logoutHandler}
                                           onMove={onMove}

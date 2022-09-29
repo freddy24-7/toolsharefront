@@ -35,7 +35,7 @@ const ConfirmationScreen = () => {
     const participantId = id;
     console.log(participantId)
 
-    //axios get by id call
+    //axios get by id call to get the specific user by id
     const getAxios = axios.get(apiURL + '/' + id, {
         headers: {
             'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ const ConfirmationScreen = () => {
     });
 
     // conditional render: if there is a photoURL, the photo is displayed
-    // if not, a default photo is displayed that the user can replace
+    //alternatively, a default photo is displayed
     if (photoURL) {
 
         return (

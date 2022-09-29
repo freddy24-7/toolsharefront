@@ -1,7 +1,6 @@
 //This form is used to login the user after registration
 
 import React, {useState, useContext, useEffect, Fragment} from 'react';
-import { useHistory } from 'react-router-dom';
 import AuthContext from '../../context/auth-context';
 import classes from './LoginForm.module.css';
 import AuthenticationService from "../../services/AuthenticationService";
@@ -10,7 +9,6 @@ import laptopgirl from "../../assets/pexels-jopwell-2422286.jpg";
 
 export const LoginForm = ({userId}) => {
 
-    const history = useHistory();
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const user = {userId, username, password}

@@ -3,7 +3,7 @@ import classes from "./Button.module.css";
 
 
 //Passing the props into the logout
-//Props-drilling used to pass the onLogout prop all the way down from Layout component
+//Props-drilling used to pass the onLogout prop all the way down from LayoutWrapper component
 const LogoutButton = ( {onClick, onLogout, onMove, onDetailsMove } ) => {
     return (
         <button className={classes.button}

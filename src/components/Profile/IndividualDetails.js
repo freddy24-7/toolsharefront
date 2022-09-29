@@ -34,7 +34,7 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete, for
     const participantId = id;
     console.log(participantId)
 
-    //axios edit call
+    //axios edit call credentials
     const editAxios = axios.put(apiURL + '/' + id, {firstName, lastName, email, mobileNumber}, {
         headers: {
             'Content-Type': 'application/json',
@@ -50,6 +50,7 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete, for
         'credentials': 'include'
     })
 
+    //axios edit call
     const UpdateParticipant = async (event) => {
         event.preventDefault();
 
@@ -74,6 +75,7 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete, for
         }
     }
 
+    //Runs once, to give the existing data that can be updated
     useEffect(() => {
         getAxios
             .then((response) => {
@@ -101,7 +103,6 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete, for
             setEditS((data))
         }
     },[setEditS]);
-
     useEffect(() => {
         localStorage.setItem('detailsEdited', JSON.stringify(editS));
     });

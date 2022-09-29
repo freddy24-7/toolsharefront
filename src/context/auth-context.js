@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+//Defining Security context - to produce JWT tokens on login for authentication
 const AuthContext = React.createContext({
     token: '',
     isLoggedIn: false,
@@ -7,6 +8,8 @@ const AuthContext = React.createContext({
     logout: () => {},
 });
 
+//Defining set up for login and logout with token. In login-component, this is used to create JWT-token which
+//is then used for authentication for the application
 export const AuthContextProvider = (props) => {
     const initialToken = localStorage.getItem('token');
     const [token, setToken] = useState(initialToken);

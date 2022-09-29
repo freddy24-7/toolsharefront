@@ -15,16 +15,14 @@ import useFileUpload from "../../hooks/useFileUpload";
 
 //PROPS-USECASE: We want to close the ProfileForm when form is submitted
 //Step 1-5 in parent component, step 6-7 in child component
-//Step 1: import Profile-form to parent component (here: Layout)
+//Step 1: import Profile-form to parent component (here: LayoutWrapper)
 //Step 2: Define the useState variable (here: formS)
 //Step 3: Define a function that sets the state and pushes the user to the next location
 //Step 4: In the JSX under the return statement, we render the ProfileForm conditionally
 //Step 5: Also in the JSX, we set the prop and give it an "on-name", here "onSubmit", and make it point to the function defined in step 3
 //Step 6: We pass the prop to the child component, here deconstructed as "onSubmit". We place the prop at the "button" as onClick={onSubmit}
 
-const Layout = ({ children }) => {
-
-    const [userId, setUserId] = useState('');
+const LayoutWrapper = ({ children }) => {
 
     const [idValue, setIdValue] = useState('');
 
@@ -83,14 +81,13 @@ const Layout = ({ children }) => {
         })
     },[]);
 
-    //Defining the variables
+    //Defining the variables for uploading new participant
     const [id, setId] = useState(null);
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [mobileNumber, setMobileNumber] = useState('')
     const [photoURL, setPhotoURL] = useState('')
-
 
     //Creating the variable that will be used to send data to backend
     const participant = {firstName, lastName, email, mobileNumber, photoURL}
@@ -314,10 +311,10 @@ const Layout = ({ children }) => {
                 : null
             }
             {/*"Children" are here used to create a wrapper component that makes a "header" for the whole application*/}
-            {/*In the app-component, this Layout-component wraps the other components */}
+            {/*In the app-component, this LayoutWrapper-component wraps the other components */}
             <main>{children}</main>
         </Fragment>
     );
 };
 
-export default Layout;
+export default LayoutWrapper;
