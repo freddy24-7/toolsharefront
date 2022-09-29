@@ -13,10 +13,10 @@ import LendButton from "./Buttons/LendButton";
 
 //Passing the props from LayoutWrapper component
 const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListClicked,
-                            onDetailsMove, setParticipantDetailsClicked, handleEdit, deleted, setDeleted }) => {
+                            onDetailsMove, setParticipantDetailsClicked, handleEdit, deleted, setDeleted,
+                        setShareItemClicked, onShare, onCloseShare}) => {
 
     console.log(formS)
-
     const history = useHistory();
 
     //This component receives the formS prop via LayoutWrapper (parent) when the user presses the submit-button
@@ -36,17 +36,16 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
             localStorage.setItem("submission", JSON.stringify(formS));
         });
 
-
     //Using useContext to manage the login-state
     const authCtx = useContext(AuthContext);
     const isLoggedIn = authCtx.isLoggedIn;
-
 
     //This function uses props to setUserDetailsClicked to false, and logging out the user
     const logoutHandler = () => {
         setFormS(null);
         setParticipantListClicked(false);
         setParticipantDetailsClicked(false);
+        setShareItemClicked(false);
         setDeleted(false);
         localStorage.removeItem('submission')
         localStorage.removeItem('detailsEdited')
@@ -77,7 +76,8 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
 
                     {(formS && !deleted) ?
                         <li>
-                            <LendButton to='/lending'
+                            <LendButton to='/items'
+                                        onShare={onShare}
                             />
                         </li>
                         : null
@@ -89,11 +89,6 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
                         </li>
                         : null
                     }
-                    {/*{formS && !deleted && (*/}
-                    {/*    <li>*/}
-                    {/*        <NavLink to='/borrowing'>Spullen uitlenen?</NavLink>*/}
-                    {/*    </li>*/}
-                    {/*)}*/}
                     {(formS && !deleted) ?
                         <li>
                             {/*Props are passed down from LayoutWrapper Component*/}
@@ -119,6 +114,7 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
                                           onClick={logoutHandler}
                                           onMove={onMove}
                                           onDetailsMove={onDetailsMove}
+                                          onCloseShare={onCloseShare}
                             />
                         </li>
                     )}

@@ -8,6 +8,7 @@ import AuthContext from "../../context/auth-context";
 import ParticipantList from "../Profile/ParticipantList";
 import IndividualDetails from "../Profile/IndividualDetails";
 import ConfirmationScreen from "../Profile/ConfirmationScreen";
+import ItemForm from "../LoanItems/ItemForm";
 import ParticipantService from "../../services/ParticipantService";
 import ConfirmDeleteParticipant from "../Profile/ConfirmDeleteParticipant";
 import useBackButtons from "../../hooks/useBackButtons";
@@ -113,6 +114,9 @@ const LayoutWrapper = ({ children }) => {
     //Setting the state used to launch ParticipantList component on click
     const[participantListClicked, setParticipantListClicked]= useState(false);
 
+    //Setting the state used to launch Item component on click
+    const[shareItemClicked, setShareItemClicked]= useState(false);
+
     //This function is used to set the state used to launch ParticipantList component on click
     const participantListClickHandler = () => {
         setParticipantListClicked(true);
@@ -125,7 +129,19 @@ const LayoutWrapper = ({ children }) => {
         history.push('/')
     }
 
-    //Setting the state used to launch ParticipantList component on click
+    //This function is used to set the state used to launch shareItem component on click
+    const shareItemClickHandler = () => {
+        setShareItemClicked(true);
+        history.push('/items')
+    }
+
+    //This function is used to close the shareItem component on click
+    const shareItemCloseHandler = () => {
+        setShareItemClicked(false);
+        history.push('/')
+    }
+
+    //Setting the state used to launch ParticipantDetails component on click
     const[participantDetailsClicked, setParticipantDetailsClicked]= useState(false);
 
     //This function is used to close the ParticipantDetails component on click
@@ -227,6 +243,9 @@ const LayoutWrapper = ({ children }) => {
                 setFormS={setFormS}
                 onClick={participantListClickHandler}
                 onMove={participantListCloseHandler}
+                setShareItemClicked={setShareItemClicked}
+                onShare={shareItemClickHandler}
+                onCloseShare={shareItemCloseHandler}
                 setParticipantListClicked={setParticipantListClicked}
                 onDetailsMove={participantDetailsCloseHandler}
                 setParticipantDetailsClicked={setParticipantDetailsClicked}
@@ -290,6 +309,19 @@ const LayoutWrapper = ({ children }) => {
                         setEditS={setEditS}
                         formS={formS}
                         handleDelete={handleDelete}
+                    />
+                </Route>
+                : null
+            }
+            {(shareItemClicked && formS ) ?
+                <Route path='/items'>
+                    <ItemForm
+                        setFormS={setFormS}
+                        formS={formS}
+                        id={id}
+                        setId={setId}
+                        error={error}
+                        errorCSS={errorCSS}
                     />
                 </Route>
                 : null

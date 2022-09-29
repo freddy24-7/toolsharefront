@@ -1,10 +1,10 @@
 import React from 'react';
 import classes from "./Button.module.css";
 
-const LendButton = ( { onClick } ) => {
+const LendButton = ( { onShare } ) => {
     return (
         <button className={classes.button}
-                onClick={onClick}
+                onClick={onShare}
         >
             <span>Spullen uitlenen?</span>
         </button>
