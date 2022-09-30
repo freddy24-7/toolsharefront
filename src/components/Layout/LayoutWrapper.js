@@ -8,11 +8,11 @@ import AuthContext from "../../context/auth-context";
 import ParticipantList from "../Profile/ParticipantList";
 import IndividualDetails from "../Profile/IndividualDetails";
 import ConfirmationScreen from "../Profile/ConfirmationScreen";
-import ItemForm from "../LoanItems/ItemForm";
+import ItemLendForm from "../LoanItems/ItemLendForm";
+import ItemBorrow from "../LoanItems/ItemBorrow";
 import ParticipantService from "../../services/ParticipantService";
 import ConfirmDeleteParticipant from "../Profile/ConfirmDeleteParticipant";
 import useBackButtons from "../../hooks/useBackButtons";
-import useFileUpload from "../../hooks/useFileUpload";
 
 //PROPS-USECASE: We want to close the ProfileForm when form is submitted
 //Step 1-5 in parent component, step 6-7 in child component
@@ -117,6 +117,9 @@ const LayoutWrapper = ({ children }) => {
     //Setting the state used to launch Item component on click
     const[shareItemClicked, setShareItemClicked]= useState(false);
 
+    //Setting the state used to launch Item component on click
+    const[loanItemClicked, setLoanItemClicked]= useState(false);
+
     //This function is used to set the state used to launch ParticipantList component on click
     const participantListClickHandler = () => {
         setParticipantListClicked(true);
@@ -138,6 +141,18 @@ const LayoutWrapper = ({ children }) => {
     //This function is used to close the shareItem component on click
     const shareItemCloseHandler = () => {
         setShareItemClicked(false);
+        history.push('/')
+    }
+
+    //This function is used to set the state used to launch shareItem component on click
+    const loanItemClickHandler = () => {
+        setLoanItemClicked(true);
+        history.push('/loan')
+    }
+
+    //This function is used to close the shareItem component on click
+    const loanItemCloseHandler = () => {
+        setLoanItemClicked(false);
         history.push('/')
     }
 
@@ -233,6 +248,8 @@ const LayoutWrapper = ({ children }) => {
         console.log("delete button pressed")
         setParticipantDetailsClicked(false);
         setParticipantListClicked(false)
+        setShareItemClicked(false)
+        setLoanItemClicked(false)
         setDeleted(true)
     }
 
@@ -247,6 +264,9 @@ const LayoutWrapper = ({ children }) => {
                 onShare={shareItemClickHandler}
                 onCloseShare={shareItemCloseHandler}
                 setParticipantListClicked={setParticipantListClicked}
+                setLoanItemClicked={setLoanItemClicked}
+                onLoan={loanItemClickHandler}
+                onCloseLoan={loanItemCloseHandler}
                 onDetailsMove={participantDetailsCloseHandler}
                 setParticipantDetailsClicked={setParticipantDetailsClicked}
                 id={id}
@@ -315,7 +335,20 @@ const LayoutWrapper = ({ children }) => {
             }
             {(shareItemClicked && formS ) ?
                 <Route path='/items'>
-                    <ItemForm
+                    <ItemLendForm
+                        setFormS={setFormS}
+                        formS={formS}
+                        id={id}
+                        setId={setId}
+                        error={error}
+                        errorCSS={errorCSS}
+                    />
+                </Route>
+                : null
+            }
+            {(loanItemClicked && formS ) ?
+                <Route path='/loan'>
+                    <ItemBorrow
                         setFormS={setFormS}
                         formS={formS}
                         id={id}

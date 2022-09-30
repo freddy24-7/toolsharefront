@@ -7,14 +7,13 @@ import UserDetailsButton from "./Buttons/UserDetailsButton";
 import LogoutButton from "./Buttons/LogoutButton";
 import ListButton from "./Buttons/ListButton";
 import BorrowButton from "./Buttons/BorrowButton";
-import ConfirmDeleteParticipant from "../Profile/ConfirmDeleteParticipant";
 import LendButton from "./Buttons/LendButton";
 
 
 //Passing the props from LayoutWrapper component
 const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListClicked,
                             onDetailsMove, setParticipantDetailsClicked, handleEdit, deleted, setDeleted,
-                        setShareItemClicked, onShare, onCloseShare}) => {
+                        setShareItemClicked, onShare, onCloseShare, setLoanItemClicked, onLoan, onCloseLoan}) => {
 
     console.log(formS)
     const history = useHistory();
@@ -46,6 +45,7 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
         setParticipantListClicked(false);
         setParticipantDetailsClicked(false);
         setShareItemClicked(false);
+        setLoanItemClicked(false)
         setDeleted(false);
         localStorage.removeItem('submission')
         localStorage.removeItem('detailsEdited')
@@ -84,7 +84,8 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
                     }
                     {(formS && !deleted)  ?
                         <li>
-                            <BorrowButton to='/borrowing'
+                            <BorrowButton to='/loan'
+                                          onLoan={onLoan}
                             />
                         </li>
                         : null
@@ -115,6 +116,7 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
                                           onMove={onMove}
                                           onDetailsMove={onDetailsMove}
                                           onCloseShare={onCloseShare}
+                                          onCloseLoan={onCloseLoan}
                             />
                         </li>
                     )}

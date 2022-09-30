@@ -1,10 +1,10 @@
 import React, {Fragment, useContext, useState} from 'react';
 import AuthContext from "../../context/auth-context";
-import classes from "../LoanItems/ItemForm.module.css";
+import classes from "./Item.module.css";
 import machineworker from "../../assets/pexels-karolina-grabowska-6920104.jpg";
 
 
-const ItemForm = () => {
+const ItemLendForm = () => {
 
     //Defining the variables for uploading new item
     const [id, setId] = useState(null);
@@ -138,4 +138,4 @@ const ItemForm = () => {
 
 
 
-export default ItemForm;
+export default ItemLendForm;

@@ -1,10 +1,10 @@
 import React from 'react';
 import classes from "./Button.module.css";
 
-const BorrowButton = ( { onClick } ) => {
+const BorrowButton = ( { onLoan } ) => {
     return (
         <button className={classes.button}
-                onClick={onClick}
+                onClick={onLoan}
         >
             <span>Spullen lenen?</span>
         </button>
