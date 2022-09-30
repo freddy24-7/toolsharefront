@@ -2,17 +2,20 @@ import React, {Fragment, useContext, useState} from 'react';
 import AuthContext from "../../context/auth-context";
 import classes from "./Item.module.css";
 import machineworker from "../../assets/pexels-karolina-grabowska-6920104.jpg";
+import ShareItemService from "../../services/ShareItemService";
+import axios from "axios";
+import {SHARE_ITEM_URL} from "../../backend-urls/constants";
 
 
 const ItemLendForm = () => {
 
     //Defining the variables for uploading new item
-    const [id, setId] = useState(null);
+    const [itemId, setItemID] = useState(null);
     const [itemName, setItemName] = useState('')
-    const [itemDescription, setItemDescription] = useState('')
+    const [description, setDescription] = useState('')
 
     //Creating the variable that will be used to send data to backend
-    const loanItem = { id, itemName, itemDescription}
+    const loanItem = { itemName, description }
 
     //Error-handling
     const [error, setError] = useState(null);
@@ -29,6 +32,83 @@ const ItemLendForm = () => {
     //This edit-submission variable is further worked on in child components through props
     const [editS, setEditS]= useState(false);
 
+    // //axios credentials and call variable
+    // const postAxios = axios.post("http://localhost:8080/api/items",
+    // {
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //     },
+    //     'credentials': 'include'
+    // })
+    // const post = axios.post('http://localhost:8080/api/items', {
+    //     headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             'credentials': 'include'
+    // });
+    // axios POST request
+
+
+
+
+    //Below is the axios call to the participant class in backend
+    const submitHandler = (event) => {
+        event.preventDefault();
+        ShareItemService.saveItem(loanItem)
+            .then((response) => {
+
+                //Checking in console what data we obtain
+                console.log(response)
+                // const id = (response.data.id)
+                const itemName = (response.data.itemName)
+                const description = (response.data.description)
+                // console.log(id)
+                console.log(itemName)
+                console.log(description)
+
+                setFormS(true)
+                setItemName("");
+                setDescription("");
+
+            }).catch(function (error) {
+
+            if (error.response) {
+                // Request made and server responded
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+                const errorCheck = (error.response.status)
+                //setting the error
+                if (errorCheck === 500) {
+                    setError("An error has occurred. " )
+                    setErrorCSS(true)
+                } else if (errorCheck === 403) {
+                    setError("The server has declined the request. " +
+                        "A likely reason is that another participant is already " +
+                        " logged in to the server from the device that you are using. " +
+                        "You may try to reload the page and submit again.")
+                    setErrorCSS(true)
+                }
+            } else if (error.request) {
+                // The request was made but no response was received
+                console.log(error.request);
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+            }
+        });
+    }
+
+    //This code section is made to simplify the JSX in the return statement
+    const itemNameInputChangeHandler = (event) => {
+        setItemName(event.target.value);
+        console.log(itemName)
+    }
+    const itemDescriptionInputChangeHandler = (event) => {
+        setDescription(event.target.value);
+        console.log(description)
+    }
+
     //Dynamic use of CSS, other styles appear if input is invalid
     const inputClasses = errorCSS
         ? classes.invalid
@@ -36,106 +116,54 @@ const ItemLendForm = () => {
 
     return (
 
-        <div>
-            <p>
-                Hello World
-            </p>
-        </div>
+        <Fragment>
+            <section className={inputClasses}>
+                <div>
+                    <div>Here you can share your tools!
+                            <br/>
+                            <br/>
+                            Please add a tool that others can borrow
+                            <br/>
+                            <br/>
+                            Please start with adding a photo of the tool.
+                            Choose file, press submit, then type any key in the next line (FILE URL)
+                        </div>
+                <div className={classes.control}>
+                    <label htmlFor='itemName'>Type of tool</label>
+                    <input
+                        type="text"
+                        placeholder="Please insert the type of tool it is"
+                        name="itemName"
+                        className="form-control"
+                        value={itemName}
+                        onChange={itemNameInputChangeHandler}
+                    />
+                </div>
+                <div className={classes.control}>
+                    <label htmlFor='itemDescription'>Tool description</label>
+                    <input
+                        type="text"
+                        placeholder="Please briefly describe what the tool is used for"
+                        name="itemDescription"
+                        className="form-control"
+                        value={description}
+                        onChange={itemDescriptionInputChangeHandler}
+                    />
+                </div>
+                <div className={classes.actions}>
+                    <button
+                        className={classes.button}
+                        onClick={(event) => submitHandler(event)}
+                    >Submit</button>
+                </div>
+                {/*Terniary statement displaying server error back to user*/}
+                {error && <div className={classes.error}> {error} </div>}
+                </div>
 
-        // <Fragment>
-        //     <section className={inputClasses}>
-        //         <div>Welcome!
-        //             <br/>
-        //             <br/>
-        //             Please add some more details to get started
-        //             <br/>
-        //             <br/>
-        //             Please start with adding your photo.
-        //             Choose file, press submit, then type any key in the next line (FILE URL)
-        //         </div>
-        //     {/*    <div className={classes.photo}>*/}
-        //     {/*        <form onSubmit={handleSubmit(onSubmit)} >*/}
-        //     {/*            <input type="file" {...register("file")} />*/}
-        //     {/*            <input type="submit" className={classes.submit}/>*/}
-        //     {/*        </form>*/}
-        //     {/*    </div>*/}
-        //     {/*    <form onSubmit={submitHandler} key={item.id}>*/}
-        //     {/*        <div className={classes.click}>*/}
-        //     {/*            <div className={classes.control}>*/}
-        //     {/*                <label htmlFor='File URL'>File URL</label>*/}
-        //     {/*                <input*/}
-        //     {/*                    type="url"*/}
-        //     {/*                    placeholder="Click, then type any key to upload"*/}
-        //     {/*                    name="url"*/}
-        //     {/*                    className="form-control"*/}
-        //     {/*                    value={photoURL}*/}
-        //     {/*                    onChange={URLChangeHandler}*/}
-        //     {/*                />*/}
-        //     {/*            </div>*/}
-        //     {/*            <div className={classes.control}>*/}
-        //     {/*                <label htmlFor='first name'>Please enter your first name</label>*/}
-        //     {/*                <input*/}
-        //     {/*                    type="text"*/}
-        //     {/*                    placeholder="First Name"*/}
-        //     {/*                    name="firstName"*/}
-        //     {/*                    className="form-control"*/}
-        //     {/*                    value={firstName}*/}
-        //     {/*                    onChange={firstNameInputChangeHandler}*/}
-        //     {/*                />*/}
-        //     {/*            </div>*/}
-        //     {/*            <div className={classes.control}>*/}
-        //     {/*                <label htmlFor='last name'>Please enter your last Name</label>*/}
-        //     {/*                <input*/}
-        //     {/*                    type="text"*/}
-        //     {/*                    placeholder="Last Name"*/}
-        //     {/*                    name="last name"*/}
-        //     {/*                    className="form-control"*/}
-        //     {/*                    value={lastName}*/}
-        //     {/*                    onChange={lastNameInputChangeHandler}*/}
-        //     {/*                />*/}
-        //     {/*            </div>*/}
-        //     {/*            <div className={classes.control}>*/}
-        //     {/*                <label htmlFor='email'>Please enter your email address</label>*/}
-        //     {/*                <input*/}
-        //     {/*                    type="text"*/}
-        //     {/*                    placeholder="Email"*/}
-        //     {/*                    name="email"*/}
-        //     {/*                    className="form-control"*/}
-        //     {/*                    value={email}*/}
-        //     {/*                    onChange={emailInputChangeHandler}*/}
-        //     {/*                />*/}
-        //     {/*            </div>*/}
-        //     {/*            <div className={classes.control}>*/}
-        //     {/*                <label htmlFor='mobile number'>Please enter your mobile number</label>*/}
-        //     {/*                <input*/}
-        //     {/*                    type="text"*/}
-        //     {/*                    placeholder="Mobile Number"*/}
-        //     {/*                    name="mobile number"*/}
-        //     {/*                    className="form-control"*/}
-        //     {/*                    value={mobileNumber}*/}
-        //     {/*                    onChange={mobileNumberInputChangeHandler}*/}
-        //     {/*                />*/}
-        //     {/*            </div>*/}
-        //     {/*            <div className={classes.actions}>*/}
-        //     {/*                <button*/}
-        //     {/*                    className={classes.button}*/}
-        //     {/*                    onClick={(event) => submitHandler(event)}*/}
-        //     {/*                >Submit</button>*/}
-        //     {/*            </div>*/}
-        //     {/*            /!*Terniary statement displaying server error back to user*!/*/}
-        //     {/*            {error && <div className={classes.error}> {error} </div>}*/}
-        //     {/*        </div>*/}
-        //     {/*    </form>*/}
-        //     </section>
-        //     <div className={classes.photo}>
-        //         <img src={machineworker} alt="machineworker" height={300} width={300}/>
-        //     </div>
-        //
-        // </Fragment>
+            </section>
+
+        </Fragment>
     );
 }
-
-
-
 
 export default ItemLendForm;
