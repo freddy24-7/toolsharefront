@@ -3,14 +3,17 @@ import AuthContext from "../../context/auth-context";
 import classes from "./Item.module.css";
 import machineworker from "../../assets/pexels-karolina-grabowska-6920104.jpg";
 import ShareItemService from "../../services/ShareItemService";
-import axios from "axios";
-import {SHARE_ITEM_URL} from "../../backend-urls/constants";
-
+import {useHistory, useParams} from "react-router-dom";
 
 const ItemLendForm = () => {
 
+    const {id} = useParams()
+
+    console.log(id)
+    const participantId = id;
+    console.log(participantId)
+
     //Defining the variables for uploading new item
-    const [itemId, setItemID] = useState(null);
     const [itemName, setItemName] = useState('')
     const [description, setDescription] = useState('')
 
@@ -32,25 +35,6 @@ const ItemLendForm = () => {
     //This edit-submission variable is further worked on in child components through props
     const [editS, setEditS]= useState(false);
 
-    // //axios credentials and call variable
-    // const postAxios = axios.post("http://localhost:8080/api/items",
-    // {
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //     },
-    //     'credentials': 'include'
-    // })
-    // const post = axios.post('http://localhost:8080/api/items', {
-    //     headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //             'credentials': 'include'
-    // });
-    // axios POST request
-
-
-
-
     //Below is the axios call to the participant class in backend
     const submitHandler = (event) => {
         event.preventDefault();
@@ -59,7 +43,6 @@ const ItemLendForm = () => {
 
                 //Checking in console what data we obtain
                 console.log(response)
-                // const id = (response.data.id)
                 const itemName = (response.data.itemName)
                 const description = (response.data.description)
                 // console.log(id)

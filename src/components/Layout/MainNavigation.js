@@ -13,7 +13,8 @@ import LendButton from "./Buttons/LendButton";
 //Passing the props from LayoutWrapper component
 const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListClicked,
                             onDetailsMove, setParticipantDetailsClicked, handleEdit, deleted, setDeleted,
-                        setShareItemClicked, onShare, onCloseShare, setLoanItemClicked, onLoan, onCloseLoan}) => {
+                        setShareItemClicked, onShare, onCloseShare,
+                            setLoanItemClicked, onLoan, onCloseLoan, shareItemClickHandler}) => {
 
     console.log(formS)
     const history = useHistory();
@@ -77,7 +78,7 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
                     {(formS && !deleted) ?
                         <li>
                             <LendButton to='/items'
-                                        onShare={onShare}
+                                        onShare={shareItemClickHandler}
                             />
                         </li>
                         : null

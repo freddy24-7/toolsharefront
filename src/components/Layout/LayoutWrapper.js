@@ -135,7 +135,10 @@ const LayoutWrapper = ({ children }) => {
     //This function is used to set the state used to launch shareItem component on click
     const shareItemClickHandler = () => {
         setShareItemClicked(true);
-        history.push('/items')
+        history.push(`/items/${id}`);
+        console.log("share item button pressed")
+        setParticipantDetailsClicked(false);
+        setParticipantListClicked(false)
     }
 
     //This function is used to close the shareItem component on click
@@ -271,6 +274,7 @@ const LayoutWrapper = ({ children }) => {
                 setParticipantDetailsClicked={setParticipantDetailsClicked}
                 id={id}
                 handleEdit={handleEdit}
+                shareItemClickHandler={shareItemClickHandler}
                 setDeleted={setDeleted}
                 deleted={deleted}
             />
@@ -334,7 +338,7 @@ const LayoutWrapper = ({ children }) => {
                 : null
             }
             {(shareItemClicked && formS ) ?
-                <Route path='/items'>
+                <Route path='/items/:id'>
                     <ItemLendForm
                         setFormS={setFormS}
                         formS={formS}
