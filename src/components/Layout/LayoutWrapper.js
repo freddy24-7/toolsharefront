@@ -13,6 +13,7 @@ import ItemBorrow from "../LoanItems/ItemBorrow";
 import ParticipantService from "../../services/ParticipantService";
 import ConfirmDeleteParticipant from "../Profile/ConfirmDeleteParticipant";
 import useBackButtons from "../../hooks/useBackButtons";
+import ShareItemService from "../../services/ShareItemService";
 
 //PROPS-USECASE: We want to close the ProfileForm when form is submitted
 //Step 1-5 in parent component, step 6-7 in child component

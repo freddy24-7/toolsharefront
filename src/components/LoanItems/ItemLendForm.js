@@ -1,9 +1,9 @@
 import React, {Fragment, useContext, useState} from 'react';
 import AuthContext from "../../context/auth-context";
 import classes from "./Item.module.css";
-import machineworker from "../../assets/pexels-karolina-grabowska-6920104.jpg";
-import ShareItemService from "../../services/ShareItemService";
-import {useHistory, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
+import {POST_SHARE_ITEM_URL} from "../../backend-urls/constants";
+import axios from "axios";
 
 const ItemLendForm = () => {
 
@@ -18,7 +18,7 @@ const ItemLendForm = () => {
     const [description, setDescription] = useState('')
 
     //Creating the variable that will be used to send data to backend
-    const loanItem = { itemName, description }
+    const loanItem = { participantId, itemName, description }
 
     //Error-handling
     const [error, setError] = useState(null);
@@ -26,21 +26,16 @@ const ItemLendForm = () => {
     const [errorCSS, setErrorCSS] = useState(false);
 
     //Using useContext to manage the login-state
-    const authCtx = useContext(AuthContext);
-    const isLoggedIn = authCtx.isLoggedIn;
-
-    //This variable is further worked on in child components through props
     const [formS, setFormS]= useState(false);
 
-    //This edit-submission variable is further worked on in child components through props
-    const [editS, setEditS]= useState(false);
+    const itemSubmitter = POST_SHARE_ITEM_URL + "/" + participantId;
+    console.log(itemSubmitter)
 
     //Below is the axios call to the participant class in backend
     const submitHandler = (event) => {
         event.preventDefault();
-        ShareItemService.saveItem(loanItem)
+        axios.post(itemSubmitter, loanItem)
             .then((response) => {
-
                 //Checking in console what data we obtain
                 console.log(response)
                 const itemName = (response.data.itemName)

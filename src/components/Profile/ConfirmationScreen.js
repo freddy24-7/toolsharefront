@@ -5,10 +5,10 @@ import laptopworker from "../../assets/pexels-andrea-piacquadio-761993.jpg";
 import { useForm } from "react-hook-form";
 import useFileUpload from "../../hooks/useFileUpload";
 import axios from "axios";
-import {PARTICIPANT_URL} from "../../backend-urls/constants";
+import {GET_ALL_PARTICIPANTS_URL} from "../../backend-urls/constants";
 
 //specifying back-end URL
-const apiURL = PARTICIPANT_URL;
+const apiURL = GET_ALL_PARTICIPANTS_URL;
 
 //Obtaining token from local storage to access resource
 //Key is specified in LoginForm.js and needs to be consistent
