@@ -27,6 +27,8 @@ import {POST_SHARE_ITEM_URL} from "../../backend-urls/constants";
 
 const LayoutWrapper = ({ children }) => {
 
+    const [userId, setUserId] = useState('');
+
     const [idValue, setIdValue] = useState('');
 
     //Below block obtains the stored userid
@@ -294,6 +296,7 @@ const LayoutWrapper = ({ children }) => {
                 const itemId = response.data.itemId
                 console.log(itemId)
                 setItemId(itemId);
+                setFormS(true);
                 if (itemStatus === 200) {
                     setIsLoading(true)
                 }
@@ -440,6 +443,8 @@ const LayoutWrapper = ({ children }) => {
                     <ItemBorrow
                         error={error}
                         errorCSS={errorCSS}
+                        setFormS={setFormS}
+                        formS={formS}
                     />
                 </Route>
                 : null
