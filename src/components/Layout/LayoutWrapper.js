@@ -199,7 +199,7 @@ const LayoutWrapper = ({ children }) => {
                     console.log(photoURL)
 
                     //we have access to firstName, and we pass that on with a string literal:
-                    history.push(`/participant/${response.data.id}`)
+                    history.push(`/participant/${response.data.firstName}`)
                     setFormS(true)
                     setFirstName("");
                     setLastName("");
