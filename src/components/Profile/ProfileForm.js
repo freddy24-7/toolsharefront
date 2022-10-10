@@ -8,7 +8,7 @@ import useAxiosCall from "../../hooks/useAxiosCall";
 
 function ProfileForm({firstName, setFirstName, lastName, setLastName, email, setEmail,
                          mobileNumber, setMobileNumber, submitHandler,
-                     error, errorCSS, id, photoURL, setPhotoURL}, item) {
+                         error, errorCSS, id, photoURL, setPhotoURL}, item) {
 
     //Getting existing users in database
     //Using custom hook useAxiosCall to get all the participants from the list
@@ -71,7 +71,7 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
                     <br/>
                     <br/>
                     Please start with adding your photo.
-                        Choose file, press submit, then type any key in the next line (FILE URL)
+                    Choose file, press submit, then type any key in the next line (FILE URL)
                 </div>
                 <div className={classes.photo}>
                     <form onSubmit={handleSubmit(onSubmit)} >

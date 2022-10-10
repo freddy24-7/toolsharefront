@@ -6,6 +6,8 @@ export const GET_ALL_PARTICIPANTS_URL = BASE_API_URL + '/api/participant/partici
 export const FILE_UPLOAD_URL = BASE_API_URL + '/api/imagefile/upload';
 export const SHARE_ITEM_URL = BASE_API_URL + '/api/items';
 export const POST_SHARE_ITEM_URL = BASE_API_URL + '/api/items/participants/items';
+export const GET_SHARE_ITEM_URL = BASE_API_URL + '/api/items/items';
+
 
 
 

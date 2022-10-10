@@ -69,6 +69,7 @@ const ConfirmationScreen = () => {
         localStorage.setItem("photo", JSON.stringify(photoURL));
     });
 
+
     // conditional render: if there is a photoURL, the photo is displayed
     //alternatively, a default photo is displayed
     if (photoURL) {
@@ -77,7 +78,7 @@ const ConfirmationScreen = () => {
             <>
                 <section className={classes.base} >
                     <div className={classes.control}>
-                        <p className={classes.success}>Ready to go {firstName}!</p>
+                        <p className={classes.success}>Ready to go {id}!</p>
                         <br/>
                         <br/>
                         <p>Klik op een link om te beginnen. </p>

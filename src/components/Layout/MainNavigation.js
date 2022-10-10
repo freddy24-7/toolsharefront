@@ -13,7 +13,7 @@ import LendButton from "./Buttons/LendButton";
 //Passing the props from LayoutWrapper component
 const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListClicked,
                             onDetailsMove, setParticipantDetailsClicked, handleEdit, deleted, setDeleted,
-                        setShareItemClicked, onShare, onCloseShare,
+                        setShareItemClicked, onCloseShare,
                             setLoanItemClicked, onLoan, onCloseLoan, shareItemClickHandler}) => {
 
     console.log(formS)
@@ -58,9 +58,7 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
 
     return (
         <header className={classes.header}>
-            <Link to='/'>
                 <div className={classes.logo}>Tool Share</div>
-            </Link>
             <nav>
                 <ul>
                     {/*Below links and buttons are conditionally displayed depending on login-state*/}

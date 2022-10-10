@@ -13,7 +13,8 @@ import ItemBorrow from "../LoanItems/ItemBorrow";
 import ParticipantService from "../../services/ParticipantService";
 import ConfirmDeleteParticipant from "../Profile/ConfirmDeleteParticipant";
 import useBackButtons from "../../hooks/useBackButtons";
-import ShareItemService from "../../services/ShareItemService";
+import axios from "axios";
+import {POST_SHARE_ITEM_URL} from "../../backend-urls/constants";
 
 //PROPS-USECASE: We want to close the ProfileForm when form is submitted
 //Step 1-5 in parent component, step 6-7 in child component
@@ -151,7 +152,10 @@ const LayoutWrapper = ({ children }) => {
     //This function is used to set the state used to launch shareItem component on click
     const loanItemClickHandler = () => {
         setLoanItemClicked(true);
-        history.push('/loan')
+        history.push(`/loan/items/${id}`)
+        console.log("borrow item button pressed")
+        setParticipantDetailsClicked(false);
+        setParticipantListClicked(false)
     }
 
     //This function is used to close the shareItem component on click
@@ -257,6 +261,82 @@ const LayoutWrapper = ({ children }) => {
         setDeleted(true)
     }
 
+    //Below is the axios call to the item class in backend
+    console.log(id)
+    const participantId = id;
+    console.log(participantId)
+
+
+    //Defining the variables for uploading new item
+    const [itemName, setItemName] = useState('')
+    const [description, setDescription] = useState('')
+
+    const [itemID, setItemId] = useState(null);
+
+    const itemSubmitter = POST_SHARE_ITEM_URL + "/" + participantId;
+    console.log(itemSubmitter)
+
+    //Variables used for the form submission
+    const [isLoading, setIsLoading] = useState(false);
+
+    //Creating the variable that will be used to send data to backend
+    const loanItem = { participantId, itemName, description }
+
+    const itemSubmitHandler = (event) => {
+        event.preventDefault();
+        axios.post(itemSubmitter, loanItem)
+            .then((response) => {
+                //Checking in console what data we obtain
+                console.log(response)
+                console.log(response.status)
+                const itemStatus = response.status
+                console.log(itemStatus)
+                const itemId = response.data.itemId
+                console.log(itemId)
+                setItemId(itemId);
+                if (itemStatus === 200) {
+                    setIsLoading(true)
+                }
+                const itemName = (response.data.itemName)
+                const description = (response.data.description)
+                // console.log(id)
+                console.log(itemName)
+                console.log(description)
+
+                setFormS(true)
+                setItemName("");
+                setDescription("");
+
+            }).catch(function (error) {
+
+            if (error.response) {
+                // Request made and server responded
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+                const errorCheck = (error.response.status)
+                //setting the error
+                if (errorCheck === 500) {
+                    setError("An error has occurred. " )
+                    setErrorCSS(true)
+                } else if (errorCheck === 403) {
+                    setError("The server has declined the request. " +
+                        "A likely reason is that another participant is already " +
+                        " logged in to the server from the device that you are using. " +
+                        "You may try to reload the page and submit again.")
+                    setErrorCSS(true)
+                }
+            } else if (error.request) {
+                // The request was made but no response was received
+                console.log(error.request);
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+            }
+        });
+        setIsLoading(false);
+    }
+
     return (
         <Fragment>
             <MainNavigation
@@ -307,6 +387,7 @@ const LayoutWrapper = ({ children }) => {
                 />
                 : null
             }
+
             {/*Same logic for ParticipantList component*/}
             {(participantListClicked && formS ) ?
                 <ParticipantList
@@ -343,21 +424,20 @@ const LayoutWrapper = ({ children }) => {
                     <ItemLendForm
                         setFormS={setFormS}
                         formS={formS}
-                        id={id}
-                        setId={setId}
-                        error={error}
-                        errorCSS={errorCSS}
+                        itemName={itemName}
+                        setItemName={setItemName}
+                        description={description}
+                        setDescription={setDescription}
+                        isLoading={isLoading}
+                        setIsLoading={setIsLoading}
+                        itemSubmitHandler={itemSubmitHandler}
                     />
                 </Route>
                 : null
             }
             {(loanItemClicked && formS ) ?
-                <Route path='/loan'>
+                <Route path='/loan/items/:id'>
                     <ItemBorrow
-                        setFormS={setFormS}
-                        formS={formS}
-                        id={id}
-                        setId={setId}
                         error={error}
                         errorCSS={errorCSS}
                     />

@@ -62,7 +62,7 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete, for
                 editAxios
                     .then((response) => {
                         console.log(response)
-                        history.push(`/participant/${response.data.firstName}`)
+                        history.push(`/participant/${response.data.id}`)
                         setEditS(true)
                     }).catch(error => {
                     console.log(error)

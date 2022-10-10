@@ -1,7 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import ParticipantService from "../../services/ParticipantService";
+import React from 'react';
 import classes from './ProfileForm.module.css';
-import useFileUpload from "../../hooks/useFileUpload";
 import useAxiosCall from "../../hooks/useAxiosCall";
 
 const ParticipantList = () => {
