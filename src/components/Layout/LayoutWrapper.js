@@ -10,6 +10,7 @@ import IndividualDetails from "../Profile/IndividualDetails";
 import ConfirmationScreen from "../Profile/ConfirmationScreen";
 import ItemLendForm from "../LoanItems/ItemLendForm";
 import ItemBorrow from "../LoanItems/ItemBorrow";
+import ItemLoanAction from "../LoanItems/ItemLoanAction";
 import ParticipantService from "../../services/ParticipantService";
 import ConfirmDeleteParticipant from "../Profile/ConfirmDeleteParticipant";
 import useBackButtons from "../../hooks/useBackButtons";
@@ -254,6 +255,16 @@ const LayoutWrapper = ({ children }) => {
         setDeleted(true)
     }
 
+    //Opens the loan component, closes the other components
+    const handleLoanInterest = () => {
+        history.push(`/item/loan/${id}`);
+        console.log("borrow me button pressed")
+        setParticipantDetailsClicked(false);
+        setParticipantListClicked(false)
+        setShareItemClicked(false)
+        setLoanItemClicked(false)
+    }
+
     //Below is the axios call to the item class in backend
     console.log(id)
     const participantId = id;
@@ -388,6 +399,7 @@ const LayoutWrapper = ({ children }) => {
                 />
                 : null
             }
+
             {/*Same logic for Individual details component*/}
             {(participantDetailsClicked && formS ) ?
                 <Route path='/edit/:id'>
@@ -434,6 +446,7 @@ const LayoutWrapper = ({ children }) => {
                     <ItemBorrow
                         error={error}
                         errorCSS={errorCSS}
+                        handleLoanInterest={handleLoanInterest}
                     />
                 </Route>
                 : null
@@ -451,6 +464,13 @@ const LayoutWrapper = ({ children }) => {
                     <ConfirmDeleteParticipant
                         handleDelete={handleDelete}
                     />
+                </Route>
+                : null
+            }
+            {(formS ) ?
+                <Route path='/item/loan/:id'>
+                <ItemLoanAction
+                />
                 </Route>
                 : null
             }
