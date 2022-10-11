@@ -7,7 +7,7 @@ import {useForm} from "react-hook-form";
 import useFileUpload from "../../hooks/useFileUpload";
 
 const ItemLendForm = ({itemName, setItemName, description, setDescription, isLoading, setIsLoading,
-                      itemSubmitHandler, photoURL, setPhotoURL, obtainPhotoURL, setObtainPhotoURL}, item) => {
+                      itemSubmitHandler, photoURL, setPhotoURL}, item) => {
 
     const {id} = useParams()
 
@@ -47,10 +47,6 @@ const ItemLendForm = ({itemName, setItemName, description, setDescription, isLoa
         setObtainPhotoURL(obtainPhotoURL);
         setPhotoURL(obtainPhotoURL)
     }
-
-    // useEffect(()=> {
-    //
-    // })
 
     return (
 
