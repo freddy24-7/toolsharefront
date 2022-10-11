@@ -1,11 +1,13 @@
-import React, {Fragment, useContext, useState} from 'react';
+import React, {Fragment, useContext, useEffect, useState} from 'react';
 import classes from "./Item.module.css";
 import {useParams} from "react-router-dom";
 
 import useAxiosGetAllItems from "../../hooks/useAxiosGetAllItems";
+import {useForm} from "react-hook-form";
+import useFileUpload from "../../hooks/useFileUpload";
 
 const ItemLendForm = ({itemName, setItemName, description, setDescription, isLoading, setIsLoading,
-                      itemSubmitHandler}, item) => {
+                      itemSubmitHandler, photoURL, setPhotoURL, obtainPhotoURL, setObtainPhotoURL}, item) => {
 
     const {id} = useParams()
 
@@ -36,6 +38,20 @@ const ItemLendForm = ({itemName, setItemName, description, setDescription, isLoa
         ? classes.invalid
         : classes.base;
 
+    const { obtainPhotoURL, onSubmit, setObtainPhotoURL } = useFileUpload ();
+    //using react hook form for image upload
+    const {register, handleSubmit} = useForm();
+
+    //using the useFileUpload custom hook
+    const URLChangeHandler = (event) => {
+        setObtainPhotoURL(obtainPhotoURL);
+        setPhotoURL(obtainPhotoURL)
+    }
+
+    // useEffect(()=> {
+    //
+    // })
+
     return (
 
         <Fragment>
@@ -50,6 +66,24 @@ const ItemLendForm = ({itemName, setItemName, description, setDescription, isLoa
                             Please start with adding a photo of the tool.
                             Choose file, press submit, then type any key in the next line (FILE URL)
                         </div>
+                    <div className={classes.photo}>
+                        <form onSubmit={handleSubmit(onSubmit)} >
+                            <input type="file" {...register("file")} />
+                            <input type="submit" className={classes.submit}/>
+                        </form>
+                    </div>
+                        <div className={classes.click}>
+                            <div className={classes.control}>
+                                <label htmlFor='File URL'>File URL</label>
+                                <input
+                                    type="url"
+                                    placeholder="Click, then type any key to upload"
+                                    name="url"
+                                    className="form-control"
+                                    value={photoURL}
+                                    onChange={URLChangeHandler}
+                                />
+                            </div>
                 <div className={classes.control} >
                     <label htmlFor='itemName'>Type of tool</label>
                     <input
@@ -82,7 +116,7 @@ const ItemLendForm = ({itemName, setItemName, description, setDescription, isLoa
                 {/*Terniary statement displaying server error back to user*/}
                 {error && <div className={classes.error}> {error} </div>}
                 </div>
-
+                </div>
             </section>
 
         </Fragment>

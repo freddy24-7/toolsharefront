@@ -35,9 +35,12 @@ const ItemBorrow = ( {handleLoanInterest} ) => {
             {items &&
                 items.map(item =>
 
-                    ( <div className={classes.preview} key={item.itemId}>
+                    ( <div className={classes.actions} key={item.itemId}>
                         <h3>Name: {item.itemName} </h3>
                         <h4>Description: {item.description}</h4>
+                        <div className={classes.photo}>
+                            <img src={item.photoURL} height={150} width={145}/>
+                        </div>
                         <button onClick={(event) => goToBorrowActionLocation(event)}
                         >Click to borrow me</button>
                     </div>))}
