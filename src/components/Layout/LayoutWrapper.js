@@ -315,35 +315,22 @@ const LayoutWrapper = ({ children }) => {
                 setObtainPhotoURL("");
                 setPhotoURL("")
 
-            }).catch(function (error) {
+            }).catch(error => {
 
-            if (error.response) {
-                // Request made and server responded
-                console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
-                const errorCheck = (error.response.status)
-                //setting the error
-                if (errorCheck === 500) {
-                    setError("An error has occurred. " )
-                    setErrorCSS(true)
-                } else if (errorCheck === 403) {
-                    setError("The server has declined the request. " +
-                        "A likely reason is that another participant is already " +
-                        " logged in to the server from the device that you are using. " +
-                        "You may try to reload the page and submit again.")
-                    setErrorCSS(true)
-                }
-            } else if (error.request) {
-                // The request was made but no response was received
-                console.log(error.request);
-            } else {
-                // Something happened in setting up the request that triggered an Error
-                console.log('Error', error.message);
+            //checking error response stats
+            console.log(error.response.status);
+            //storing it in a variable
+            const errorCheck = (error.response.status)
+            //setting the error
+            if (errorCheck === 500) {
+                setError("An error occurred. Please upload photo to continue")
             }
+            setIsLoading(false);
         });
-        setIsLoading(false);
-    }
+        setIsLoading(true);
+        //Have to set the error back to null here!
+        setError(null);
+    };
 
     return (
         <Fragment>
@@ -445,6 +432,8 @@ const LayoutWrapper = ({ children }) => {
                         setPhotoURL={setPhotoURL}
                         obtainPhotoURL={obtainPhotoURL}
                         setObtainPhotoURL={setObtainPhotoURL}
+                        error={error}
+                        errorCSS={errorCSS}
                         itemSubmitHandler={itemSubmitHandler}
                     />
                 </Route>
