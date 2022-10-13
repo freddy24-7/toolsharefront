@@ -11,6 +11,7 @@ import ConfirmationScreen from "../Profile/ConfirmationScreen";
 import ItemLendForm from "../LoanItems/ItemLendForm";
 import ItemBorrow from "../LoanItems/ItemBorrow";
 import ItemLoanAction from "../LoanItems/ItemLoanAction";
+import ParticipantItemList from "../LoanItems/ParticipantItemList";
 import ParticipantService from "../../services/ParticipantService";
 import ConfirmDeleteParticipant from "../Profile/ConfirmDeleteParticipant";
 import useBackButtons from "../../hooks/useBackButtons";
@@ -265,6 +266,16 @@ const LayoutWrapper = ({ children }) => {
         setLoanItemClicked(false)
     }
 
+    //Opens my item list component, closes the other components
+    const handleMyListOfItems = () => {
+        history.push(`/my-item/list/${id}`);
+        console.log("my list me button pressed")
+        setParticipantDetailsClicked(false);
+        setParticipantListClicked(false)
+        setShareItemClicked(false)
+        setLoanItemClicked(false)
+    }
+
     //Below is the axios call to the item class in backend
     console.log(id)
     const participantId = id;
@@ -438,6 +449,7 @@ const LayoutWrapper = ({ children }) => {
                         setObtainPhotoURL={setObtainPhotoURL}
                         error={error}
                         errorCSS={errorCSS}
+                        handleMyListOfItems={handleMyListOfItems}
                         itemSubmitHandler={itemSubmitHandler}
                     />
                 </Route>
@@ -473,6 +485,13 @@ const LayoutWrapper = ({ children }) => {
                 <Route path='/item/loan/:id'>
                 <ItemLoanAction
                 />
+                </Route>
+                : null
+            }
+            {(formS ) ?
+                <Route path='/my-item/list/:id'>
+                    <ParticipantItemList
+                    />
                 </Route>
                 : null
             }

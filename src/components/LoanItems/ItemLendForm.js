@@ -18,7 +18,8 @@ const initialToken = localStorage.getItem('jwt');
 console.log(initialToken)
 
 const ItemLendForm = ({itemName, setItemName, description, setDescription, isLoading,
-                          itemSubmitHandler, photoURL, setPhotoURL, error, errorCSS}, item) => {
+                          itemSubmitHandler, photoURL, handleMyListOfItems,
+                          setPhotoURL, error, errorCSS}, item) => {
 
     const [uploadedItems, setUploadedItems] = useState(null);
 
@@ -86,6 +87,10 @@ const ItemLendForm = ({itemName, setItemName, description, setDescription, isLoa
     });
     console.log(uploadedItems)
 
+    const goToMyListOfItems = (event) => {
+        handleMyListOfItems(event);
+    }
+
 
 
     return (
@@ -100,7 +105,11 @@ const ItemLendForm = ({itemName, setItemName, description, setDescription, isLoa
                             <br/>
                             <br/>
                             Please start with adding a photo of the tool.
-                            Choose file, press submit, then type any key in the next line (FILE URL)
+                            Choose a photo to upload, then press the "pink" submit button,
+                        and thereafter type any key in the next line labelled "FILE URL".
+                        <br/>
+                        <br/>
+                        jpg-, jpeg-, and png-files are accepted.
                         </div>
                     <br/>
                     <br/>
@@ -150,13 +159,19 @@ const ItemLendForm = ({itemName, setItemName, description, setDescription, isLoa
                         onChange={itemDescriptionInputChangeHandler}
                     />
                 </div>
-                <div className={classes.success}>
+                <div className={classes.actions}>
                     <button
                         className={classes.button}
                         onClick={(event) => itemSubmitHandler(event)}
-                    >Submit</button>
-                </div>
-                </div>
+                    >Add item to loan out</button>
+                    <br/>
+                    <br/>
+                    <button
+                        className={classes.button}
+                        onClick={(event) => goToMyListOfItems(event)}
+                    >All my items</button>
+                        </div>
+                    </div>
                 </div>
             </section>
             <div className={classes.photo}>
