@@ -43,7 +43,7 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete} ) =
         'credentials': 'include'
     })
 
-    //axios get by id call
+    //axios get by id call backend and credentials, using axios
     const getAxios = axios.get(apiURL + '/' + id, {
         headers: {
             'Content-Type': 'application/json',

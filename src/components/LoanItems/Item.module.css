@@ -78,6 +78,7 @@
 .error {
     color: #c493c9;
 }
+
 .invalid {
     border: 1px solid #b40e0e;
     background-color: #5e365e;
@@ -90,6 +91,7 @@
     text-align: center;
     color: white;
 }
+
 .success {
     color: #c493c9;
 }
@@ -136,7 +138,7 @@
 
 .click {
     border: 1px solid #b40e0e;
-    background-color: #5e365e;
+    background-color: #0a3c3d;
     margin: 3rem auto;
     width: 95%;
     max-width: 25rem;
@@ -144,4 +146,26 @@
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
     padding: 1rem;
     text-align: center;
+}
+.uploaded {
+    color: #b5514a;
+    font-size: 30px;
+}
+
+.animation {
+    color: #c493c9;
+    animation-iteration-count: 1;
+    animation: animate 1s linear;
+}
+@keyframes animate
+{
+    0%, 10%, 100%
+    {
+        width: 0;
+    }
+    70%, 90%
+    {
+        width: 100%
+    }
+
 }

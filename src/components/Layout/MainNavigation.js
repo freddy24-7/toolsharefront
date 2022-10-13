@@ -58,7 +58,7 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
 
     return (
         <header className={classes.header}>
-                <div className={classes.logo}>Tool Share</div>
+                <div className={classes.logo}>Tool Share Navigation</div>
             <nav>
                 <ul>
                     {/*Below links and buttons are conditionally displayed depending on login-state*/}
