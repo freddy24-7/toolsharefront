@@ -34,6 +34,9 @@ const LayoutWrapper = ({ children }) => {
 
     const [idValue, setIdValue] = useState('');
 
+    const [firstSubmissionDone, setFirstSubmissionDone] = useState(false);
+
+
     //Below block obtains the stored userid
     const [currentLoggedInId, setCurrentLoggedInId] = useState(() => {
         // getting stored value
@@ -194,14 +197,17 @@ const LayoutWrapper = ({ children }) => {
                     console.log(photoURL)
 
                     //we have access to firstName, and we pass that on with a string literal:
-                    history.push(`/participant/${response.data.id}`)
-                    setFormS(true)
-                    setFirstName("");
-                    setLastName("");
-                    setEmail("");
-                    setMobileNumber("");
-                    setPhotoURL("");
-
+                    console.log(firstSubmissionDone)
+                    if (!firstSubmissionDone) {
+                        history.push(`/participant/${response.data.id}`)
+                        setFirstSubmissionDone(true);
+                        setFormS(true)
+                        setFirstName("");
+                        setLastName("");
+                        setEmail("");
+                        setMobileNumber("");
+                        setPhotoURL("");
+                    }
                 }).catch(function (error) {
 
                     if (error.response) {
@@ -400,7 +406,7 @@ const LayoutWrapper = ({ children }) => {
             }
 
             {/*Same logic for ParticipantList component*/}
-            {(participantListClicked && formS ) ?
+            {(participantListClicked && formS && !firstSubmissionDone) ?
                 <ParticipantList
                     // participants={participantList}
                 />
