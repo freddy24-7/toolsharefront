@@ -270,7 +270,7 @@ const LayoutWrapper = ({ children }) => {
         setParticipantDetailsClicked(false);
         setParticipantListClicked(false)
         setShareItemClicked(false)
-        setLoanItemClicked(false)
+        setLoanItemClicked(true)
     }
 
     //Opens my item list component, closes the other components

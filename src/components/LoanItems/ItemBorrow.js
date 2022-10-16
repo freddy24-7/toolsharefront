@@ -1,7 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import classes from "./Item.module.css";
 import useAxiosGetAllItems from "../../hooks/useAxiosGetAllItems";
 import {useHistory, useParams} from "react-router-dom";
+import itemLoanAction from "./ItemLoanAction";
 
 const ItemBorrow = ( {handleLoanInterest, itemId, setItemId} ) => {
 
@@ -9,9 +10,10 @@ const ItemBorrow = ( {handleLoanInterest, itemId, setItemId} ) => {
 
     const {id} = useParams()
 
-    console.log(itemId)
+
 
     const history = useHistory();
+
 
     console.log(id)
     const participantId = id;
@@ -19,6 +21,10 @@ const ItemBorrow = ( {handleLoanInterest, itemId, setItemId} ) => {
 
     //Error-handling
     const [error, setError] = useState(null);
+
+    const [run, setRun] = useState(null);
+
+
     //Constant for dynamic CSS display
     const [errorCSS, setErrorCSS] = useState(false);
 
@@ -34,15 +40,21 @@ const ItemBorrow = ( {handleLoanInterest, itemId, setItemId} ) => {
     // console.log(items[0].itemId)
 
     const goToBorrowActionLocation = (event) => {
-        // for (let i = 0; i < items.length ; i++) {
-        //     console.log(items[i])
-        //     setItemId(event.target.value)
-        //     console.log(itemId)
-        // }
-        // console.log(itemId)
+
         handleLoanInterest(event);
+
+    }
+
+    console.log(itemId)
+    const itemIdSaved = itemId
+    setItemId(itemId)
+    console.log(itemIdSaved)
+    if (itemIdSaved) {
+        setItemId(itemIdSaved)
+        console.log(itemId)
         history.push(`/item/loan/${itemId}`)
     }
+
 
 
 
@@ -65,8 +77,8 @@ const ItemBorrow = ( {handleLoanInterest, itemId, setItemId} ) => {
                         <div className={classes.photo}>
                             <img src={item.photoURL} height={150} width={145}/>
                         </div>
-                        <button onClick={(event) => goToBorrowActionLocation(setItemId(item.itemId))
-                        }
+                        <button onClick={(event) => goToBorrowActionLocation(setItemId(item.itemId)
+                        )}
                         >Click to borrow me</button>
                     </div>))}
         </ul>
