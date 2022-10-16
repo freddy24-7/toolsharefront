@@ -465,8 +465,8 @@ const LayoutWrapper = ({ children }) => {
                     <ItemBorrow
                         error={error}
                         errorCSS={errorCSS}
-                        itemId={itemId}
-                        setItemId={setItemId}
+                        // itemId={itemId}
+                        // setItemId={setItemId}
                         handleLoanInterest={handleLoanInterest}
                     />
                 </Route>
