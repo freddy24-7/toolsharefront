@@ -9,7 +9,6 @@ const ItemBorrow = ( {handleLoanInterest} ) => {
 
     const [itemId, setItemId] = useState(null);
 
-
     //history hook to push to the details page and away from the list
     const history = useHistory();
 

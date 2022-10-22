@@ -198,6 +198,8 @@ const LayoutWrapper = ({ children }) => {
 
                     //we have access to firstName, and we pass that on with a string literal:
                     console.log(firstSubmissionDone)
+                    //the below if check is used to allow the user to go to the welcome screen directly
+                    //from log in if all the earlier registrations were already done
                     if (!firstSubmissionDone) {
                         history.push(`/participant/${response.data.id}`)
                         setFirstSubmissionDone(true);

@@ -1,0 +1,38 @@
+
+
+{
+  "Animals":{
+    "cat": {
+      "humanFriendly": [
+        "Yes"
+      ]
+    },
+    "tiger": {
+      "humanFriendly": [
+        "No"
+      ]
+    },
+    "chettah": {
+      "humanFriendly": [
+        "No"
+      ]
+    },
+    "lion": {
+      "humanFriendly": [
+        "No"
+      ]
+    },
+    "jaguar": {
+      "humanFriendly": [
+        "No"
+      ]
+    },
+    "dog": {
+      "humanFriendly": [
+        "Yes",
+        "No"
+      ]
+
+    }
+  }
+}
