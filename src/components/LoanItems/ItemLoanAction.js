@@ -65,8 +65,12 @@ const ItemLoanAction = () => {
     //map methods did not work for this more complex array structure
     const owner = participants.find(({items}) => Array.isArray(items) && items.find(({itemId}) => itemId == transferValue))
     console.log(owner)
-    // Destructuring to get the id of the owner;
+    // Destructuring object to get the id of the owner;
     const idOfOwner = owner?.id;
+    const phoneOfOwner=  owner?.mobileNumber;
+    const firstName = owner?.firstName;
+    const lastName = owner?.lastName;
+    const email = owner?.email;
     console.log(idOfOwner);
 
 
@@ -83,7 +87,8 @@ const ItemLoanAction = () => {
             </div>
             <section className={classes.base} >
                 <div className={classes.control}>
-                    <p className={classes.success}>You have indicated interest in a {itemName}</p>
+                    <p className={classes.success}>The owner is {firstName +" "+ lastName}, who can be contacted at mobile
+                    /whatsapp on {phoneOfOwner}. An email can also be sent to {email}.</p>
                 </div>
             </section>
 
