@@ -204,7 +204,7 @@ const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler
                         <button
                             className={classes.button}
                             onClick={(event) => ownerDetailsClicked(event)}
-                            // onClick={(event) => ownerDetailsSubmitHandler(event)}
+                            onChange={(event) => ownerDetailsSubmitHandler(event)}
                         >Click here to get in touch with owner</button>
                         <br/>
                         <br/>
