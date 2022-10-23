@@ -23,7 +23,7 @@ const getOwnerAPI = EXPRESS_INTEREST_GET_OWNER_DETAILS_URL
 const initialToken = localStorage.getItem('jwt');
 console.log(initialToken)
 
-const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler} ) => {
+const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler, setOwnerId} ) => {
 
     const history = useHistory();
 
@@ -82,12 +82,12 @@ const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler
     const owner = participants.find(({items}) => Array.isArray(items) && items.find(({itemId}) => itemId == transferValue))
     console.log(owner)
     // Destructuring object to get the id of the owner;
-    const idOfOwner = owner?.id;
+    const ownerId = owner?.id;
     const phoneOfOwner=  owner?.mobileNumber;
     const firstName = owner?.firstName;
     const lastName = owner?.lastName;
     const email = owner?.email;
-    console.log(idOfOwner);
+    console.log(ownerId);
 
     //Below block obtains the stored userid
     const [currentLoggedInId, setCurrentLoggedInId] = useState(() => {
@@ -155,6 +155,7 @@ const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler
 
     //Creating the variable that will be used to send data to backend
     const loanItemId = {itemId}
+    console.log(ownerId)
 
     const ownerDetailsSubmitHandler = (event) => {
         event.preventDefault();
@@ -163,7 +164,9 @@ const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler
                 //Checking in console what data we obtain
                 console.log(response)
                 // const itemId = response.data.itemId
-                history.push(`/item-owner/${id}`)
+                setOwnerId(ownerId)
+                console.log(ownerId)
+                history.push(`/item-owner/${ownerId}`)
             }).catch(error => {
             //checking error response stats
             console.log(error.response.status);

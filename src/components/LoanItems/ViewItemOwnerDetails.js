@@ -3,11 +3,11 @@ import {useParams} from "react-router-dom";
 
 const ViewItemOwnerDetails = () => {
 
-    const {id} = useParams()
+    const {ownerId} = useParams()
 
     return (
         <div>
-            <p>Hello New World, {id}</p>
+            <p>Hello New World, {ownerId}</p>
         </div>
     );
 };

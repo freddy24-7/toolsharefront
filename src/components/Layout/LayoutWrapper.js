@@ -126,6 +126,9 @@ const LayoutWrapper = ({ children }) => {
     //Setting the state used to launch Owner Details component on click
     const[visitedOwnerPageClicked, setVisitedOwnerPageClicked]= useState(false);
 
+    const[ownerId, setOwnerId]= useState(null);
+
+
 
 
     //This function is used to set the state used to launch ParticipantList component on click
@@ -160,7 +163,7 @@ const LayoutWrapper = ({ children }) => {
     //This function is used to set the state used to launch shareItem component on click
     const ownerDetailsClickHandler = () => {
         setOwnerDetailsClicked(true)
-        history.push(`/item-owner/${id}`);
+        history.push(`/item-owner/${ownerId}`);
         console.log("owner details button pressed")
         setShareItemClicked(false);
         setParticipantDetailsClicked(false);
@@ -558,6 +561,8 @@ const LayoutWrapper = ({ children }) => {
                     setItemId={setItemId}
                     ownerDetailsClickHandler={ownerDetailsClickHandler}
                     handleOwnerDetailViewedItems={handleOwnerDetailViewedItems}
+                    setOwnerId={setOwnerId}
+                    ownerId={ownerId}
                 />
                 </Route>
                 : null
@@ -577,7 +582,7 @@ const LayoutWrapper = ({ children }) => {
                 : null
             }
             {(formS && ownerDetailsClicked ) ?
-                <Route path='/item-owner/:id'>
+                <Route path='/item-owner/:ownerId'>
                     <ViewItemOwnerDetails
 
                     />
