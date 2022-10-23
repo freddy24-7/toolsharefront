@@ -21,7 +21,7 @@ const getOwnerAPI = EXPRESS_INTEREST_GET_OWNER_DETAILS_URL
 //Obtaining token from local storage to access resource
 //Key is specified in LoginForm.js and needs to be consistent
 const initialToken = localStorage.getItem('jwt');
-console.log(initialToken)g
+console.log(initialToken)
 
 const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler, ownerId, setOwnerId} ) => {
 
