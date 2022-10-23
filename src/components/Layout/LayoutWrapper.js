@@ -12,11 +12,13 @@ import ItemLendForm from "../LoanItems/ItemLendForm";
 import ItemBorrow from "../LoanItems/ItemBorrow";
 import ItemLoanAction from "../LoanItems/ItemLoanAction";
 import ParticipantItemList from "../LoanItems/ParticipantItemList";
+import ViewItemOwnerDetails from "../LoanItems/ViewItemOwnerDetails";
+import ViewedOwnersList from "../LoanItems/ViewedOwnersList";
 import ParticipantService from "../../services/ParticipantService";
 import ConfirmDeleteParticipant from "../Profile/ConfirmDeleteParticipant";
 import useBackButtons from "../../hooks/useBackButtons";
 import axios from "axios";
-import {POST_SHARE_ITEM_URL} from "../../backend-urls/constants";
+import {EXPRESS_INTEREST_GET_OWNER_DETAILS_URL, POST_SHARE_ITEM_URL} from "../../backend-urls/constants";
 
 //PROPS-USECASE: We want to close the ProfileForm when form is submitted
 //Step 1-5 in parent component, step 6-7 in child component
@@ -68,7 +70,6 @@ const LayoutWrapper = ({ children }) => {
                     const currentLoggedInParticipantId = currentLoggedInParticipant.id;
                     console.log(currentLoggedInParticipantId)
                     setId(currentLoggedInParticipantId);
-                    // history.push(`/participant/${currentLoggedInParticipant.id}`)
                     history.push(`/participant/${currentLoggedInParticipantId}`)
                     setFormS(true);
                 } else {
@@ -81,7 +82,6 @@ const LayoutWrapper = ({ children }) => {
 
     },[]);
     console.log(id)
-
 
     //Defining the variables for uploading new participant
     const [firstName, setFirstName] = useState('')
@@ -120,6 +120,14 @@ const LayoutWrapper = ({ children }) => {
     //Setting the state used to launch Item component on click
     const[loanItemClicked, setLoanItemClicked]= useState(false);
 
+    //Setting the state used to launch Owner Details component on click
+    const[ownerDetailsClicked, setOwnerDetailsClicked]= useState(false);
+
+    //Setting the state used to launch Owner Details component on click
+    const[visitedOwnerPageClicked, setVisitedOwnerPageClicked]= useState(false);
+
+
+
     //This function is used to set the state used to launch ParticipantList component on click
     const participantListClickHandler = () => {
         setParticipantListClicked(true);
@@ -139,11 +147,30 @@ const LayoutWrapper = ({ children }) => {
         console.log("share item button pressed")
         setParticipantDetailsClicked(false);
         setParticipantListClicked(false)
+        setOwnerDetailsClicked(false)
+        setVisitedOwnerPageClicked(false)
     }
 
     //This function is used to close the shareItem component on click
     const shareItemCloseHandler = () => {
         setShareItemClicked(false);
+        history.push('/')
+    }
+
+    //This function is used to set the state used to launch shareItem component on click
+    const ownerDetailsClickHandler = () => {
+        setOwnerDetailsClicked(true)
+        history.push(`/item-owner/${id}`);
+        console.log("owner details button pressed")
+        setShareItemClicked(false);
+        setParticipantDetailsClicked(false);
+        setParticipantListClicked(false)
+        setVisitedOwnerPageClicked(false)
+    }
+
+    //This function is used to close the shareItem component on click
+    const ownerDetailsCloseHandler = () => {
+        setOwnerDetailsClicked(false)
         history.push('/')
     }
 
@@ -154,11 +181,31 @@ const LayoutWrapper = ({ children }) => {
         console.log("borrow item button pressed")
         setParticipantDetailsClicked(false);
         setParticipantListClicked(false)
+        setOwnerDetailsClicked(false)
+        setVisitedOwnerPageClicked(false)
     }
 
     //This function is used to close the shareItem component on click
     const loanItemCloseHandler = () => {
         setLoanItemClicked(false);
+        history.push('/')
+    }
+
+    //Opens my item item owner component, closes the other components
+    const handleOwnerDetailViewedItems = () => {
+            setVisitedOwnerPageClicked(true)
+            history.push(`/owner-pages-visited/${id}`);
+            console.log("owner details button pressed")
+            setParticipantDetailsClicked(false);
+            setParticipantListClicked(false)
+            setShareItemClicked(false)
+            setLoanItemClicked(false)
+            setOwnerDetailsClicked(true)
+    }
+    //This function is used to close the shareItem component on click
+    const ownerDetailsViewedCloseHandler = () => {
+        setOwnerDetailsClicked(false)
+        setVisitedOwnerPageClicked(false)
         history.push('/')
     }
 
@@ -245,11 +292,13 @@ const LayoutWrapper = ({ children }) => {
 
 
     //Opens the edit component, closes the other components
-        const handleEdit = () => {
-        history.push(`/edit/${id}`);
-        console.log("edit button pressed")
-        setParticipantDetailsClicked(true);
-        setParticipantListClicked(false)
+                const handleEdit = () => {
+                history.push(`/edit/${id}`);
+                console.log("edit button pressed")
+                setParticipantDetailsClicked(true);
+                setParticipantListClicked(false)
+                setOwnerDetailsClicked(false)
+                setVisitedOwnerPageClicked(false)
     }
     const [deleted, setDeleted] = useState(false);
 
@@ -262,6 +311,8 @@ const LayoutWrapper = ({ children }) => {
         setShareItemClicked(false)
         setLoanItemClicked(false)
         setDeleted(true)
+        setOwnerDetailsClicked(false)
+        setVisitedOwnerPageClicked(false)
     }
 
     const [itemId, setItemId] = useState(null);
@@ -273,6 +324,8 @@ const LayoutWrapper = ({ children }) => {
         setParticipantListClicked(false)
         setShareItemClicked(false)
         setLoanItemClicked(true)
+        setOwnerDetailsClicked(false)
+        setVisitedOwnerPageClicked(false)
     }
 
     //Opens my item list component, closes the other components
@@ -283,6 +336,8 @@ const LayoutWrapper = ({ children }) => {
         setParticipantListClicked(false)
         setShareItemClicked(false)
         setLoanItemClicked(false)
+        setOwnerDetailsClicked(false)
+        setVisitedOwnerPageClicked(false)
     }
 
     //Below is the axios call to the item class in backend
@@ -354,6 +409,7 @@ const LayoutWrapper = ({ children }) => {
 
 
 
+
     return (
         <Fragment>
             <MainNavigation
@@ -369,12 +425,17 @@ const LayoutWrapper = ({ children }) => {
                 onLoan={loanItemClickHandler}
                 onCloseLoan={loanItemCloseHandler}
                 onDetailsMove={participantDetailsCloseHandler}
+                onCloseOwner={ownerDetailsViewedCloseHandler}
+                setOwnerDetailsClicked={ownerDetailsClickHandler}
+                onCloseOwnerDetails={ownerDetailsCloseHandler}
+                setVisitedOwnerPageClicked={setVisitedOwnerPageClicked}
                 setParticipantDetailsClicked={setParticipantDetailsClicked}
                 id={id}
                 handleEdit={handleEdit}
                 shareItemClickHandler={shareItemClickHandler}
                 setDeleted={setDeleted}
                 deleted={deleted}
+                visitedOwnerPageClicked={visitedOwnerPageClicked}
             />
 
             {/*// Launching ProfileForm conditionally, above state must be "true" for component to launch*/}
@@ -495,6 +556,8 @@ const LayoutWrapper = ({ children }) => {
                 <ItemLoanAction
                     itemId={itemId}
                     setItemId={setItemId}
+                    ownerDetailsClickHandler={ownerDetailsClickHandler}
+                    handleOwnerDetailViewedItems={handleOwnerDetailViewedItems}
                 />
                 </Route>
                 : null
@@ -502,6 +565,21 @@ const LayoutWrapper = ({ children }) => {
             {(formS ) ?
                 <Route path='/my-item/list/:id'>
                     <ParticipantItemList
+                    />
+                </Route>
+                : null
+            }
+            {(formS && visitedOwnerPageClicked ) ?
+                <Route path='/owner-pages-visited/:id'>
+                    <ViewedOwnersList
+                    />
+                </Route>
+                : null
+            }
+            {(formS && ownerDetailsClicked ) ?
+                <Route path='/item-owner/:id'>
+                    <ViewItemOwnerDetails
+
                     />
                 </Route>
                 : null

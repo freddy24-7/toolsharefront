@@ -13,8 +13,9 @@ import LendButton from "./Buttons/LendButton";
 //Passing the props from LayoutWrapper component
 const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListClicked,
                             onDetailsMove, setParticipantDetailsClicked, handleEdit, deleted, setDeleted,
-                        setShareItemClicked, onCloseShare,
-                            setLoanItemClicked, onLoan, onCloseLoan, shareItemClickHandler}) => {
+                        setShareItemClicked, onCloseShare, setOwnerDetailsClicked, setVisitedOwnerPageClicked,
+                            setLoanItemClicked, onLoan, onCloseLoan, shareItemClickHandler, onCloseOwnerDetails,
+                        onCloseOwner, visitedOwnerPageClicked}) => {
 
     console.log(formS)
     const history = useHistory();
@@ -48,12 +49,15 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
         setShareItemClicked(false);
         setLoanItemClicked(false)
         setDeleted(false);
+        setOwnerDetailsClicked(false);
+        setVisitedOwnerPageClicked(false);
         localStorage.removeItem('submission')
         localStorage.removeItem('detailsEdited')
         localStorage.removeItem('jwt')
         localStorage.removeItem('userId')
         authCtx.logout();
         history.push('/')
+        console.log(visitedOwnerPageClicked)
     };
 
     return (
