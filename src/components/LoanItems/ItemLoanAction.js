@@ -21,9 +21,9 @@ const getOwnerAPI = EXPRESS_INTEREST_GET_OWNER_DETAILS_URL
 //Obtaining token from local storage to access resource
 //Key is specified in LoginForm.js and needs to be consistent
 const initialToken = localStorage.getItem('jwt');
-console.log(initialToken)
+console.log(initialToken)g
 
-const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler, setOwnerId} ) => {
+const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler, ownerId, setOwnerId} ) => {
 
     const history = useHistory();
 
@@ -82,12 +82,26 @@ const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler
     const owner = participants.find(({items}) => Array.isArray(items) && items.find(({itemId}) => itemId == transferValue))
     console.log(owner)
     // Destructuring object to get the id of the owner;
-    const ownerId = owner?.id;
-    const phoneOfOwner=  owner?.mobileNumber;
-    const firstName = owner?.firstName;
-    const lastName = owner?.lastName;
-    const email = owner?.email;
+    const ownerOfItem = owner?.id;
+    setOwnerId(ownerOfItem);
+
     console.log(ownerId);
+
+    //Persist ownerId
+    useEffect(()=> {
+        const data = localStorage.getItem('ownerId');
+        if (data) {
+            setOwnerId(JSON.parse(data))
+        }
+    },[]);
+
+    useEffect(() => {
+        localStorage.setItem("ownerId", JSON.stringify(ownerId));
+    });
+
+    console.log(ownerId)
+
+
 
     //Below block obtains the stored userid
     const [currentLoggedInId, setCurrentLoggedInId] = useState(() => {
