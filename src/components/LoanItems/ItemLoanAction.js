@@ -9,9 +9,6 @@ import {
 } from "../../backend-urls/constants";
 
 import useAxiosCall from "../../hooks/useAxiosCall";
-import useAxiosGetAllItems from "../../hooks/useAxiosGetAllItems";
-import working from "../../assets/pexels-bidvine-1249611.jpg";
-import useBackButtons from "../../hooks/useBackButtons";
 import ParticipantService from "../../services/ParticipantService";
 
 //specifying back-end URL
@@ -38,8 +35,6 @@ const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler
     const [description, setDescription] = useState('')
     const [photoURL, setPhotoURL] = useState('')
 
-    //Setting the state used to launch Owner Details component on click
-    // const[ownerDetailsClicked, setOwnerDetailsClicked]= useState(false);
 
     //axios get by id call backend and credentials, using axios
     const getAxios = axios.get(apiURL + '/' + itemId, {
@@ -141,14 +136,6 @@ const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler
     },[]);
     console.log(id)
 
-    const getOwnerAPI = EXPRESS_INTEREST_GET_OWNER_DETAILS_URL
-
-    //Modifying URL to check by id
-    const itemSubmitter = getOwnerAPI + "/" + id;
-    console.log(itemSubmitter)
-
-
-
     //Modifying URL to check by id
     const ownerDetailsSubmitter = getOwnerAPI + "/" + id;
     console.log(ownerDetailsSubmitter)
@@ -173,6 +160,8 @@ const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler
 
     const ownerDetailsSubmitHandler = (event) => {
         event.preventDefault();
+        console.log(ownerDetailsSubmitter)
+        console.log(loanItemId)
         authAxios.post(ownerDetailsSubmitter, loanItemId)
             .then((response) => {
                 //Checking in console what data we obtain
@@ -197,9 +186,8 @@ const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler
 
     const ownerDetailsClicked = (event) => {
         ownerDetailsClickHandler(event)
+        ownerDetailsSubmitHandler(event)
     }
-
-
 
 
     return (
@@ -221,7 +209,6 @@ const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler
                         <button
                             className={classes.button}
                             onClick={(event) => ownerDetailsClicked(event)}
-                            onChange={(event) => ownerDetailsSubmitHandler(event)}
                         >Click here to get in touch with owner</button>
                         <br/>
                         <br/>
