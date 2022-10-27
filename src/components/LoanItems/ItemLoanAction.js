@@ -12,7 +12,6 @@ import useAxiosCall from "../../hooks/useAxiosCall";
 import ParticipantService from "../../services/ParticipantService";
 
 //specifying back-end URL
-const apiURL = GET_SHARE_ITEM_BY_ITEM_ID_URL;
 const getOwnerAPI = EXPRESS_INTEREST_GET_OWNER_DETAILS_URL
 
 //Obtaining token from local storage to access resource
@@ -29,37 +28,10 @@ const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler
     const {itemId} = useParams()
     console.log(itemId)
 
-    //Defining the variables for participant
-    const [participantId, setParticipantId] = useState('')
+    // Defining the variables for participant
     const [itemName, setItemName] = useState('')
     const [description, setDescription] = useState('')
     const [photoURL, setPhotoURL] = useState('')
-
-
-    //axios get by id call backend and credentials, using axios
-    const getAxios = axios.get(apiURL + '/' + itemId, {
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        'credentials': 'include'
-    })
-
-    //Runs once, to give the existing data
-    useEffect(() => {
-        getAxios
-            .then((response) => {
-                console.log(response)
-                const itemName = (response.data.itemName)
-                const description = (response.data.description)
-                const photoURL = (response.data.photoURL)
-                setItemName(itemName)
-                setDescription(description)
-                setPhotoURL(photoURL)
-            }).catch(error => {
-            console.log(error)
-            console.log(error.response.data)
-        })
-    }, [])
 
     //Using custom hook useAxiosCall to get all the participants from the list
     const {participants, setParticipants} = useAxiosCall();

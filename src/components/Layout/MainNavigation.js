@@ -55,6 +55,9 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
         localStorage.removeItem('detailsEdited')
         localStorage.removeItem('jwt')
         localStorage.removeItem('userId')
+        localStorage.removeItem('photo')
+        localStorage.removeItem('ownerId')
+        localStorage.removeItem('token')
         authCtx.logout();
         history.push('/')
         console.log(visitedOwnerPageClicked)
