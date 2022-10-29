@@ -4,9 +4,12 @@ import {useParams} from "react-router-dom";
 import axios from "axios";
 
 import {PARTICIPANT_URL} from "../../backend-urls/constants";
+import QRCode from "react-qr-code";
+import {WHATSAPP_API} from "../../backend-urls/constants";
 
 //specifying back-end URL
 const apiURL = PARTICIPANT_URL;
+
 
 //Obtaining token from local storage to access resource
 //Key is specified in LoginForm.js and needs to be consistent
@@ -49,17 +52,29 @@ const ViewItemOwnerDetails = () => {
         } )
     } , [])
 
+    const [text, setText] = useState('')
+
+    console.log(mobileNumber)
+    const mobileWithoutFirstZero = mobileNumber.slice(1)
+    console.log(mobileWithoutFirstZero)
+    const whatsAppAPIAndNumber = WHATSAPP_API + mobileWithoutFirstZero;
+    console.log(whatsAppAPIAndNumber)
+
+    useEffect(()=> {
+        setText(whatsAppAPIAndNumber)
+    },[])
+    console.log(text)
 
     return (
         <section>
-            {/*<div className={classes.photo}>*/}
-            {/*    <img src={photoURL} height={300} width={290}/>*/}
-            {/*</div>*/}
             <section className={classes.base} >
+                <QRCode value={text}/>
                 <div className={classes.control}>
-                    <p className={classes.success}>The owner is {firstName +" "+ lastName}, who can be contacted at
-                        mobile/whatsapp on</p>
-                    <p>{mobileNumber}.</p>
+                    <p className={classes.success}>The owner is {firstName +" "+ lastName}.
+                    If {firstName} has uploaded a valid whatsapp number, the QR code takes you to a whatsapp
+                        chat with {firstName}. Just point at the code with your photo app on your mobile.
+                    </p>
+                    <p>Or give a call to {firstName} at: {mobileNumber}</p>
                     <div className={classes.photo}>
                         <img src={photoURL} height={300} width={290}/>
                     </div>

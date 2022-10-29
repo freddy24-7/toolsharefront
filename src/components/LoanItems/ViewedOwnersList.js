@@ -98,15 +98,15 @@ const ViewedOwnersList = () => {
             <ul>
                 {/*checking that we have "items", then using the map-method to output the items*/}
                 {viewedItems &&
-                    viewedItems.map(item =>
+                    viewedItems.map(viewedItem =>
 
-                        ( <div className={classes.actions} key={item.itemId}>
-                            <h3>Name: {item.itemName} </h3>
-                            <h4>Description: {item.description}</h4>
+                        ( <div className={classes.actions} key={viewedItem.itemId}>
+                            <h3>Name: {viewedItem.itemName} </h3>
+                            <h4>Description: {viewedItem.description}</h4>
                             <div className={classes.photo}>
-                                <img src={item.photoURL} height={150} width={145}/>
+                                <img src={viewedItem.photoURL} height={150} width={145}/>
                             </div>
-                            <h4>Date: {item.inbuiltDateFormat}</h4>
+                            <h4>Date: {viewedItem.inbuiltDateFormat}</h4>
                             {inbuiltDateFormat}
                             <br/>
                             <br/>
