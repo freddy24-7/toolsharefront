@@ -74,9 +74,9 @@ const ViewedOwnersList = () => {
         //which then triggers this code-block to run given the dependency array
         setTimeout(function() {
             //merging to the two object arrays by mapping through them, using the itemId as key
-            let mergedArray = myViewedItems.map((item, i) => Object.assign({}, item, items[i]));
-            console.log(mergedArray)
+            const mergedArray = myViewedItems.map(m => ({ ...m, ...items.find(i => i.itemId === m.itemId) }));
             setViewedItems(mergedArray)
+            console.log(viewedItems)
         }, 0);
     },[myViewedItems])
 
@@ -98,15 +98,17 @@ const ViewedOwnersList = () => {
             <ul>
                 {/*checking that we have "items", then using the map-method to output the items*/}
                 {viewedItems &&
-                    viewedItems.map(viewedItem =>
+                    viewedItems.map(item =>
 
-                        ( <div className={classes.actions} key={viewedItem.itemId}>
-                            <h3>Name: {viewedItem.itemName} </h3>
-                            <h4>Description: {viewedItem.description}</h4>
+                        ( <div className={classes.actions} key={item.itemId}>
+                            <h5>Loan Id: {item.loanId}</h5>
+                            <h5>Item Id: {item.itemId}</h5>
+                            <h3>Name: {item.itemName} </h3>
+                            <h4>Description: {item.description}</h4>
                             <div className={classes.photo}>
-                                <img src={viewedItem.photoURL} height={150} width={145}/>
+                                <img src={item.photoURL} height={150} width={145}/>
                             </div>
-                            <h4>Date: {viewedItem.inbuiltDateFormat}</h4>
+                            <h4>Date: {item.inbuiltDateFormat}</h4>
                             {inbuiltDateFormat}
                             <br/>
                             <br/>
