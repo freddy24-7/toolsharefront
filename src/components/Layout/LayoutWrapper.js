@@ -36,9 +36,6 @@ const LayoutWrapper = ({ children }) => {
 
     const [idValue, setIdValue] = useState('');
 
-    const [firstSubmissionDone, setFirstSubmissionDone] = useState(false);
-
-
     //Below block obtains the stored userid
     const [currentLoggedInId, setCurrentLoggedInId] = useState(() => {
         // getting stored value
@@ -63,6 +60,7 @@ const LayoutWrapper = ({ children }) => {
             console.log(idValue)
             for (let i = 0; i < participants.length; i++)
                 if (participants[i].user.id == idValue) {
+                    setFormS(true);
                     console.log("exists")
                     console.log(participants[i])
                     const currentLoggedInParticipant = participants[i]
@@ -71,10 +69,8 @@ const LayoutWrapper = ({ children }) => {
                     console.log(currentLoggedInParticipantId)
                     setId(currentLoggedInParticipantId);
                     history.push(`/participant/${currentLoggedInParticipantId}`)
-                    setFormS(true);
                 } else {
                     console.log("this user is not a participant yet")
-                    setFormS(false);
                 }
         }).catch(error => {
             console.log(error)
@@ -247,19 +243,16 @@ const LayoutWrapper = ({ children }) => {
                     console.log(photoURL)
 
                     //we have access to firstName, and we pass that on with a string literal:
-                    console.log(firstSubmissionDone)
                     //the below if check is used to allow the user to go to the welcome screen directly
                     //from log in if all the earlier registrations were already done
-                    if (!firstSubmissionDone) {
                         history.push(`/participant/${response.data.id}`)
-                        setFirstSubmissionDone(true);
                         setFormS(true)
                         setFirstName("");
                         setLastName("");
                         setEmail("");
                         setMobileNumber("");
                         setPhotoURL("");
-                    }
+
                 }).catch(function (error) {
 
                     if (error.response) {
@@ -471,7 +464,7 @@ const LayoutWrapper = ({ children }) => {
             }
 
             {/*Same logic for ParticipantList component*/}
-            {(participantListClicked && formS && !firstSubmissionDone) ?
+            {(participantListClicked && formS ) ?
                 <ParticipantList
                     // participants={participantList}
                 />
@@ -539,7 +532,7 @@ const LayoutWrapper = ({ children }) => {
                 : null
             }
 
-            {(!participantListClicked && !participantDetailsClicked && formS) || editS ?
+            {(!participantListClicked && !participantDetailsClicked && formS) || !editS ?
                 <Route path='/participant/:id'>
                 <ConfirmationScreen
                 />
