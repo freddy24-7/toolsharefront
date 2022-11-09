@@ -1,4 +1,4 @@
-import {useContext, useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Link, NavLink, Route, useHistory} from 'react-router-dom';
 
 import AuthContext from '../../context/auth-context';
@@ -8,6 +8,8 @@ import LogoutButton from "./Buttons/LogoutButton";
 import ListButton from "./Buttons/ListButton";
 import BorrowButton from "./Buttons/BorrowButton";
 import LendButton from "./Buttons/LendButton";
+import applicationLogo from "../../assets/1667993269612blob.jpg";
+import laptopgirl from "../../assets/pexels-jopwell-2422286.jpg";
 
 
 //Passing the props from LayoutWrapper component
@@ -66,7 +68,9 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
 
     return (
         <header className={classes.header}>
-                <div className={classes.logo}>Tool Share Navigation</div>
+            <div className={classes.photo}>
+                <img src={applicationLogo} alt="logo" height={83} width={85}/>
+            </div>
             <nav>
                 <ul>
                     {/*Below links and buttons are conditionally displayed depending on login-state*/}
