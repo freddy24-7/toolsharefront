@@ -90,7 +90,7 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
                             <label htmlFor='File URL'>File URL</label>
                             <input
                                 type="url"
-                                placeholder="Click, then type any key to upload"
+                                placeholder="Type any key to upload"
                                 name="url"
                                 className="form-control"
                                 value={photoURL}

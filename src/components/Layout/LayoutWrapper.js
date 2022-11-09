@@ -329,7 +329,6 @@ const LayoutWrapper = ({ children }) => {
             console.log(idValue)
             for (let i = 0; i < participants.length; i++)
                 if (participants[i].user.id === idValue) {
-                    setFormS(true);
                     console.log("exists")
                     console.log(participants[i])
                     const currentLoggedInParticipant = participants[i]
@@ -338,13 +337,27 @@ const LayoutWrapper = ({ children }) => {
                     console.log(currentLoggedInParticipantId)
                     setId(currentLoggedInParticipantId);
                     history.push(`/participant/${currentLoggedInParticipantId}`)
+                    setFormS(true);
                 } else {
                     console.log("this user is not a participant yet")
+                    setFormS(false)
                 }
         }).catch(error => {
             console.log(error)
         })
     },[]);
+
+
+    useEffect(()=> {
+        const data = localStorage.getItem('submission');
+        if (data) {
+            setFormS(JSON.parse(data))
+        }
+    },[]);
+
+    useEffect(() => {
+        localStorage.setItem("submission", JSON.stringify(formS));
+    });
 
     return (
         <Fragment>
@@ -414,6 +427,8 @@ const LayoutWrapper = ({ children }) => {
                         editS={editS}
                         setEditS={setEditS}
                         handleDelete={handleDelete}
+                        setFormS={setFormS}
+                        formS={formS}
                     />
                 </Route>
                 : null

@@ -29,7 +29,7 @@ const ConfirmationScreen = () => {
     const [mobileNumber, setMobileNumber] = useState('')
     const [photoURL, setPhotoURL] = useState('')
 
-    const participant = {firstName, lastName, email, mobileNumber, photoURL}
+    const participant = {firstName, lastName, email, mobileNumber, photoURL }
 
     console.log(id)
     const participantId = id;
@@ -68,7 +68,6 @@ const ConfirmationScreen = () => {
     useEffect(() => {
         localStorage.setItem("photo", JSON.stringify(photoURL));
     });
-
 
     // conditional render: if there is a photoURL, the photo is displayed
     //alternatively, a default photo is displayed
