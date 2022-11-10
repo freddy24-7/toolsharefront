@@ -1,20 +1,14 @@
-import React, {Fragment, useEffect, useState} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import classes from './ProfileForm.module.css';
-import ParticipantService from "../../services/ParticipantService";
 import machineworker from "../../assets/pexels-karolina-grabowska-6920104.jpg";
 import {useForm} from "react-hook-form";
 import useFileUpload from "../../hooks/useFileUpload";
-import useAxiosCall from "../../hooks/useAxiosCall";
 
 function ProfileForm({firstName, setFirstName, lastName, setLastName, email, setEmail,
                          mobileNumber, setMobileNumber, submitHandler,
                          error, errorCSS, id, photoURL, setPhotoURL}, item) {
 
-    //Getting existing users in database
-    //Using custom hook useAxiosCall to get all the participants from the list
-    const { participants, setParticipants } = useAxiosCall ();
-
-    //This code forces a reload to obtain participant data
+    //This code-block forces a reload post submission, to ensure the behaviour we want
     const reloadCount = Number(sessionStorage.getItem('reloadCount')) || 0;
     useEffect(() => {
         if(reloadCount < 2) {
@@ -23,11 +17,10 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
         } else {
             sessionStorage.removeItem('reloadCount');
         }
+        //Webstorm wants that "reloadCount" is to be added as dependency here.
+        //However, this is not done as that creates infinite loop.
+        //This code should also only run once, does not removing dependency array
     }, []);
-
-    console.log(firstName)
-    console.log(id)
-    console.log(photoURL)
 
     //This code section is made to simplify the JSX in the return statement
     const firstNameInputChangeHandler = (event) => {
@@ -46,11 +39,12 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
         setMobileNumber(event.target.value);
         console.log(mobileNumber)
     }
-    //using react hook form for image upload
+
+    //using react hook form for image upload (inbuilt react hook)
     const {register, handleSubmit} = useForm();
     //using the useFileUpload custom hook
     const { obtainPhotoURL, onSubmit, setObtainPhotoURL } = useFileUpload ();
-    const URLChangeHandler = (event) => {
+    const URLChangeHandler = () => {
         setObtainPhotoURL(obtainPhotoURL);
         setPhotoURL(obtainPhotoURL)
     }
