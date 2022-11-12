@@ -75,7 +75,7 @@ const ConfirmationScreen = () => {
             <>
                 <section className={classes.base} >
                     <div className={classes.control}>
-                        <p className={classes.success}>Ready to go {participant.id}!</p>
+                        <p className={classes.success}>Ready to go {firstName}!</p>
                         <br/>
                         <br/>
                         <p>Klik op een link om te beginnen. </p>

@@ -312,7 +312,7 @@ const LayoutWrapper = ({ children }) => {
                 if (errorCheck === 500) {
                     setError("Invalid user details entered. " +
                         "Please check that your email address is valid and that your mobile number" +
-                        " has ten digits. Name sections also need to be filled out." +
+                        " has ten digits. All sections need to be filled out, including photo." +
                         " This error would also occur if you have entered an email address that is " +
                         "already in use. You may therefore also try with another email address.")
                     setErrorCSS(true)

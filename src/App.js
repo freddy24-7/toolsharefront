@@ -2,9 +2,9 @@ import { useContext } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 import LayoutWrapper from './components/Layout/LayoutWrapper';
-import LoginPage from './pages/LoginPage';
-import HomePage from './pages/HomePage';
-import RegisterPage from "./pages/RegisterPage";
+import LoginPage from './startPages/LoginPage';
+import HomePage from './startPages/HomePage';
+import RegisterPage from "./startPages/RegisterPage";
 import AuthContext from './context/auth-context';
 
 function App() {

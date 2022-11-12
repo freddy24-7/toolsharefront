@@ -67,7 +67,7 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
                     Please start with adding a photo of yourself.
                     Choose a photo to upload, then press the "pink" submit button,
                     and thereafter type any key in the next line labelled "FILE URL".
-                    Adding a photo is not mandatory.
+                    Adding a photo is mandatory.
                     <br/>
                     <br/>
                     jpg-, jpeg-, and png-files are accepted.
