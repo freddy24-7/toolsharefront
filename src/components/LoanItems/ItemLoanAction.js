@@ -3,10 +3,9 @@ import classes from "./Item.module.css";
 import {useHistory, useParams} from "react-router-dom";
 import axios from "axios";
 
-import {
-    EXPRESS_INTEREST_GET_OWNER_DETAILS_URL,
-} from "../../backend-urls/constants";
+import { EXPRESS_INTEREST_GET_OWNER_DETAILS_URL } from "../../backend-urls/constants";
 
+//Using two custom hooks
 import useAxiosCall from "../../hooks/useAxiosCall";
 import ParticipantService from "../../services/ParticipantService";
 import useAxiosGetAllItems from "../../hooks/useAxiosGetAllItems";

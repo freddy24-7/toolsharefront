@@ -17,7 +17,6 @@ console.log(initialToken)
 //Here we will use route parameters to access individual participants
 //Using "useParams", with "id" as key. Matches the ":id" key from the app component
 //Displays the username back to the user in the welcome message to the user
-
 const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete, formS, setFormS } ) => {
 
     //Below code-block to persist state, after refresh that happens after the UpdateParticipant-component is fired
@@ -32,6 +31,7 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete, for
     });
 
     //Defining the constants that can be updated
+    //Optionally this can be modified for also allowing update of  photo
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
@@ -78,6 +78,7 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete, for
                         console.log(response)
                         history.push(`/participant/${response.data.id}`)
                         setEditS(true)
+                        //forcing refresh below to get desired behaviour
                         const reloadCount = Number(sessionStorage.getItem('reloadCount')) || 0;
                         if(reloadCount < 2) {
                             sessionStorage.setItem('reloadCount', String(reloadCount + 1));

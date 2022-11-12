@@ -2,7 +2,7 @@ import {Fragment, useEffect, useState} from 'react';
 
 import MainNavigation from './MainNavigation';
 import ProfileForm from "../Profile/ProfileForm";
-import {Route, useHistory, useParams} from "react-router-dom";
+import {Route, useHistory } from "react-router-dom";
 import {useContext} from "react";
 import AuthContext from "../../context/auth-context";
 import ParticipantList from "../Profile/ParticipantList";
@@ -31,6 +31,17 @@ import {POST_SHARE_ITEM_URL} from "../../backend-urls/constants";
 
 const LayoutWrapper = ({ children }) => {
 
+    //Below code-block to persist state, after refresh that happens after the UpdateParticipant-component is fired
+    useEffect(()=> {
+        const data = localStorage.getItem('submission');
+        if (data) {
+            setFormS(JSON.parse(data))
+        }
+    },[]);
+    useEffect(() => {
+        localStorage.setItem("submission", JSON.stringify(formS));
+    });
+
     //Below block obtains the stored userid, and stores in variable "idValue"
     const [idValue, setIdValue] = useState('');
     const [currentLoggedInId, setCurrentLoggedInId] = useState(() => {
@@ -38,6 +49,8 @@ const LayoutWrapper = ({ children }) => {
         const currentId = localStorage.getItem("userId");
         setIdValue(JSON.parse(currentId));
     });
+
+    //DEFINING VARIABLES
 
     //Id for participants
     const [id, setId] = useState(null);
@@ -72,6 +85,7 @@ const LayoutWrapper = ({ children }) => {
     //This prop indicates whether participant-details are edited or not
     const [editS, setEditS]= useState(false);
 
+    //Variables for click-handlers
     const[participantListClicked, setParticipantListClicked]= useState(false);
     const[shareItemClicked, setShareItemClicked]= useState(false);
     const[loanItemClicked, setLoanItemClicked]= useState(false);
@@ -340,24 +354,11 @@ const LayoutWrapper = ({ children }) => {
                     setFormS(true);
                 } else {
                     console.log("this user is not a participant yet")
-                    setFormS(false)
                 }
         }).catch(error => {
             console.log(error)
         })
     },[]);
-
-
-    useEffect(()=> {
-        const data = localStorage.getItem('submission');
-        if (data) {
-            setFormS(JSON.parse(data))
-        }
-    },[]);
-
-    useEffect(() => {
-        localStorage.setItem("submission", JSON.stringify(formS));
-    });
 
     return (
         <Fragment>

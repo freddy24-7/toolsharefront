@@ -17,7 +17,7 @@ export const WHATSAPP_API = "https://wa.me/31"
 //To include verification of whether a phone number is on whatsapp, a get-request can be sent to the following API,
 //see below. However, one has to purchase an API-key for 20 USD. Not done for this project.
 //The constant below will therefore only be utilized in this project whenever an API-key is purchased
-const verificationAPI = 'https://watverifyapi.live/verify?api_key=wx-12384990&phones=+155895548844';
+// const verificationAPI = 'https://watverifyapi.live/verify?api_key=wx-12384990&phones=+155895548844';
 
 
 

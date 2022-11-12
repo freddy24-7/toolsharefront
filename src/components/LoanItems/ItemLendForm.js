@@ -87,11 +87,10 @@ const ItemLendForm = ({itemName, setItemName, description, setDescription, isLoa
     });
     console.log(uploadedItems)
 
+    //Gives list of lent out items, props
     const goToMyListOfItems = (event) => {
         handleMyListOfItems(event);
     }
-
-
 
     return (
 

@@ -16,12 +16,11 @@ console.log(initialToken)
 const ConfirmDeleteParticipant = () => {
 
     const {id} = useParams()
-
     console.log(id)
     const participantId = id;
     console.log(participantId)
 
-    //axios delete call
+    // axios delete call, deletes participant but user details remain
     const deleteAxios = axios.delete(apiURL + '/' + id, {
         headers: {
             Authorization: `Bearer ${initialToken}`,

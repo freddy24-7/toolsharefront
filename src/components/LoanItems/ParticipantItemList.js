@@ -6,6 +6,7 @@ import {GET_SHARE_ITEM_BY_PARTICIPANT_URL} from "../../backend-urls/constants";
 
 const ParticipantItemList = () => {
 
+    //Defining list-item variable
     const [myItems, setMyItems] = useState(null);
 
     const {id} = useParams()

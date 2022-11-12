@@ -15,10 +15,10 @@ import applicationLogo from "../../assets/1667993269612blob.jpg";
 const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListClicked,
                             onDetailsMove, setParticipantDetailsClicked, handleEdit, deleted, setDeleted,
                         setShareItemClicked, onCloseShare, setOwnerDetailsClicked, setVisitedOwnerPageClicked,
-                            setLoanItemClicked, onLoan, onCloseLoan, shareItemClickHandler, onCloseOwnerDetails,
-                        onCloseOwner, visitedOwnerPageClicked}) => {
+                            setLoanItemClicked, onLoan, onCloseLoan, shareItemClickHandler,
+                        visitedOwnerPageClicked}) => {
 
-    console.log(formS)
+    //history-hook used for navigation
     const history = useHistory();
 
     //Using useContext to manage the login-state

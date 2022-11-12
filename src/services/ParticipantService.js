@@ -22,14 +22,12 @@ const authAxios = axios.create(
 
 //Using the authAxios variable here, taking the URL and the relevant class as parameters
 class ParticipantService {
-
     saveParticipant(participant) {
         return authAxios.post(PARTICIPANT_URL, participant);
     }
-
     getAllParticipants() {
         return authAxios.get(PARTICIPANT_URL);
     }
-
 }
+
 export default new ParticipantService();
