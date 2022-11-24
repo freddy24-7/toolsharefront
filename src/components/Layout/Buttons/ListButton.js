@@ -7,7 +7,7 @@ const ListButton = ( { onClick } ) => {
         <button className={classes.button}
                 onClick={onClick}
         >
-            <span>Lijst van Deelneemers</span>
+            <span>Lijst van Deelnemers</span>
         </button>
     );
 };

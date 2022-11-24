@@ -94,7 +94,7 @@ const ViewedOwnersList = () => {
         <section>
             <section className={classes.base} >
                 <div className={classes.control}>
-                    <p className={classes.success}>Previous times you have checked out owner details</p>
+                    <p className={classes.success}>Eerdere keren dat u eigenaargegevens heeft uitgecheckt</p>
                 </div>
             </section>
             <ul>

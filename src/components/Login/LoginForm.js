@@ -68,7 +68,7 @@ export const LoginForm = ({userId}) => {
                 const errorCheck = (error.response.status)
                 //setting the error
                 if (errorCheck === 403) {
-                    setError("Invalid user details entered")
+                    setError("Ongeldige gebruikersgegevens ingevoerd")
                     setErrorCSS(true)
                 }
                 setIsLoading(false);
@@ -87,10 +87,10 @@ export const LoginForm = ({userId}) => {
             <h1>Login</h1>
             <form onSubmit={submitHandler}>
                 <div className={classes.control}>
-                    <label htmlFor='username'>Your Username</label>
+                    <label htmlFor='username'>Uw gebruikersnaam</label>
                     <input
                         type="text"
-                        placeholder= "Enter username"
+                        placeholder= "Vul je gebruikersnaam in"
                         name= "username"
                         className= "form-control"
                         value={username}
@@ -98,11 +98,11 @@ export const LoginForm = ({userId}) => {
                     />
                 </div>
                 <div className={classes.control}>
-                    <label htmlFor='password'>Your Password</label>
+                    <label htmlFor='password'>Uw wachtwoord</label>
                     <input
                         type='password'
                         id='password'
-                        placeholder= "Enter password"
+                        placeholder= "Voer wachtwoord in"
                         value={password}
                         onChange={passwordInputChangeHandler}
                     />

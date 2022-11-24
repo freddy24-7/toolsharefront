@@ -77,15 +77,16 @@ const ViewItemOwnerDetails = () => {
                 <br/>
             <section className={classes.base} >
                 <div className={classes.control}>
-                    <p className={classes.success}>The owner is {firstName +" "+ lastName}.
-                    If {firstName} has uploaded a valid whatsapp number, the QR code takes you to a whatsapp
-                        chat with {firstName}. Just point at the code with your photo app on your mobile.
+                    <p className={classes.success}>De eigenaar is {firstName +" "+ lastName}.
+                    Als {firstName} heeft een geldig whatsapp-nummer geüpload,
+                        de QR-code brengt je naar een whatsapp-chat {firstName}.
+                        Wijs gewoon naar de code met je foto-app op je mobiel.
                     </p>
-                    <p>Or give a call to {firstName} at: {mobileNumber}</p>
+                    <p>Of bel {firstName} op: {mobileNumber}</p>
                     <div className={classes.photo}>
                         <img src={photoURL} height={300} width={290}/>
                     </div>
-                    <p>An email can also be sent to {email}</p>
+                    <p>Er kan ook een e-mail gestuurd worden naar {email}</p>
                 </div>
             </section>
             </article>

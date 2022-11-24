@@ -276,7 +276,7 @@ const LayoutWrapper = ({ children }) => {
             const errorCheck = (error.response.status)
             //setting the error
             if (errorCheck === 500) {
-                setError("An error occurred. Please upload photo to continue")
+                setError("Er is een fout opgetreden. Upload een foto om door te gaan")
             }
             setIsLoading(false);
         });
@@ -310,17 +310,17 @@ const LayoutWrapper = ({ children }) => {
                 const errorCheck = (error.response.status)
                 //setting the error
                 if (errorCheck === 500) {
-                    setError("Invalid user details entered. " +
-                        "Please check that your email address is valid and that your mobile number" +
-                        " has ten digits. All sections need to be filled out, including photo." +
-                        " This error would also occur if you have entered an email address that is " +
-                        "already in use. You may therefore also try with another email address.")
+                    setError("Ongeldige gebruikersgegevens ingevoerd. " +
+                        "Controleer of uw e-mailadres geldig is en of uw mobiele nummer" +
+                        " heeft tien cijfers. Alle velden moeten worden ingevuld, inclusief foto." +
+                        " Deze fout treedt ook op als u een e-mailadres heeft ingevoerd " +
+                        " al in gebruik. U kunt het daarom ook proberen met een ander e-mailadres.")
                     setErrorCSS(true)
                 } else if (errorCheck === 403) {
-                    setError("The server has declined the request. " +
-                        "A likely reason is that another participant is already " +
-                        " logged in to the server from the device that you are using. " +
-                        "You may try to reload the page and submit again.")
+                    setError("De server heeft het verzoek afgewezen. " +
+                        "Een waarschijnlijke reden is dat er al een andere deelnemer is " +
+                        " ingelogd op de server vanaf het apparaat dat u gebruikt. " +
+                        "U kunt opnieuw proberen .")
                     setErrorCSS(true)
                 }
             } else if (error.request) {

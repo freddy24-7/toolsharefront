@@ -103,7 +103,7 @@ const RegistrationForm = () => {
                 const errorCheck = (error.response.status)
                 //setting the error
                 if (errorCheck === 409) {
-                    setError("Username Taken, please choose a different username")
+                    setError("Gebruikersnaam In gebruik, kies een andere gebruikersnaam")
                 }
                 setIsLoading(false);
             });
@@ -124,10 +124,10 @@ const RegistrationForm = () => {
             <h1>Sign Up</h1>
             <form onSubmit={submitHandler}>
                 <div className={classes.control}>
-                    <label htmlFor='username'>Username</label>
+                    <label htmlFor='username'>Gebruikersnaam</label>
                     <input
                         type="text"
-                        placeholder= "Enter username"
+                        placeholder= "Gebruikersnaam"
                         name= "username"
                         className= "form-control"
                         value={username}
@@ -136,30 +136,30 @@ const RegistrationForm = () => {
                     {usernameInputIsInvalid && <p className={classes.error}>Please enter a valid username</p>}
                 </div>
                 <div className={classes.control}>
-                    <label htmlFor='password'>Password</label>
+                    <label htmlFor='password'>Wachtwoord</label>
                     <input
                         type='password'
                         id='password'
-                        placeholder= "Enter password"
+                        placeholder= "Wachtwoord"
                         value={password}
                         onChange={passwordInputChangeHandler}
                     />
                     {passwordInputIsInvalid && <p className={classes.error}>Password needs 8 to 16 characters</p>}
                 </div>
                 <div className={classes.control}>
-                    <label htmlFor='confirm password'>Confirm Password</label>
+                    <label htmlFor='confirm password'>Wachtwoord bevestigen</label>
                     <input
                         type='password'
                         id='confirm password'
-                        placeholder= "Confirm password"
+                        placeholder= "Wachtwoord bevestigen"
                         value={matchPassword}
                         onChange={confirmPasswordInputChangeHandler}
                     />
-                    {!validMatch && <p className={classes.error}>Passwords don't match</p>}
+                    {!validMatch && <p className={classes.error}>Wachtwoorden komen niet overeen</p>}
                 </div>
                 <div className={classes.actions}>
                     {!isLoading && (
-                        <button className={classes.button}>Create Account</button>
+                        <button className={classes.button}>Account aanmaken</button>
                     )}
                     {/*Ternary statements based on frontend validation of username and password*/}
                     {/*and backend validation of password*/}

@@ -173,9 +173,9 @@ const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler
         <Fragment>
             <section className={classes.base} >
                 <div className={classes.control}>
-                    <p className={classes.success}>You have indicated interest in a {itemName}</p>
-                    <p className={classes.success}>This is a {description}. </p>
-                    <p>A photo of the actual object is here:</p>
+                    <p className={classes.success}>U heeft interesse getoond in een {ourItem.itemName}</p>
+                    <p className={classes.success}> {ourItem.description} </p>
+                    <p>Een foto van het object is hier:</p>
                 </div>
             </section>
             <div className={classes.photo}>
@@ -193,7 +193,7 @@ const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler
                         <button
                             className={classes.button}
                             onClick={(event) => ownerDetailViewedItems(event)}
-                        >All items you have checked out earlier are listed here</button>
+                        >Alle items die u eerder hebt uitgecheckt, worden hier weergegeven</button>
                     </div>
                 </div>
             </section>

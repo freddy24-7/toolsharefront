@@ -41,7 +41,7 @@ const ParticipantItemList = () => {
         <section>
             <section className={classes.base} >
                 <div className={classes.control}>
-                    <p className={classes.success}>These are the items made available by you</p>
+                    <p className={classes.success}>Dit zijn de door u ter beschikking gestelde spullen</p>
                 </div>
             </section>
         <ul>

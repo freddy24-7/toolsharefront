@@ -138,18 +138,18 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete, for
         <Fragment>
             <section className={inputClasses}>
                 <div>
-                    <p>Change details here:</p>
+                    <p>Wijzig hier gegevens:</p>
                     <br/>
                     <br/>
-                    <p>Here you can change your details if you wish</p>
-                    <p>Earlier entered details are displayed</p>
+                    <p>Hier kunt u uw gegevens wijzigen</p>
+                    <p>Eerder ingevoerde gegevens worden weergegeven</p>
                 </div>
                 <br/>
                 <br/>
                 <form >
                     <div className={classes.control}>
                         <div className={classes.control}>
-                            <label htmlFor='first name'>Please enter your first name</label>
+                            <label htmlFor='first name'>Aub uw voornaam invullen</label>
                             <input
                                 type="text"
                                 placeholder={firstName}
@@ -160,7 +160,7 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete, for
                             />
                         </div>
                         <div className={classes.control}>
-                            <label htmlFor='last name'>Please enter your last Name</label>
+                            <label htmlFor='last name'>Aub uw achteernaam invullen</label>
                             <input
                                 type="text"
                                 placeholder={lastName}
@@ -171,7 +171,7 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete, for
                             />
                         </div>
                         <div className={classes.control}>
-                            <label htmlFor='email'>Please enter your email address</label>
+                            <label htmlFor='email'>Aub uw email-adres invullen</label>
                             <input
                                 type="text"
                                 placeholder={email}
@@ -182,7 +182,7 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete, for
                             />
                         </div>
                         <div className={classes.control}>
-                            <label htmlFor='mobile number'>Please enter your mobile number</label>
+                            <label htmlFor='mobile number'>Uw mobiele telefoon</label>
                             <input
                                 type="text"
                                 placeholder={mobileNumber}
@@ -204,10 +204,10 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete, for
                 <br/>
                 <br/>
                 <p className={classes.warning}>DANGER ZONE</p>
-                <p>Do you wish to delete your records?</p>
-                <p>You will no longer be able to trade</p>
+                <p>Wilt u uw gegevens verwijderen?</p>
+                <p>U kunt niet meer handelen</p>
                 <button onClick={(event) => deleteParticipant(event)}
-                >Delete all my records</button>
+                >Wis al mijn gegevens</button>
             </section>
         <div className={classes.photo}>
             <img src={leafblower} alt="leafblower" height={600} width={580}/>

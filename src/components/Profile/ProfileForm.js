@@ -58,19 +58,19 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
     return (
         <Fragment>
             <section className={inputClasses}>
-                <div>Welcome!
+                <div>Welkom!
                     <br/>
                     <br/>
-                    Please add some more details to get started
+                    Voeg wat meer details toe om aan de slag te gaan
                     <br/>
                     <br/>
-                    Please start with adding a photo of yourself.
-                    Choose a photo to upload, then press the "pink" submit button,
-                    and thereafter type any key in the next line labelled "FILE URL".
-                    Adding a photo is mandatory.
+                    Begin met het toevoegen van een foto van jezelf.
+                    Kies een foto om te uploaden en druk vervolgens op de "roze" submitknop,
+                    en typ daarna een willekeurige letter in de volgende regel met het label "FILE URL".
+                    Het toevoegen van een foto is verplicht.
                     <br/>
                     <br/>
-                    jpg-, jpeg-, and png-files are accepted.
+                    jpg-, jpeg-, and png-files worden geaccepteerd.
                 </div>
                 <div className={classes.photo}>
                     <form onSubmit={handleSubmit(onSubmit)} >
@@ -84,7 +84,7 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
                             <label htmlFor='File URL'>File URL</label>
                             <input
                                 type="url"
-                                placeholder="Type any key to upload"
+                                placeholder="Typ op het toetsenbord om te uploaden"
                                 name="url"
                                 className="form-control"
                                 value={photoURL}
@@ -92,10 +92,10 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
                             />
                         </div>
                         <div className={classes.control}>
-                            <label htmlFor='first name'>Please enter your first name</label>
+                            <label htmlFor='first name'>Aub uw voornaam invullen</label>
                             <input
                                 type="text"
-                                placeholder="First Name"
+                                placeholder="Voornaam"
                                 name="firstName"
                                 className="form-control"
                                 value={firstName}
@@ -103,10 +103,10 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
                             />
                         </div>
                         <div className={classes.control}>
-                            <label htmlFor='last name'>Please enter your last Name</label>
+                            <label htmlFor='last name'>Aub uw achternaam invullen</label>
                             <input
                                 type="text"
-                                placeholder="Last Name"
+                                placeholder="Achternaam"
                                 name="last name"
                                 className="form-control"
                                 value={lastName}
@@ -114,7 +114,7 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
                             />
                         </div>
                         <div className={classes.control}>
-                            <label htmlFor='email'>Please enter your email address</label>
+                            <label htmlFor='email'>Aub uw email-adres invullen</label>
                             <input
                                 type="text"
                                 placeholder="Email"
@@ -125,7 +125,7 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
                             />
                         </div>
                         <div className={classes.control}>
-                            <label htmlFor='mobile number'>Please enter your mobile number</label>
+                            <label htmlFor='mobile number'>Uw mobiele telefoon</label>
                             <input
                                 type="text"
                                 placeholder="Mobile Number"

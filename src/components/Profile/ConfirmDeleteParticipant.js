@@ -34,8 +34,8 @@ const ConfirmDeleteParticipant = () => {
         <Fragment>
         <div>
             <p className={classes.base}>
-                You have been deleted. If you wish you can login again with your user credentials and
-                create new participant details. Or start from scratch and register as a new user.
+                Je bent verwijderd. Indien gewenst kunt u opnieuw inloggen met uw gebruikersreferenties en
+                nieuwe deelnemersgegevens aanmaken. Of begin helemaal opnieuw en registreer u als nieuwe gebruiker.
             </p>
         </div>
             <div className={classes.photo}>
