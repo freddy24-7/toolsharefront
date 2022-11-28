@@ -61,12 +61,13 @@ const LayoutWrapper = ({ children }) => {
     //Defining the variables for uploading new participant
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
+    const [postcode, setPostcode] = useState('')
     const [email, setEmail] = useState('')
     const [mobileNumber, setMobileNumber] = useState('')
     const [photoURL, setPhotoURL] = useState('')
 
     //Creating the participant-variable that will be used to send data to backend
-    const participant = {firstName, lastName, email, mobileNumber, photoURL}
+    const participant = {firstName, lastName, postcode, email, mobileNumber, photoURL}
     const [participants, setParticipants] = useState(null)
 
     //Error-handling
@@ -301,6 +302,7 @@ const LayoutWrapper = ({ children }) => {
                 setFormS(true)
                 setFirstName("");
                 setLastName("");
+                setPostcode("");
                 setEmail("");
                 setMobileNumber("");
                 setPhotoURL("");
@@ -398,6 +400,8 @@ const LayoutWrapper = ({ children }) => {
                     setFirstName={setFirstName}
                     lastName={lastName}
                     setLastName={setLastName}
+                    postcode={postcode}
+                    setPostcode={setPostcode}
                     email={email}
                     setEmail={setEmail}
                     mobileNumber={mobileNumber}
@@ -504,7 +508,6 @@ const LayoutWrapper = ({ children }) => {
             {(formS && ownerDetailsClicked ) ?
                 <Route path='/item-owner/:ownerId'>
                     <ViewItemOwnerDetails
-
                     />
                 </Route>
                 : null

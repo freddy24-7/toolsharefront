@@ -43,7 +43,7 @@ const ItemBorrow = ( {handleLoanInterest} ) => {
                         </div>
                         <button onClick={(event) => goToBorrowActionLocation(setItemId(item.itemId)
                         )}
-                        >Click to borrow me</button>
+                        >Klik hier om mij te lenen</button>
                     </div>))}
         </ul>
     );

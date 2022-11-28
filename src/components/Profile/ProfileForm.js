@@ -6,7 +6,7 @@ import useFileUpload from "../../hooks/useFileUpload";
 
 function ProfileForm({firstName, setFirstName, lastName, setLastName, email, setEmail,
                          mobileNumber, setMobileNumber, submitHandler,
-                         error, errorCSS, id, photoURL, setPhotoURL}, item) {
+                         error, errorCSS, id, photoURL, setPhotoURL, postcode, setPostcode}, item) {
 
     //This code-block forces a reload post submission, to ensure the behaviour we want
     const reloadCount = Number(sessionStorage.getItem('reloadCount')) || 0;
@@ -30,6 +30,10 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
     const lastNameInputChangeHandler = (event) => {
         setLastName(event.target.value);
         console.log(lastName)
+    }
+    const postcodeInputChangeHandler = (event) => {
+        setPostcode(event.target.value);
+        console.log(postcode)
     }
     const emailInputChangeHandler = (event) => {
         setEmail(event.target.value);
@@ -65,8 +69,8 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
                     <br/>
                     <br/>
                     Begin met het toevoegen van een foto van jezelf.
-                    Kies een foto om te uploaden en druk vervolgens op de "roze" submitknop,
-                    en typ daarna een willekeurige letter in de volgende regel met het label "FILE URL".
+                    Kies een foto om te uploaden en druk vervolgens op de "roze-text" submitknop,
+                    en typ daarna een willekeurige letter in het volgend veld met het label "FILE URL".
                     Het toevoegen van een foto is verplicht.
                     <br/>
                     <br/>
@@ -111,6 +115,17 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
                                 className="form-control"
                                 value={lastName}
                                 onChange={lastNameInputChangeHandler}
+                            />
+                        </div>
+                        <div className={classes.control}>
+                            <label htmlFor='postcode'>Aub uw postcode invullen</label>
+                            <input
+                                type="text"
+                                placeholder="Postcode"
+                                name="postcode"
+                                className="form-control"
+                                value={postcode}
+                                onChange={postcodeInputChangeHandler}
                             />
                         </div>
                         <div className={classes.control}>

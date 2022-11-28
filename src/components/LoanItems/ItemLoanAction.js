@@ -166,6 +166,8 @@ const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler
     const ourItem = items[searchIndex]
     console.log(ourItem)
     const displayPhoto = ourItem?.photoURL;
+    const displayName = ourItem?.itemName;
+    const displayDescription = ourItem?.description;
     console.log(displayPhoto);
 
     return (
@@ -173,8 +175,8 @@ const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler
         <Fragment>
             <section className={classes.base} >
                 <div className={classes.control}>
-                    <p className={classes.success}>U heeft interesse getoond in een {ourItem.itemName}</p>
-                    <p className={classes.success}> {ourItem.description} </p>
+                    <p className={classes.success}>U heeft interesse getoond in een {displayName}</p>
+                    <p className={classes.success}> {displayDescription} </p>
                     <p>Een foto van het object is hier:</p>
                 </div>
             </section>
@@ -187,7 +189,7 @@ const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler
                         <button
                             className={classes.button}
                             onClick={(event) => ownerDetailsClicked(event)}
-                        >Click here to get in touch with owner</button>
+                        >Klik hier om in contact te komen met de eigenaar</button>
                         <br/>
                         <br/>
                         <button

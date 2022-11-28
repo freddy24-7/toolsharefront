@@ -5,6 +5,8 @@ import leafblower from "../../assets/pexels-pixabay-162564.jpg";
 
 import {PARTICIPANT_URL} from "../../backend-urls/constants";
 import axios from 'axios';
+import {useForm} from "react-hook-form";
+import useFileUpload from "../../hooks/useFileUpload";
 
 //specifying back-end URL
 const apiURL = PARTICIPANT_URL;
@@ -34,11 +36,14 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete, for
     //Optionally this can be modified for also allowing update of  photo
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
+    const [postcode, setPostcode] = useState('')
     const [email, setEmail] = useState('')
     const [mobileNumber, setMobileNumber] = useState('')
+    const [photoURL, setPhotoURL] = useState('')
+
 
     //Defining variable for backend
-    const participant = {firstName, lastName, email, mobileNumber}
+    const participant = {firstName, lastName, email, mobileNumber, postcode, photoURL}
 
     //Participant id picked up from useParams
     const {id} = useParams()
@@ -49,7 +54,7 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete, for
     console.log(participantId)
 
     //axios edit call credentials
-    const editAxios = axios.put(apiURL + '/' + id, {firstName, lastName, email, mobileNumber}, {
+    const editAxios = axios.put(apiURL + '/' + id, {firstName, lastName, email, mobileNumber, postcode, photoURL}, {
         headers: {
             'Content-Type': 'application/json',
         },
@@ -106,6 +111,8 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete, for
                 setLastName(response.data.lastName)
                 setEmail(response.data.email)
                 setMobileNumber(response.data.mobileNumber)
+                setPhotoURL(response.data.photoURL)
+                setPostcode(response.data.postcode)
             } ).catch(error => {
                 console.log(error)
                 console.log(error.response.data)
@@ -134,19 +141,43 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete, for
         handleDelete(event);
     }
 
+    //using react hook form for image upload (inbuilt react hook)
+    const {register, handleSubmit} = useForm();
+    //using the useFileUpload custom hook
+    const { obtainPhotoURL, onSubmit, setObtainPhotoURL } = useFileUpload ();
+    const URLChangeHandler = () => {
+        setObtainPhotoURL(obtainPhotoURL);
+        setPhotoURL(obtainPhotoURL)
+    }
+
     return (
         <Fragment>
             <section className={inputClasses}>
                 <div>
                     <p>Wijzig hier gegevens:</p>
-                    <br/>
-                    <br/>
                     <p>Hier kunt u uw gegevens wijzigen</p>
                     <p>Eerder ingevoerde gegevens worden weergegeven</p>
+                    Als u jouw foto wil vervangen, kies een foto om te uploaden en druk vervolgens op de "roze-text" submitknop,
+                    en typ daarna een willekeurige letter in het volgend veld met het label "FILE URL".
                 </div>
-                <br/>
-                <br/>
+                <div className={classes.photo}>
+                    <form onSubmit={handleSubmit(onSubmit)} >
+                        <input type="file" {...register("file")} />
+                        <input type="submit" className={classes.submit}/>
+                    </form>
+                </div>
                 <form >
+                    <div className={classes.control}>
+                        <label htmlFor='File URL'>File URL</label>
+                        <input
+                            type="url"
+                            placeholder="Typ op het toetsenbord om te uploaden"
+                            name="url"
+                            className="form-control"
+                            value={photoURL}
+                            onChange={URLChangeHandler}
+                        />
+                    </div>
                     <div className={classes.control}>
                         <div className={classes.control}>
                             <label htmlFor='first name'>Aub uw voornaam invullen</label>
@@ -168,6 +199,17 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete, for
                                 className="form-control"
                                 value={lastName}
                                 onChange={(event) => setLastName(event.target.value)}
+                            />
+                        </div>
+                        <div className={classes.control}>
+                            <label htmlFor='postcode'>Aub uw postcode invullen</label>
+                            <input
+                                type="text"
+                                placeholder="Postcode"
+                                name="postcode"
+                                className="form-control"
+                                value={postcode}
+                                onChange={(event) => setPostcode(event.target.value)}
                             />
                         </div>
                         <div className={classes.control}>

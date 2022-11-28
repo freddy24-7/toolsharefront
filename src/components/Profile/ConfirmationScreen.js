@@ -25,8 +25,9 @@ const ConfirmationScreen = () => {
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [mobileNumber, setMobileNumber] = useState('')
+    const [postcode, setPostcode] = useState('')
     const [photoURL, setPhotoURL] = useState('')
-    const participant = {firstName, lastName, email, mobileNumber, photoURL }
+    const participant = {firstName, lastName, email, mobileNumber, postcode, photoURL }
 
     console.log(id)
     const participantId = id;
@@ -49,6 +50,7 @@ const ConfirmationScreen = () => {
                 setLastName(response.data.lastName)
                 setEmail(response.data.email)
                 setMobileNumber(response.data.mobileNumber)
+                setPostcode(response.data.postcode)
                 setPhotoURL(response.data.photoURL)
             } ).catch(error => {
             console.log(error)
