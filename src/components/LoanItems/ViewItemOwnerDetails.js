@@ -112,10 +112,10 @@ const ViewItemOwnerDetails = () => {
     const whatsAppAPIAndNumber = WHATSAPP_API + mobileWithoutFirstZero;
     console.log(whatsAppAPIAndNumber)
 
-    //setting the qr code
+    //setting the qr code - gets updated for every re-render
     useEffect(()=> {
         setQr(whatsAppAPIAndNumber)
-    },[])
+    })
     console.log(qr)
 
     //Getting the API and API key, and adding language as per documentation to get the output in Dutch
