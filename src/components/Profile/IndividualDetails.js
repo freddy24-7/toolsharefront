@@ -47,6 +47,7 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete, for
 
     //Participant id picked up from useParams
     const {id} = useParams()
+    console.log(id)
 
     //history used to push back to confirmation screen after edits done
     const history = useHistory();

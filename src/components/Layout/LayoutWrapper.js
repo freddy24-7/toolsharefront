@@ -226,6 +226,7 @@ const LayoutWrapper = ({ children }) => {
         setDeleted(true)
         setOwnerDetailsClicked(false)
         setVisitedOwnerPageClicked(false)
+        authCtx.logout();
     }
 
     //Opens the loan component, closes the other components
@@ -313,10 +314,10 @@ const LayoutWrapper = ({ children }) => {
                 //setting the error
                 if (errorCheck === 500) {
                     setError("Ongeldige gebruikersgegevens ingevoerd. " +
-                        "Controleer of uw e-mailadres geldig is en of uw mobiele nummer" +
-                        " heeft tien cijfers. Alle velden moeten worden ingevuld, inclusief foto." +
+                        "Controleer of uw e-mailadres, mobiele nummer en '3543-postcode' allemaal geldig zijn. " +
+                        " Alle velden moeten worden ingevuld, inclusief foto." +
                         " Deze fout treedt ook op als u een e-mailadres heeft ingevoerd " +
-                        " al in gebruik. U kunt het daarom ook proberen met een ander e-mailadres.")
+                        " die al in gebruik is. U kunt het daarom ook proberen met een ander e-mailadres.")
                     setErrorCSS(true)
                 } else if (errorCheck === 403) {
                     setError("De server heeft het verzoek afgewezen. " +
