@@ -27,7 +27,6 @@ import {POST_SHARE_ITEM_URL} from "../../backend-urls/constants";
 
 const LayoutWrapper = ({ children }) => {
 
-
     const [id, setId] = useState(null);
     console.log(id)
 
