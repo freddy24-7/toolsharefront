@@ -262,14 +262,15 @@ const LayoutWrapper = ({ children }) => {
         setDeleted(true)
     }
 
+    const [itemId, setItemId] = useState(null);
+
     //Opens the loan component, closes the other components
     const handleLoanInterest = () => {
-        history.push(`/item/loan/${id}`);
         console.log("borrow me button pressed")
         setParticipantDetailsClicked(false);
         setParticipantListClicked(false)
         setShareItemClicked(false)
-        setLoanItemClicked(false)
+        setLoanItemClicked(true)
     }
 
     //Opens my item list component, closes the other components
@@ -291,8 +292,6 @@ const LayoutWrapper = ({ children }) => {
     //Defining the variables for uploading new item
     const [itemName, setItemName] = useState('')
     const [description, setDescription] = useState('')
-
-    const [itemID, setItemId] = useState(null);
 
     //Modifying URL to check by id
     const itemSubmitter = POST_SHARE_ITEM_URL + "/" + participantId;
@@ -467,6 +466,8 @@ const LayoutWrapper = ({ children }) => {
                     <ItemBorrow
                         error={error}
                         errorCSS={errorCSS}
+                        // itemId={itemId}
+                        // setItemId={setItemId}
                         handleLoanInterest={handleLoanInterest}
                     />
                 </Route>
@@ -489,8 +490,10 @@ const LayoutWrapper = ({ children }) => {
                 : null
             }
             {(formS ) ?
-                <Route path='/item/loan/:id'>
+                <Route path='/item/loan/:itemId'>
                 <ItemLoanAction
+                    itemId={itemId}
+                    setItemId={setItemId}
                 />
                 </Route>
                 : null
