@@ -1,4 +1,4 @@
-import {Fragment, useCallback, useEffect, useMemo, useState} from 'react';
+import {Fragment, useEffect, useState} from 'react';
 
 import MainNavigation from './MainNavigation';
 import ProfileForm from "../Profile/ProfileForm";
@@ -27,7 +27,8 @@ import {POST_SHARE_ITEM_URL} from "../../backend-urls/constants";
 
 const LayoutWrapper = ({ children }) => {
 
-    const [userId, setUserId] = useState('');
+    const [id, setId] = useState(null);
+    console.log(id)
 
     const [idValue, setIdValue] = useState('');
 
@@ -53,41 +54,31 @@ const LayoutWrapper = ({ children }) => {
             const participants = response.data;
             console.log(participants);
             console.log(idValue)
-            for (let i = 0; i < participants.length; i++) {
+            for (let i = 0; i < participants.length; i++)
                 if (participants[i].user.id == idValue) {
                     console.log("exists")
                     console.log(participants[i])
                     const currentLoggedInParticipant = participants[i]
-                    console.log(currentLoggedInParticipant)
-                    const currentId = (currentLoggedInParticipant.id)
-                    const firstName = (currentLoggedInParticipant.firstName)
-                    const lastName = (currentLoggedInParticipant.lastName)
-                    const email = (currentLoggedInParticipant.email)
-                    const mobileNumber = (currentLoggedInParticipant.mobileNumber)
-                    const photoURL = (currentLoggedInParticipant.photoURL)
-                    console.log(currentId)
-                    console.log(firstName)
-                    console.log(lastName)
-                    console.log(email)
-                    console.log(mobileNumber)
-                    console.log(photoURL)
-                    console.log(currentId)
-                    setId(currentId)
-                    console.log(id)
-                    history.push(`/participant/${currentLoggedInParticipant.firstName}`)
+                    console.log(currentLoggedInParticipant.id);
+                    const currentLoggedInParticipantId = currentLoggedInParticipant.id;
+                    console.log(currentLoggedInParticipantId)
+                    setId(currentLoggedInParticipantId);
+                    // history.push(`/participant/${currentLoggedInParticipant.id}`)
+                    history.push(`/participant/${currentLoggedInParticipantId}`)
                     setFormS(true);
                 } else {
                     console.log("this user is not a participant yet")
                     setFormS(false);
                 }
-            }
         }).catch(error => {
             console.log(error)
         })
+
     },[]);
+    console.log(id)
+
 
     //Defining the variables for uploading new participant
-    const [id, setId] = useState(null);
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
@@ -417,6 +408,7 @@ const LayoutWrapper = ({ children }) => {
                         editS={editS}
                         setEditS={setEditS}
                         formS={formS}
+                        participantId={participantId}
                         handleDelete={handleDelete}
                     />
                 </Route>
