@@ -18,7 +18,8 @@ console.log(initialToken)
 //Using "useParams", with "id" as key. Matches the ":id" key from the app component
 //Displays the username back to the user in the welcome message to the user
 
-const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete, formS} ) => {
+const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete} ) => {
+
 
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
