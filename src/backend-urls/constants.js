@@ -7,11 +7,17 @@ export const FILE_UPLOAD_URL = BASE_API_URL + '/api/imagefile/upload';
 export const POST_SHARE_ITEM_URL = BASE_API_URL + '/api/items/participants/items';
 export const GET_SHARE_ITEM_URL = BASE_API_URL + '/api/items/items';
 export const GET_SHARE_ITEM_BY_PARTICIPANT_URL = BASE_API_URL + '/api/items/participants/items';
-export const GET_SHARE_ITEM_BY_ITEM_ID_URL = BASE_API_URL + '/api/items/items';
 export const EXPRESS_INTEREST_GET_OWNER_DETAILS_URL = BASE_API_URL + '/api/loan/participant';
 export const GET_HISTORY_OF_VIEWED_ITEMS = BASE_API_URL + '/api/loan/participants/loaninterest';
 
+// Below is a free resource that constructs a whatsapp QR-code from a phone number input
+//This is utilized in the application
 export const WHATSAPP_API = "https://wa.me/31"
+
+//To include verification of whether a phone number is on whatsapp, a get-request can be sent to the following API,
+//see below. However, one has to purchase an API-key for 20 USD. Not done for this project.
+//The constant below will therefore only be utilized in this project whenever an API-key is purchased
+const verificationAPI = 'https://watverifyapi.live/verify?api_key=wx-12384990&phones=+155895548844';
 
 
 
