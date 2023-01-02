@@ -193,7 +193,7 @@ const LayoutWrapper = ({ children }) => {
                     console.log(photoURL)
 
                     //we have access to firstName, and we pass that on with a string literal:
-                    history.push(`/participant/${response.data.firstName}`)
+                    history.push(`/participant/${response.data.id}`)
                     setFormS(true)
                     setFirstName("");
                     setLastName("");
@@ -277,6 +277,7 @@ const LayoutWrapper = ({ children }) => {
 
     const [itemID, setItemId] = useState(null);
 
+    //Modifying URL to check by id
     const itemSubmitter = POST_SHARE_ITEM_URL + "/" + participantId;
     console.log(itemSubmitter)
 
@@ -316,6 +317,7 @@ const LayoutWrapper = ({ children }) => {
                 setObtainPhotoURL("");
                 setPhotoURL("")
 
+
             }).catch(error => {
 
             //checking error response stats
@@ -332,6 +334,8 @@ const LayoutWrapper = ({ children }) => {
         //Have to set the error back to null here!
         setError(null);
     };
+
+
 
     return (
         <Fragment>
