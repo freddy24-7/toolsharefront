@@ -7,7 +7,7 @@ import {useForm} from "react-hook-form";
 import useFileUpload from "../../hooks/useFileUpload";
 
 const ItemLendForm = ({itemName, setItemName, description, setDescription, isLoading, setIsLoading,
-                      itemSubmitHandler, photoURL, setPhotoURL}, item) => {
+                      itemSubmitHandler, photoURL, setPhotoURL, error, errorCSS}, item) => {
 
     const {id} = useParams()
 
@@ -28,10 +28,6 @@ const ItemLendForm = ({itemName, setItemName, description, setDescription, isLoa
         setDescription(event.target.value);
         console.log(description)
     }
-    //Error-handling
-    const [error, setError] = useState(null);
-    //Constant for dynamic CSS display
-    const [errorCSS, setErrorCSS] = useState(false);
 
     //Dynamic use of CSS, other styles appear if input is invalid
     const inputClasses = errorCSS
@@ -110,8 +106,8 @@ const ItemLendForm = ({itemName, setItemName, description, setDescription, isLoa
                     {isLoading && <p >Item has been added! Feel free to add more items. To exit, press one of the links above.</p>}
                 </div>
                 {/*Terniary statement displaying server error back to user*/}
-                {error && <div className={classes.error}> {error} </div>}
                 </div>
+                    {error && <div className={classes.error}> {error} </div>}
                 </div>
             </section>
 
