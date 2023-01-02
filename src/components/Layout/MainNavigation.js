@@ -22,23 +22,6 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
     console.log(formS)
     const history = useHistory();
 
-    //This component receives the formS prop via LayoutWrapper (parent) when the user presses the submit-button
-    //in Profile Form. The state can be used to display navigation content conditionally.
-    //However, without the two below useEffect code blocks, the state goes back to null upon refresh
-    //The bottom useEffect sets the state, the other useEffect gets it as it render only once and picks up the state
-    //from local storage
-
-    useEffect(()=> {
-        const data = localStorage.getItem('submission');
-        if (data) {
-            setFormS(JSON.parse(data))
-        }
-    },[]);
-
-    useEffect(() => {
-            localStorage.setItem("submission", JSON.stringify(formS));
-        });
-
     //Using useContext to manage the login-state
     const authCtx = useContext(AuthContext);
     const isLoggedIn = authCtx.isLoggedIn;

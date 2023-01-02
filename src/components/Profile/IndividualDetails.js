@@ -18,20 +18,33 @@ console.log(initialToken)
 //Using "useParams", with "id" as key. Matches the ":id" key from the app component
 //Displays the username back to the user in the welcome message to the user
 
-const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete} ) => {
+const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete, formS, setFormS } ) => {
 
+    //Below code-block to persist state, after refresh that happens after the UpdateParticipant-component is fired
+    useEffect(()=> {
+        const data = localStorage.getItem('submission');
+        if (data) {
+            setFormS(JSON.parse(data))
+        }
+    },[]);
+    useEffect(() => {
+        localStorage.setItem("submission", JSON.stringify(formS));
+    });
 
+    //Defining the constants that can be updated
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [mobileNumber, setMobileNumber] = useState('')
 
+    //Defining variable for backend
     const participant = {firstName, lastName, email, mobileNumber}
 
+    //Participant id picked up from useParams
     const {id} = useParams()
 
+    //history used to push back to confirmation screen after edits done
     const history = useHistory();
-    console.log(id)
     const participantId = id;
     console.log(participantId)
 
@@ -65,6 +78,13 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete} ) =
                         console.log(response)
                         history.push(`/participant/${response.data.id}`)
                         setEditS(true)
+                        const reloadCount = Number(sessionStorage.getItem('reloadCount')) || 0;
+                        if(reloadCount < 2) {
+                            sessionStorage.setItem('reloadCount', String(reloadCount + 1));
+                            window.location.reload();
+                        } else {
+                            sessionStorage.removeItem('reloadCount');
+                        }
                     }).catch(error => {
                     console.log(error)
                     console.log(error.response.data)
@@ -108,6 +128,7 @@ const IndividualDetails = ( {error, errorCSS, editS, setEditS, handleDelete} ) =
         localStorage.setItem('detailsEdited', JSON.stringify(editS));
     });
 
+    //Function to delete a participant, using props
     const deleteParticipant = (event) => {
         handleDelete(event);
     }
