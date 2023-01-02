@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
 import {FILE_UPLOAD_URL} from "../backend-urls/constants";
 
+//This approach works but is a little clunky
+//A better way to do this would be to use Firebase for images, but this works too for a demo project
+
 //Below we are defining a custom hook and returning the variable values
 //These can then be re-used in other components
 

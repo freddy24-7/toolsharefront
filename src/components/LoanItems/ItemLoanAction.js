@@ -5,11 +5,11 @@ import axios from "axios";
 
 import {
     EXPRESS_INTEREST_GET_OWNER_DETAILS_URL,
-    GET_SHARE_ITEM_BY_ITEM_ID_URL, GET_SHARE_ITEM_BY_PARTICIPANT_URL
 } from "../../backend-urls/constants";
 
 import useAxiosCall from "../../hooks/useAxiosCall";
 import ParticipantService from "../../services/ParticipantService";
+import useAxiosGetAllItems from "../../hooks/useAxiosGetAllItems";
 
 //specifying back-end URL
 const getOwnerAPI = EXPRESS_INTEREST_GET_OWNER_DETAILS_URL
@@ -19,7 +19,7 @@ const getOwnerAPI = EXPRESS_INTEREST_GET_OWNER_DETAILS_URL
 const initialToken = localStorage.getItem('jwt');
 console.log(initialToken)
 
-const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler, ownerId, setOwnerId} ) => {
+const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler, ownerId, setOwnerId } ) => {
 
     const history = useHistory();
 
@@ -28,31 +28,39 @@ const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler
     const {itemId} = useParams()
     console.log(itemId)
 
-    // Defining the variables for participant
+    // Defining the variables for the items
     const [itemName, setItemName] = useState('')
     const [description, setDescription] = useState('')
-    const [photoURL, setPhotoURL] = useState('')
+
+    //id variable for participants
+    const [id, setId] = useState([]);
 
     //Using custom hook useAxiosCall to get all the participants from the list
     const {participants, setParticipants} = useAxiosCall();
 
+    //userId variable
     const [idValue, setIdValue] = useState([]);
 
-    //The below code may look redundant but is not. Using "itemId" directly in the
-    // "owner-find"-function below confuses the compiler
-    const transferValue = itemId
-    console.log(transferValue)
+    //Modifying URL to check by id
+    const ownerDetailsSubmitter = getOwnerAPI + "/" + id;
+    console.log(ownerDetailsSubmitter)
 
-    //the below code block was tricky and took days to figure out, this is a nested array of objects and to find the owner of a particular
-    //itemId was the trickiest part of this application. The "Array.isArray"-method solved this, as all the filter-, find- and
-    //map methods did not work for this more complex array structure
-    const owner = participants.find(({items}) => Array.isArray(items) && items.find(({itemId}) => itemId == transferValue))
-    console.log(owner)
-    // Destructuring object to get the id of the owner;
-    const ownerOfItem = owner?.id;
-    setOwnerId(ownerOfItem);
+    //Obtaining token from local storage to access resource
+    //Key is specified in LoginForm.js and needs to be consistent
+    const initialToken = localStorage.getItem('jwt');
 
-    console.log(ownerId);
+    //Authorization for API call
+    const authAxios = axios.create(
+        {
+            baseURL: getOwnerAPI,
+            headers: {
+                Authorization: `Bearer ${initialToken}`
+            }
+        }
+    )
+
+    //Creating the variable that will be used to send data to backend
+    const loanItemId = {itemId}
 
     //Persist ownerId
     useEffect(()=> {
@@ -61,14 +69,9 @@ const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler
             setOwnerId(JSON.parse(data))
         }
     },[]);
-
     useEffect(() => {
         localStorage.setItem("ownerId", JSON.stringify(ownerId));
     });
-
-    console.log(ownerId)
-
-
 
     //Below block obtains the stored userid
     const [currentLoggedInId, setCurrentLoggedInId] = useState(() => {
@@ -76,12 +79,26 @@ const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler
         const currentId = localStorage.getItem("userId");
         setIdValue(JSON.parse(currentId));
     });
-    console.log(idValue);
-    console.log(currentLoggedInId)
 
-    const [id, setId] = useState([]);
+    //The below code may look redundant but is not. Using "itemId" directly in the
+    // "owner-find"-function below confuses the compiler
+    const transferValue = itemId
+    console.log(transferValue)
 
-    //Getting existing users in database
+
+    //The below code block was tricky and took days to figure out, this is a nested array of objects and to find the owner of a particular
+    //itemId was the trickiest part of this application. The "Array.isArray"-method solved this, as all the filter-, find- and
+    //map methods did not work for this more complex array structure
+    const owner = participants.find(({items}) => Array.isArray(items) && items.find(({itemId}) => itemId == transferValue))
+    console.log(owner)
+    // Destructuring object to get the id of the owner;
+    const ownerOfItem = owner?.id;
+    setOwnerId(ownerOfItem);
+    console.log(ownerId);
+
+
+    //Using the below code-block to find the participant-id. Cannot use useParams for that here as
+    //use-Param is already managing a different id-variable
     useEffect(() => {
         ParticipantService.getAllParticipants().then((response) => {
             console.log(response.data)
@@ -106,30 +123,8 @@ const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler
         })
 
     },[]);
-    console.log(id)
 
-    //Modifying URL to check by id
-    const ownerDetailsSubmitter = getOwnerAPI + "/" + id;
-    console.log(ownerDetailsSubmitter)
-
-    //Obtaining token from local storage to access resource
-    //Key is specified in LoginForm.js and needs to be consistent
-    const initialToken = localStorage.getItem('jwt');
-    console.log(initialToken)
-
-    const authAxios = axios.create(
-        {
-            baseURL: getOwnerAPI,
-            headers: {
-                Authorization: `Bearer ${initialToken}`
-            }
-        }
-    )
-
-    //Creating the variable that will be used to send data to backend
-    const loanItemId = {itemId}
-    console.log(ownerId)
-
+    //Obtaining owner details for items that the participant may want to borrow
     const ownerDetailsSubmitHandler = (event) => {
         event.preventDefault();
         console.log(ownerDetailsSubmitter)
@@ -152,15 +147,27 @@ const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler
         });
     };
 
+    //Click events
     const ownerDetailViewedItems= (event) => {
         handleOwnerDetailViewedItems(event);
     }
-
     const ownerDetailsClicked = (event) => {
         ownerDetailsClickHandler(event)
         ownerDetailsSubmitHandler(event)
     }
 
+    //using the custom hook to find the photoURL to display
+    const { items, setItems } = useAxiosGetAllItems ();
+    console.log(items)
+    //Using custom hook useAxiosCall to get all the items from the list
+    //needed to access the photoURL
+    //Finding the index of where the current item is
+    const searchIndex = items.findIndex((item) => item.itemId==itemId);
+    console.log(searchIndex)
+    const ourItem = items[searchIndex]
+    console.log(ourItem)
+    const displayPhoto = ourItem?.photoURL;
+    console.log(displayPhoto);
 
     return (
 
@@ -173,7 +180,7 @@ const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler
                 </div>
             </section>
             <div className={classes.photo}>
-                <img src={photoURL} height={300} width={290}/>
+                <img src={displayPhoto} height={300} width={290}/>
             </div>
             <section className={classes.base} >
                 <div className={classes.click}>

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import classes from "./Item.module.css";
+import classes from "./Qr.module.css";
 import {useParams} from "react-router-dom";
 import axios from "axios";
 
@@ -52,7 +52,7 @@ const ViewItemOwnerDetails = () => {
         } )
     } , [])
 
-    const [text, setText] = useState('')
+    const [qr, setQr] = useState('')
 
     console.log(mobileNumber)
     const mobileWithoutFirstZero = mobileNumber.slice(1)
@@ -61,14 +61,21 @@ const ViewItemOwnerDetails = () => {
     console.log(whatsAppAPIAndNumber)
 
     useEffect(()=> {
-        setText(whatsAppAPIAndNumber)
+        setQr(whatsAppAPIAndNumber)
     },[])
-    console.log(text)
+    console.log(qr)
 
     return (
-        <section>
+
+
+        <>
+            <article className={classes.display}>
+            <div className={classes.qr}>
+                <QRCode value={qr}/>
+            </div>
+                <br/>
+                <br/>
             <section className={classes.base} >
-                <QRCode value={text}/>
                 <div className={classes.control}>
                     <p className={classes.success}>The owner is {firstName +" "+ lastName}.
                     If {firstName} has uploaded a valid whatsapp number, the QR code takes you to a whatsapp
@@ -81,8 +88,9 @@ const ViewItemOwnerDetails = () => {
                     <p>An email can also be sent to {email}</p>
                 </div>
             </section>
+            </article>
 
-        </section>
+        </>
     );
 };
 
