@@ -70,8 +70,13 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
                     Please add some more details to get started
                     <br/>
                     <br/>
-                    Please start with adding your photo.
-                    Choose file, press submit, then type any key in the next line (FILE URL)
+                    Please start with adding a photo of yourself.
+                    Choose a photo to upload, then press the "pink" submit button,
+                    and thereafter type any key in the next line labelled "FILE URL".
+                    Adding a photo is not mandatory.
+                    <br/>
+                    <br/>
+                    jpg-, jpeg-, and png-files are accepted.
                 </div>
                 <div className={classes.photo}>
                     <form onSubmit={handleSubmit(onSubmit)} >
