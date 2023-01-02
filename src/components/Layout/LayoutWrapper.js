@@ -193,7 +193,7 @@ const LayoutWrapper = ({ children }) => {
                     console.log(photoURL)
 
                     //we have access to firstName, and we pass that on with a string literal:
-                    history.push(`/participant/${response.data.id}`)
+                    history.push(`/participant/${response.data.firstName}`)
                     setFormS(true)
                     setFirstName("");
                     setLastName("");
@@ -284,7 +284,9 @@ const LayoutWrapper = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false);
 
     //Creating the variable that will be used to send data to backend
-    const loanItem = { participantId, itemName, description }
+    const loanItem = { participantId, itemName, description, photoURL }
+
+    const [obtainPhotoURL, setObtainPhotoURL] = useState('');
 
     const itemSubmitHandler = (event) => {
         event.preventDefault();
@@ -311,6 +313,8 @@ const LayoutWrapper = ({ children }) => {
                 setFormS(true)
                 setItemName("");
                 setDescription("");
+                setObtainPhotoURL("");
+                setPhotoURL("")
 
             }).catch(function (error) {
 
@@ -389,6 +393,7 @@ const LayoutWrapper = ({ children }) => {
                     id={id}
                     photoURL={photoURL}
                     setPhotoURL={setPhotoURL}
+
                 />
                 : null
             }
@@ -437,6 +442,10 @@ const LayoutWrapper = ({ children }) => {
                         setDescription={setDescription}
                         isLoading={isLoading}
                         setIsLoading={setIsLoading}
+                        photoURL={photoURL}
+                        setPhotoURL={setPhotoURL}
+                        obtainPhotoURL={obtainPhotoURL}
+                        setObtainPhotoURL={setObtainPhotoURL}
                         itemSubmitHandler={itemSubmitHandler}
                     />
                 </Route>
