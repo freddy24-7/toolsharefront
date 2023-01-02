@@ -1,3 +1,4 @@
+//Custom-hook to get all items
 import React, {useEffect, useState} from 'react';
 import ShareItemService from "../services/ShareItemService";
 

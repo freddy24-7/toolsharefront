@@ -3,10 +3,9 @@ import classes from "./Item.module.css";
 import {useHistory, useParams} from "react-router-dom";
 import axios from "axios";
 
-import {
-    EXPRESS_INTEREST_GET_OWNER_DETAILS_URL,
-} from "../../backend-urls/constants";
+import { EXPRESS_INTEREST_GET_OWNER_DETAILS_URL } from "../../backend-urls/constants";
 
+//Using two custom hooks
 import useAxiosCall from "../../hooks/useAxiosCall";
 import ParticipantService from "../../services/ParticipantService";
 import useAxiosGetAllItems from "../../hooks/useAxiosGetAllItems";
@@ -167,6 +166,8 @@ const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler
     const ourItem = items[searchIndex]
     console.log(ourItem)
     const displayPhoto = ourItem?.photoURL;
+    const displayName = ourItem?.itemName;
+    const displayDescription = ourItem?.description;
     console.log(displayPhoto);
 
     return (
@@ -174,9 +175,9 @@ const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler
         <Fragment>
             <section className={classes.base} >
                 <div className={classes.control}>
-                    <p className={classes.success}>You have indicated interest in a {itemName}</p>
-                    <p className={classes.success}>This is a {description}. </p>
-                    <p>A photo of the actual object is here:</p>
+                    <p className={classes.success}>U heeft interesse getoond in een {displayName}</p>
+                    <p className={classes.success}> {displayDescription} </p>
+                    <p>Een foto van het object is hier:</p>
                 </div>
             </section>
             <div className={classes.photo}>
@@ -188,13 +189,13 @@ const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler
                         <button
                             className={classes.button}
                             onClick={(event) => ownerDetailsClicked(event)}
-                        >Click here to get in touch with owner</button>
+                        >Klik hier om in contact te komen met de eigenaar</button>
                         <br/>
                         <br/>
                         <button
                             className={classes.button}
                             onClick={(event) => ownerDetailViewedItems(event)}
-                        >All items you have checked out earlier are listed here</button>
+                        >Alle items die u eerder hebt uitgecheckt, worden hier weergegeven</button>
                     </div>
                 </div>
             </section>

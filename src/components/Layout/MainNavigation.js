@@ -1,5 +1,5 @@
-import React, {useContext, useEffect} from 'react';
-import {Link, NavLink, Route, useHistory} from 'react-router-dom';
+import React, {useContext} from 'react';
+import { NavLink, useHistory } from 'react-router-dom';
 
 import AuthContext from '../../context/auth-context';
 import classes from './MainNavigation.module.css';
@@ -9,17 +9,16 @@ import ListButton from "./Buttons/ListButton";
 import BorrowButton from "./Buttons/BorrowButton";
 import LendButton from "./Buttons/LendButton";
 import applicationLogo from "../../assets/1667993269612blob.jpg";
-import laptopgirl from "../../assets/pexels-jopwell-2422286.jpg";
 
 
 //Passing the props from LayoutWrapper component
 const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListClicked,
                             onDetailsMove, setParticipantDetailsClicked, handleEdit, deleted, setDeleted,
                         setShareItemClicked, onCloseShare, setOwnerDetailsClicked, setVisitedOwnerPageClicked,
-                            setLoanItemClicked, onLoan, onCloseLoan, shareItemClickHandler, onCloseOwnerDetails,
-                        onCloseOwner, visitedOwnerPageClicked}) => {
+                            setLoanItemClicked, onLoan, onCloseLoan, shareItemClickHandler,
+                        visitedOwnerPageClicked}) => {
 
-    console.log(formS)
+    //history-hook used for navigation
     const history = useHistory();
 
     //Using useContext to manage the login-state
@@ -51,8 +50,9 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
 
     return (
         <header className={classes.header}>
-            <div className={classes.photo}>
-                <img src={applicationLogo} alt="logo" height={83} width={85}/>
+            <div >
+                <img className={classes.logo} src={applicationLogo} alt="logo" height={83} width={85}
+                />
             </div>
             <nav>
                 <ul>

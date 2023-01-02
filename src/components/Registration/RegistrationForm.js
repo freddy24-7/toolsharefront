@@ -1,9 +1,3 @@
-//Validation can be further strengthened for this component.
-//It now blocks a blank username, and it controls password consistency
-//It does not set requirements for password length or character types
-//Backend validation is done, so that one cannot register a user that already exists in the database
-//Dynamic use of CSS implemented for blank username submission attempts
-
 import {SIGN_UP_URL} from "../../backend-urls/constants";
 import React, {useState, useEffect, Fragment} from 'react';
 import {useHistory} from 'react-router-dom';
@@ -14,12 +8,9 @@ import laptopguy from "../../assets/pexels-mikhail-nilov-6964367.jpg";
 
 const RegistrationForm = () => {
 
-    //ensure that component loads
-    useEffect(() => {
-        console.log("RegistrationForm loaded")
-    })
-
+    //history used for post-submission navigation
     const history = useHistory();
+
     //Below are added fields from spring security set-up in backend (user class)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -28,7 +19,7 @@ const RegistrationForm = () => {
     const [enteredUsernameIsValid, setEnteredUsernameIsValid] = useState(false)
     const [enteredPasswordIsValid, setEnteredPasswordIsValid] = useState(false)
     const [enteredUsernameTouched, setEnteredUsernameTouched] = useState(false)
-    const [enteredPasswordTouched, setEnteredPasswordTouched] = useState(false)
+    const [enteredPasswordTouched] = useState(false)
     const [matchPassword, setMatchPassword] = useState('');
     const [validMatch, setValidMatch] = useState(false);
 
@@ -63,21 +54,19 @@ const RegistrationForm = () => {
         }
     }, [enteredUsernameIsValid]);
 
+    //This code-block validates password consistency
     const confirmPasswordInputChangeHandler = (event) => {
         setMatchPassword(event.target.value);
     }
-
     useEffect(() => {
         setValidMatch(password === matchPassword);
-    }, [matchPassword])
+    }, [matchPassword, password])
 
-    //Forms
+    //Form submission
     const submitHandler = (event) => {
         event.preventDefault();
-
         //Upon submission
         setEnteredUsernameTouched(true)
-
         //Validation checks for length of name, username, and password
         if (username.trim() === '') {
             setEnteredUsernameIsValid(false);
@@ -85,23 +74,19 @@ const RegistrationForm = () => {
         }
         setEnteredUsernameIsValid(true)
         console.log(username);
-
         if (password.length < 8 || password.length > 16) {
             setEnteredPasswordIsValid(false);
             return;
         }
         setEnteredPasswordIsValid(true);
         console.log(password);
-
-        if (password != matchPassword  ) {
+        if (password !== matchPassword  ) {
             setValidMatch(false);
             return;
         }
         setValidMatch(true);
         console.log("passwords match");
-
         setIsLoading(true);
-
         //Axios call, pushing the user to the login-page or handling errors
         //useHistory use to redirect the user to the login-page
         RegistrationService.register(user, SIGN_UP_URL)
@@ -111,15 +96,14 @@ const RegistrationForm = () => {
             })
             .catch(error => {
                 //409 for username is the only backend error response for now as we are not
-                //requiring a specific format for the password yet
-
-                //checking error response stats
+                //requiring a specific format for the password yet.
+                //Checking error response stats
                 console.log(error.response.status);
                 //storing it in a variable
                 const errorCheck = (error.response.status)
                 //setting the error
                 if (errorCheck === 409) {
-                    setError("Username Taken, please choose a different username")
+                    setError("Gebruikersnaam In gebruik, kies een andere gebruikersnaam")
                 }
                 setIsLoading(false);
             });
@@ -140,10 +124,10 @@ const RegistrationForm = () => {
             <h1>Sign Up</h1>
             <form onSubmit={submitHandler}>
                 <div className={classes.control}>
-                    <label htmlFor='username'>Username</label>
+                    <label htmlFor='username'>Gebruikersnaam</label>
                     <input
                         type="text"
-                        placeholder= "Enter username"
+                        placeholder= "Gebruikersnaam"
                         name= "username"
                         className= "form-control"
                         value={username}
@@ -152,32 +136,32 @@ const RegistrationForm = () => {
                     {usernameInputIsInvalid && <p className={classes.error}>Please enter a valid username</p>}
                 </div>
                 <div className={classes.control}>
-                    <label htmlFor='password'>Password</label>
+                    <label htmlFor='password'>Wachtwoord</label>
                     <input
                         type='password'
                         id='password'
-                        placeholder= "Enter password"
+                        placeholder= "Wachtwoord"
                         value={password}
                         onChange={passwordInputChangeHandler}
                     />
                     {passwordInputIsInvalid && <p className={classes.error}>Password needs 8 to 16 characters</p>}
                 </div>
                 <div className={classes.control}>
-                    <label htmlFor='confirm password'>Confirm Password</label>
+                    <label htmlFor='confirm password'>Wachtwoord bevestigen</label>
                     <input
                         type='password'
                         id='confirm password'
-                        placeholder= "Confirm password"
+                        placeholder= "Wachtwoord bevestigen"
                         value={matchPassword}
                         onChange={confirmPasswordInputChangeHandler}
                     />
-                    {!validMatch && <p className={classes.error}>Passwords don't match</p>}
+                    {!validMatch && <p className={classes.error}>Wachtwoorden komen niet overeen</p>}
                 </div>
                 <div className={classes.actions}>
                     {!isLoading && (
-                        <button className={classes.button}>Create Account</button>
+                        <button className={classes.button}>Account aanmaken</button>
                     )}
-                    {/*Tertiary statements based on frontend validation of username and password*/}
+                    {/*Ternary statements based on frontend validation of username and password*/}
                     {/*and backend validation of password*/}
                     {isLoading && <p>Your inputs are ok!</p>}
                     {error && <div className={classes.error}> {error} </div>}

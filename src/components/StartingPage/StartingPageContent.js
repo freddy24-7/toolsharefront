@@ -1,6 +1,7 @@
 import classes from './StartingPageContent.module.css';
 import workman from '../../assets/pexels-photo-1453499.jpeg'
 
+//Application starting page
 const StartingPageContent = () => {
     return (
         <section className={classes.starting}>

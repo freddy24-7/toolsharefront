@@ -2,7 +2,7 @@ import {Fragment, useEffect, useState} from 'react';
 
 import MainNavigation from './MainNavigation';
 import ProfileForm from "../Profile/ProfileForm";
-import {Route, useHistory, useParams} from "react-router-dom";
+import {Route, useHistory } from "react-router-dom";
 import {useContext} from "react";
 import AuthContext from "../../context/auth-context";
 import ParticipantList from "../Profile/ParticipantList";
@@ -31,6 +31,17 @@ import {POST_SHARE_ITEM_URL} from "../../backend-urls/constants";
 
 const LayoutWrapper = ({ children }) => {
 
+    //Below code-block to persist state, after refresh that happens after the UpdateParticipant-component is fired
+    useEffect(()=> {
+        const data = localStorage.getItem('submission');
+        if (data) {
+            setFormS(JSON.parse(data))
+        }
+    },[]);
+    useEffect(() => {
+        localStorage.setItem("submission", JSON.stringify(formS));
+    });
+
     //Below block obtains the stored userid, and stores in variable "idValue"
     const [idValue, setIdValue] = useState('');
     const [currentLoggedInId, setCurrentLoggedInId] = useState(() => {
@@ -38,6 +49,8 @@ const LayoutWrapper = ({ children }) => {
         const currentId = localStorage.getItem("userId");
         setIdValue(JSON.parse(currentId));
     });
+
+    //DEFINING VARIABLES
 
     //Id for participants
     const [id, setId] = useState(null);
@@ -48,12 +61,13 @@ const LayoutWrapper = ({ children }) => {
     //Defining the variables for uploading new participant
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
+    const [postcode, setPostcode] = useState('')
     const [email, setEmail] = useState('')
     const [mobileNumber, setMobileNumber] = useState('')
     const [photoURL, setPhotoURL] = useState('')
 
     //Creating the participant-variable that will be used to send data to backend
-    const participant = {firstName, lastName, email, mobileNumber, photoURL}
+    const participant = {firstName, lastName, postcode, email, mobileNumber, photoURL}
     const [participants, setParticipants] = useState(null)
 
     //Error-handling
@@ -72,6 +86,7 @@ const LayoutWrapper = ({ children }) => {
     //This prop indicates whether participant-details are edited or not
     const [editS, setEditS]= useState(false);
 
+    //Variables for click-handlers
     const[participantListClicked, setParticipantListClicked]= useState(false);
     const[shareItemClicked, setShareItemClicked]= useState(false);
     const[loanItemClicked, setLoanItemClicked]= useState(false);
@@ -263,7 +278,7 @@ const LayoutWrapper = ({ children }) => {
             const errorCheck = (error.response.status)
             //setting the error
             if (errorCheck === 500) {
-                setError("An error occurred. Please upload photo to continue")
+                setError("Er is een fout opgetreden. Upload een foto om door te gaan")
             }
             setIsLoading(false);
         });
@@ -288,6 +303,7 @@ const LayoutWrapper = ({ children }) => {
                 setFormS(true)
                 setFirstName("");
                 setLastName("");
+                setPostcode("");
                 setEmail("");
                 setMobileNumber("");
                 setPhotoURL("");
@@ -297,17 +313,17 @@ const LayoutWrapper = ({ children }) => {
                 const errorCheck = (error.response.status)
                 //setting the error
                 if (errorCheck === 500) {
-                    setError("Invalid user details entered. " +
-                        "Please check that your email address is valid and that your mobile number" +
-                        " has ten digits. Name sections also need to be filled out." +
-                        " This error would also occur if you have entered an email address that is " +
-                        "already in use. You may therefore also try with another email address.")
+                    setError("Ongeldige gebruikersgegevens ingevoerd. " +
+                        "Controleer of uw e-mailadres geldig is en of uw mobiele nummer" +
+                        " heeft tien cijfers. Alle velden moeten worden ingevuld, inclusief foto." +
+                        " Deze fout treedt ook op als u een e-mailadres heeft ingevoerd " +
+                        " al in gebruik. U kunt het daarom ook proberen met een ander e-mailadres.")
                     setErrorCSS(true)
                 } else if (errorCheck === 403) {
-                    setError("The server has declined the request. " +
-                        "A likely reason is that another participant is already " +
-                        " logged in to the server from the device that you are using. " +
-                        "You may try to reload the page and submit again.")
+                    setError("De server heeft het verzoek afgewezen. " +
+                        "Een waarschijnlijke reden is dat er al een andere deelnemer is " +
+                        " ingelogd op de server vanaf het apparaat dat u gebruikt. " +
+                        "U kunt opnieuw proberen .")
                     setErrorCSS(true)
                 }
             } else if (error.request) {
@@ -341,24 +357,11 @@ const LayoutWrapper = ({ children }) => {
                     setFormS(true);
                 } else {
                     console.log("this user is not a participant yet")
-                    setFormS(false)
                 }
         }).catch(error => {
             console.log(error)
         })
     },[]);
-
-
-    useEffect(()=> {
-        const data = localStorage.getItem('submission');
-        if (data) {
-            setFormS(JSON.parse(data))
-        }
-    },[]);
-
-    useEffect(() => {
-        localStorage.setItem("submission", JSON.stringify(formS));
-    });
 
     return (
         <Fragment>
@@ -398,6 +401,8 @@ const LayoutWrapper = ({ children }) => {
                     setFirstName={setFirstName}
                     lastName={lastName}
                     setLastName={setLastName}
+                    postcode={postcode}
+                    setPostcode={setPostcode}
                     email={email}
                     setEmail={setEmail}
                     mobileNumber={mobileNumber}
@@ -504,7 +509,6 @@ const LayoutWrapper = ({ children }) => {
             {(formS && ownerDetailsClicked ) ?
                 <Route path='/item-owner/:ownerId'>
                     <ViewItemOwnerDetails
-
                     />
                 </Route>
                 : null

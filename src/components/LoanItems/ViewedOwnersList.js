@@ -29,6 +29,7 @@ const ViewedOwnersList = () => {
     console.log(initialToken)
     console.log(apiURL)
 
+    //Creating variable for authentication
     const authAxios = axios.create(
         {
             baseURL: apiURL,
@@ -42,6 +43,7 @@ const ViewedOwnersList = () => {
     const earlierViewedItemsSubmitter = apiURL + "/" + id;
     console.log(earlierViewedItemsSubmitter)
 
+    //Using custom hook to get all items
     const {items} = useAxiosGetAllItems();
     console.log(items)
 
@@ -92,7 +94,7 @@ const ViewedOwnersList = () => {
         <section>
             <section className={classes.base} >
                 <div className={classes.control}>
-                    <p className={classes.success}>Previous times you have checked out owner details</p>
+                    <p className={classes.success}>Eerdere keren dat u eigenaargegevens heeft uitgecheckt</p>
                 </div>
             </section>
             <ul>
@@ -101,8 +103,8 @@ const ViewedOwnersList = () => {
                     viewedItems.map(item =>
 
                         ( <div className={classes.actions} key={item.itemId}>
-                            <h5>Loan Id: {item.loanId}</h5>
-                            <h5>Item Id: {item.itemId}</h5>
+                            {/*<h5>Loan Id: {item.loanId}</h5>*/}
+                            {/*<h5>Item Id: {item.itemId}</h5>*/}
                             <h3>Name: {item.itemName} </h3>
                             <h4>Description: {item.description}</h4>
                             <div className={classes.photo}>

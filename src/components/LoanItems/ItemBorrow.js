@@ -39,11 +39,11 @@ const ItemBorrow = ( {handleLoanInterest} ) => {
                         <h3>ItemId: {item.itemId} </h3>
                         <h4>Description: {item.description}</h4>
                         <div className={classes.photo}>
-                            <img src={item.photoURL} height={150} width={145}/>
+                            <img src={item.photoURL} alt="photo" height={150} width={145}/>
                         </div>
                         <button onClick={(event) => goToBorrowActionLocation(setItemId(item.itemId)
                         )}
-                        >Click to borrow me</button>
+                        >Klik hier om mij te lenen</button>
                     </div>))}
         </ul>
     );

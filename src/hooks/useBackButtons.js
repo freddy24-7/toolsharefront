@@ -1,3 +1,4 @@
+//Custom-hook from stack-overflow that defines the use of browser-buttons
 import React, {useEffect, useState} from 'react';
 import {useHistory} from "react-router-dom";
 

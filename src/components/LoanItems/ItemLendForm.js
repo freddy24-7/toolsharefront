@@ -87,29 +87,28 @@ const ItemLendForm = ({itemName, setItemName, description, setDescription, isLoa
     });
     console.log(uploadedItems)
 
+    //Gives list of lent out items, props
     const goToMyListOfItems = (event) => {
         handleMyListOfItems(event);
     }
-
-
 
     return (
 
         <Fragment>
             <section className={inputClasses}>
                 <div>
-                    <div >Here you can share your tools!
+                    <div >Hier kun je je tools delen!
                             <br/>
                             <br/>
-                            Please add a tool that others can borrow
+                            Voeg een tool toe die anderen kunnen lenen
                             <br/>
                             <br/>
-                            Please start with adding a photo of the tool.
-                            Choose a photo to upload, then press the "pink" submit button,
-                        and thereafter type any key in the next line labelled "FILE URL".
+                        Begin met het toevoegen van een foto van het gereedschap.
+                        Kies een foto om te uploaden en druk vervolgens op de "roze" submitknop,
+                        en typ daarna een willekeurige sleutel in de volgende regel met het label "FILE URL".
                         <br/>
                         <br/>
-                        jpg-, jpeg-, and png-files are accepted.
+                        jpg-, jpeg-, and png-files worden geaccepteerd.
                         </div>
                     <br/>
                     <br/>
@@ -130,7 +129,7 @@ const ItemLendForm = ({itemName, setItemName, description, setDescription, isLoa
                                 <label htmlFor='File URL'>File URL</label>
                                 <input
                                     type="url"
-                                    placeholder="Click, then type any key to upload"
+                                    placeholder="Klik en typ vervolgens een willekeurige letter om te uploaden"
                                     name="url"
                                     className="form-control"
                                     value={photoURL}
@@ -141,7 +140,7 @@ const ItemLendForm = ({itemName, setItemName, description, setDescription, isLoa
                     <label htmlFor='itemName'>Type of tool</label>
                     <input
                         type="text"
-                        placeholder="Please insert the type of tool it is"
+                        placeholder="Voer het type gereedschap in"
                         name="itemName"
                         className="form-control"
                         value={itemName}
@@ -152,7 +151,7 @@ const ItemLendForm = ({itemName, setItemName, description, setDescription, isLoa
                     <label htmlFor='itemDescription'>Tool description</label>
                     <input
                         type="text"
-                        placeholder="Please briefly describe what the tool is used for"
+                        placeholder="Beschrijf kort waarvoor de tool wordt gebruikt"
                         name="itemDescription"
                         className="form-control"
                         value={description}
@@ -163,13 +162,13 @@ const ItemLendForm = ({itemName, setItemName, description, setDescription, isLoa
                     <button
                         className={classes.button}
                         onClick={(event) => itemSubmitHandler(event)}
-                    >Add item to loan out</button>
+                    >Tool toevoegen om uit te lenen</button>
                     <br/>
                     <br/>
                     <button
                         className={classes.button}
                         onClick={(event) => goToMyListOfItems(event)}
-                    >All my items</button>
+                    >Alle mijn tools</button>
                         </div>
                     </div>
                 </div>
