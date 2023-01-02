@@ -43,7 +43,7 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
 
     //This function uses props to setUserDetailsClicked to false, and logging out the user
     const logoutHandler = () => {
-        setFormS(null);
+        setFormS(false);
         setParticipantListClicked(false);
         setParticipantDetailsClicked(false);
         setShareItemClicked(false);
@@ -61,6 +61,7 @@ const MainNavigation = ({ setFormS, formS, onClick, onMove, setParticipantListCl
         authCtx.logout();
         history.push('/')
         console.log(visitedOwnerPageClicked)
+        console.log(formS)
     };
 
     return (

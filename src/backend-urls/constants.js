@@ -11,6 +11,8 @@ export const GET_SHARE_ITEM_BY_ITEM_ID_URL = BASE_API_URL + '/api/items/items';
 export const EXPRESS_INTEREST_GET_OWNER_DETAILS_URL = BASE_API_URL + '/api/loan/participant';
 export const GET_HISTORY_OF_VIEWED_ITEMS = BASE_API_URL + '/api/loan/participants/loaninterest';
 
+export const WHATSAPP_API = "https://wa.me/31"
+
 
 
 

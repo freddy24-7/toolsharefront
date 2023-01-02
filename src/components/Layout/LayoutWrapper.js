@@ -18,7 +18,7 @@ import ParticipantService from "../../services/ParticipantService";
 import ConfirmDeleteParticipant from "../Profile/ConfirmDeleteParticipant";
 import useBackButtons from "../../hooks/useBackButtons";
 import axios from "axios";
-import {EXPRESS_INTEREST_GET_OWNER_DETAILS_URL, POST_SHARE_ITEM_URL} from "../../backend-urls/constants";
+import {POST_SHARE_ITEM_URL} from "../../backend-urls/constants";
 
 //PROPS-USECASE: We want to close the ProfileForm when form is submitted
 //Step 1-5 in parent component, step 6-7 in child component
@@ -31,57 +31,19 @@ import {EXPRESS_INTEREST_GET_OWNER_DETAILS_URL, POST_SHARE_ITEM_URL} from "../..
 
 const LayoutWrapper = ({ children }) => {
 
-    const [id, setId] = useState(null);
-    console.log(id)
-
+    //Below block obtains the stored userid, and stores in variable "idValue"
     const [idValue, setIdValue] = useState('');
-
-    const [firstSubmissionDone, setFirstSubmissionDone] = useState(false);
-
-
-    //Below block obtains the stored userid
     const [currentLoggedInId, setCurrentLoggedInId] = useState(() => {
         // getting stored value
         const currentId = localStorage.getItem("userId");
         setIdValue(JSON.parse(currentId));
     });
-    console.log(idValue);
-    console.log(currentLoggedInId)
+
+    //Id for participants
+    const [id, setId] = useState(null);
 
     //using the useBackButtons custom hook
     const { locationKeys, setLocationKeys } = useBackButtons ();
-
-    //Here we cycle through participant-object to check if user is already registered as participant
-    const [participants, setParticipants] = useState([]);
-    //Getting existing users in database
-    useEffect(() => {
-        ParticipantService.getAllParticipants().then((response) => {
-            console.log(response.data)
-            setParticipants(response.data);
-            const participants = response.data;
-            console.log(participants);
-            console.log(idValue)
-            for (let i = 0; i < participants.length; i++)
-                if (participants[i].user.id == idValue) {
-                    console.log("exists")
-                    console.log(participants[i])
-                    const currentLoggedInParticipant = participants[i]
-                    console.log(currentLoggedInParticipant.id);
-                    const currentLoggedInParticipantId = currentLoggedInParticipant.id;
-                    console.log(currentLoggedInParticipantId)
-                    setId(currentLoggedInParticipantId);
-                    history.push(`/participant/${currentLoggedInParticipantId}`)
-                    setFormS(true);
-                } else {
-                    console.log("this user is not a participant yet")
-                    setFormS(false);
-                }
-        }).catch(error => {
-            console.log(error)
-        })
-
-    },[]);
-    console.log(id)
 
     //Defining the variables for uploading new participant
     const [firstName, setFirstName] = useState('')
@@ -90,8 +52,9 @@ const LayoutWrapper = ({ children }) => {
     const [mobileNumber, setMobileNumber] = useState('')
     const [photoURL, setPhotoURL] = useState('')
 
-    //Creating the variable that will be used to send data to backend
+    //Creating the participant-variable that will be used to send data to backend
     const participant = {firstName, lastName, email, mobileNumber, photoURL}
+    const [participants, setParticipants] = useState(null)
 
     //Error-handling
     const [error, setError] = useState(null);
@@ -102,34 +65,43 @@ const LayoutWrapper = ({ children }) => {
     const authCtx = useContext(AuthContext);
     const isLoggedIn = authCtx.isLoggedIn;
 
-    //history used to navigate the user after either clicking on user details or on logout
+    //history used to navigate the user
     const history = useHistory();
-
-    //This variable is further worked on in child components through props
+    //This prop indicates whether participant-form-details are submitted or not
     const [formS, setFormS]= useState(false);
-
-    //This edit-submission variable is further worked on in child components through props
+    //This prop indicates whether participant-details are edited or not
     const [editS, setEditS]= useState(false);
 
-    //Setting the state used to launch ParticipantList component on click
     const[participantListClicked, setParticipantListClicked]= useState(false);
-
-    //Setting the state used to launch Item component on click
     const[shareItemClicked, setShareItemClicked]= useState(false);
-
-    //Setting the state used to launch Item component on click
     const[loanItemClicked, setLoanItemClicked]= useState(false);
-
-    //Setting the state used to launch Owner Details component on click
     const[ownerDetailsClicked, setOwnerDetailsClicked]= useState(false);
-
-    //Setting the state used to launch Owner Details component on click
     const[visitedOwnerPageClicked, setVisitedOwnerPageClicked]= useState(false);
+    const[participantDetailsClicked, setParticipantDetailsClicked]= useState(false);
 
+    //Tool - or item - constants:
     const[ownerId, setOwnerId]= useState(null);
+    const [itemName, setItemName] = useState('')
+    const [description, setDescription] = useState('')
+    const [itemId, setItemId] = useState(null);
+
+    //For deletion class - for participants who wants to delete their details
+    const [deleted, setDeleted] = useState(false);
+
+    //This constant is used by a later submission function, down the page
+    const itemSubmitter = POST_SHARE_ITEM_URL + "/" + id;
+
+    //Variable used for form submission
+    const [isLoading, setIsLoading] = useState(false);
+
+    //Creating the variable that will be used to send data to backend on loanItems
+    const loanItem = { id, itemName, description, photoURL }
+
+    //URL for storing photos
+    const [obtainPhotoURL, setObtainPhotoURL] = useState('');
 
 
-
+    //HERE COMES A SERIES OF HANDLERS
 
     //This function is used to set the state used to launch ParticipantList component on click
     const participantListClickHandler = () => {
@@ -160,7 +132,7 @@ const LayoutWrapper = ({ children }) => {
         history.push('/')
     }
 
-    //This function is used to set the state used to launch shareItem component on click
+    //This function is used to set the state used to launch ownerDetails component on click
     const ownerDetailsClickHandler = () => {
         setOwnerDetailsClicked(true)
         history.push(`/item-owner/${ownerId}`);
@@ -171,13 +143,13 @@ const LayoutWrapper = ({ children }) => {
         setVisitedOwnerPageClicked(false)
     }
 
-    //This function is used to close the shareItem component on click
+    //This function is used to close the ownerDetails component on click
     const ownerDetailsCloseHandler = () => {
         setOwnerDetailsClicked(false)
         history.push('/')
     }
 
-    //This function is used to set the state used to launch shareItem component on click
+    //This function is used to set the state used to launch loanItem component on click
     const loanItemClickHandler = () => {
         setLoanItemClicked(true);
         history.push(`/loan/items/${id}`)
@@ -188,13 +160,13 @@ const LayoutWrapper = ({ children }) => {
         setVisitedOwnerPageClicked(false)
     }
 
-    //This function is used to close the shareItem component on click
+    //This function is used to close the loanItem component on click
     const loanItemCloseHandler = () => {
         setLoanItemClicked(false);
         history.push('/')
     }
 
-    //Opens my item item owner component, closes the other components
+    //Opens owner details viewed component, closes the other components
     const handleOwnerDetailViewedItems = () => {
             setVisitedOwnerPageClicked(true)
             history.push(`/owner-pages-visited/${id}`);
@@ -205,15 +177,12 @@ const LayoutWrapper = ({ children }) => {
             setLoanItemClicked(false)
             setOwnerDetailsClicked(true)
     }
-    //This function is used to close the shareItem component on click
+
+    //This function is used to close the owner details viewed component on click
     const ownerDetailsViewedCloseHandler = () => {
         setOwnerDetailsClicked(false)
-        setVisitedOwnerPageClicked(false)
         history.push('/')
     }
-
-    //Setting the state used to launch ParticipantDetails component on click
-    const[participantDetailsClicked, setParticipantDetailsClicked]= useState(false);
 
     //This function is used to close the ParticipantDetails component on click
     const participantDetailsCloseHandler = () => {
@@ -221,89 +190,15 @@ const LayoutWrapper = ({ children }) => {
         history.push('/')
     }
 
-        //Below is the axios call to the participant class in backend
-        const submitHandler = (event) => {
-            event.preventDefault();
-            console.log(id)
-
-            ParticipantService.saveParticipant(participant)
-                .then((response) => {
-
-                    //Checking in console what data we obtain
-                    console.log(response)
-                    const currentId = (response.data.id)
-                    const firstName = (response.data.firstName)
-                    const lastName = (response.data.lastName)
-                    const email = (response.data.email)
-                    const mobileNumber = (response.data.mobileNumber)
-                    const photoURL = (response.data.photoURL)
-                    console.log(currentId)
-                    setId(currentId)
-                    console.log(id)
-                    console.log(firstName)
-                    console.log(lastName)
-                    console.log(email)
-                    console.log(mobileNumber)
-                    console.log(photoURL)
-
-                    //we have access to firstName, and we pass that on with a string literal:
-                    console.log(firstSubmissionDone)
-                    //the below if check is used to allow the user to go to the welcome screen directly
-                    //from log in if all the earlier registrations were already done
-                    if (!firstSubmissionDone) {
-                        history.push(`/participant/${response.data.id}`)
-                        setFirstSubmissionDone(true);
-                        setFormS(true)
-                        setFirstName("");
-                        setLastName("");
-                        setEmail("");
-                        setMobileNumber("");
-                        setPhotoURL("");
-                    }
-                }).catch(function (error) {
-
-                    if (error.response) {
-                        // Request made and server responded
-                        console.log(error.response.data);
-                        console.log(error.response.status);
-                        console.log(error.response.headers);
-                        const errorCheck = (error.response.status)
-                        //setting the error
-                        if (errorCheck === 500) {
-                            setError("Invalid user details entered. " +
-                                "Please check that your email address is valid and that your mobile number" +
-                                " has ten digits. Name sections also need to be filled out." +
-                                " This error would also occur if you have entered an email address that is " +
-                                "already in use. You may therefore also try with another email address.")
-                            setErrorCSS(true)
-                        } else if (errorCheck === 403) {
-                            setError("The server has declined the request. " +
-                                "A likely reason is that another participant is already " +
-                                " logged in to the server from the device that you are using. " +
-                                "You may try to reload the page and submit again.")
-                            setErrorCSS(true)
-                        }
-                    } else if (error.request) {
-                        // The request was made but no response was received
-                        console.log(error.request);
-                    } else {
-                        // Something happened in setting up the request that triggered an Error
-                        console.log('Error', error.message);
-                    }
-            });
-        }
-
-
     //Opens the edit component, closes the other components
-                const handleEdit = () => {
-                history.push(`/edit/${id}`);
-                console.log("edit button pressed")
-                setParticipantDetailsClicked(true);
-                setParticipantListClicked(false)
-                setOwnerDetailsClicked(false)
-                setVisitedOwnerPageClicked(false)
+            const handleEdit = () => {
+            history.push(`/edit/${id}`);
+            console.log("edit button pressed")
+            setParticipantDetailsClicked(true);
+            setParticipantListClicked(false)
+            setOwnerDetailsClicked(false)
+            setVisitedOwnerPageClicked(false)
     }
-    const [deleted, setDeleted] = useState(false);
 
     //Opens the delete component, closes the other components
     const handleDelete = () => {
@@ -317,8 +212,6 @@ const LayoutWrapper = ({ children }) => {
         setOwnerDetailsClicked(false)
         setVisitedOwnerPageClicked(false)
     }
-
-    const [itemId, setItemId] = useState(null);
 
     //Opens the loan component, closes the other components
     const handleLoanInterest = () => {
@@ -343,61 +236,29 @@ const LayoutWrapper = ({ children }) => {
         setVisitedOwnerPageClicked(false)
     }
 
-    //Below is the axios call to the item class in backend
-    console.log(id)
-    const participantId = id;
-    console.log(participantId)
+    //BELOW THE FUNCTIONS FOR THIS COMPONENT - these are "hoisted" due to the reliance on prop-drilling for this application
 
-
-    //Defining the variables for uploading new item
-    const [itemName, setItemName] = useState('')
-    const [description, setDescription] = useState('')
-
-    //Modifying URL to check by id
-    const itemSubmitter = POST_SHARE_ITEM_URL + "/" + participantId;
-    console.log(itemSubmitter)
-
-    //Variables used for the form submission
-    const [isLoading, setIsLoading] = useState(false);
-
-    //Creating the variable that will be used to send data to backend
-    const loanItem = { participantId, itemName, description, photoURL }
-
-    const [obtainPhotoURL, setObtainPhotoURL] = useState('');
-
+    //This submitHandler saves a new tool that a participant wishes to lend out to others
     const itemSubmitHandler = (event) => {
         event.preventDefault();
         axios.post(itemSubmitter, loanItem)
             .then((response) => {
                 //Checking in console what data we obtain
-                console.log(response)
-                console.log(response.status)
                 const itemStatus = response.status
-                console.log(itemStatus)
                 const itemId = response.data.itemId
-                console.log(itemId)
                 setItemId(itemId);
                 setFormS(true);
                 if (itemStatus === 200) {
                     setIsLoading(true)
                 }
-                const itemName = (response.data.itemName)
-                const description = (response.data.description)
-                // console.log(id)
-                console.log(itemName)
-                console.log(description)
-
                 setFormS(true)
                 setItemName("");
                 setDescription("");
                 setObtainPhotoURL("");
                 setPhotoURL("")
-
-
             }).catch(error => {
-
             //checking error response stats
-            console.log(error.response.status);
+            // console.log(error.response.status);
             //storing it in a variable
             const errorCheck = (error.response.status)
             //setting the error
@@ -411,8 +272,80 @@ const LayoutWrapper = ({ children }) => {
         setError(null);
     };
 
+    //This submitHandler saves a new participant - that is a user (logged in) but not yet a participant
+    const submitHandler = (event) => {
+        event.preventDefault();
+        ParticipantService.saveParticipant(participant)
+            .then((response) => {
+                //Checking in console what data we obtain
+                console.log(response)
+                const currentId = (response.data.id)
+                setId(currentId)
+                //we have access to firstName, and we pass that on with a string literal:
+                //the below if check is used to allow the user to go to the welcome screen directly
+                //from log in if all the earlier registrations were already done
+                history.push(`/participant/${response.data.id}`)
+                setFormS(true)
+                setFirstName("");
+                setLastName("");
+                setEmail("");
+                setMobileNumber("");
+                setPhotoURL("");
+            }).catch(function (error) {
+            if (error.response) {
+                // Request made and server responded
+                const errorCheck = (error.response.status)
+                //setting the error
+                if (errorCheck === 500) {
+                    setError("Invalid user details entered. " +
+                        "Please check that your email address is valid and that your mobile number" +
+                        " has ten digits. Name sections also need to be filled out." +
+                        " This error would also occur if you have entered an email address that is " +
+                        "already in use. You may therefore also try with another email address.")
+                    setErrorCSS(true)
+                } else if (errorCheck === 403) {
+                    setError("The server has declined the request. " +
+                        "A likely reason is that another participant is already " +
+                        " logged in to the server from the device that you are using. " +
+                        "You may try to reload the page and submit again.")
+                    setErrorCSS(true)
+                }
+            } else if (error.request) {
+                // The request was made but no response was received
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+            }
+        });
+    }
 
-
+    //Here we cycle through participant-object to check if user is already registered as participant
+    //Getting existing users in database
+    //Earlier participants who are logging in again are taken directly to confirmation screen through push
+    //Code-block runs once and runs before the submitHandler - given dependency array
+    useEffect(() => {
+        ParticipantService.getAllParticipants().then((response) => {
+            const participants = response.data;
+            setParticipants(response.data);
+            console.log(idValue)
+            for (let i = 0; i < participants.length; i++)
+                if (participants[i].user.id === idValue) {
+                    setFormS(true);
+                    console.log("exists")
+                    console.log(participants[i])
+                    const currentLoggedInParticipant = participants[i]
+                    console.log(currentLoggedInParticipant.id);
+                    const currentLoggedInParticipantId = currentLoggedInParticipant.id;
+                    console.log(currentLoggedInParticipantId)
+                    setId(currentLoggedInParticipantId);
+                    history.push(`/participant/${currentLoggedInParticipantId}`)
+                } else {
+                    console.log("this user is not a participant yet")
+                }
+        }).catch(error => {
+            console.log(error)
+        })
+    },[]);
 
     return (
         <Fragment>
@@ -448,8 +381,6 @@ const LayoutWrapper = ({ children }) => {
             {/*Below is a case of conditional rendering*/}
             {(isLoggedIn && !formS) ?
                 <ProfileForm
-                    setFormS={setFormS}
-                    formS={formS}
                     firstName={firstName}
                     setFirstName={setFirstName}
                     lastName={lastName}
@@ -460,21 +391,17 @@ const LayoutWrapper = ({ children }) => {
                     setMobileNumber={setMobileNumber}
                     submitHandler={submitHandler}
                     error={error}
-                    setError={setError}
                     errorCSS={errorCSS}
-                    setErrorCSS={setErrorCSS}
                     id={id}
                     photoURL={photoURL}
                     setPhotoURL={setPhotoURL}
-
                 />
                 : null
             }
 
             {/*Same logic for ParticipantList component*/}
-            {(participantListClicked && formS && !firstSubmissionDone) ?
+            {(participantListClicked && formS ) ?
                 <ParticipantList
-                    // participants={participantList}
                 />
                 : null
             }
@@ -483,22 +410,10 @@ const LayoutWrapper = ({ children }) => {
             {(participantDetailsClicked && formS ) ?
                 <Route path='/edit/:id'>
                     <IndividualDetails
-                        setFormS={setFormS}
-                        formS={formS}
-                        firstName={firstName}
-                        setFirstName={setFirstName}
-                        lastName={lastName}
-                        setLastName={setLastName}
-                        email={email}
-                        setEmail={setEmail}
-                        mobileNumber={mobileNumber}
-                        setMobileNumber={setMobileNumber}
-                        id={id}
-                        setId={setId}
+                        error={error}
+                        errorCSS={errorCSS}
                         editS={editS}
                         setEditS={setEditS}
-                        formS={formS}
-                        participantId={participantId}
                         handleDelete={handleDelete}
                     />
                 </Route>
@@ -507,22 +422,17 @@ const LayoutWrapper = ({ children }) => {
             {(shareItemClicked && formS ) ?
                 <Route path='/items/:id'>
                     <ItemLendForm
-                        setFormS={setFormS}
-                        formS={formS}
                         itemName={itemName}
                         setItemName={setItemName}
                         description={description}
                         setDescription={setDescription}
                         isLoading={isLoading}
-                        setIsLoading={setIsLoading}
+                        itemSubmitHandler={itemSubmitHandler}
                         photoURL={photoURL}
+                        handleMyListOfItems={handleMyListOfItems}
                         setPhotoURL={setPhotoURL}
-                        obtainPhotoURL={obtainPhotoURL}
-                        setObtainPhotoURL={setObtainPhotoURL}
                         error={error}
                         errorCSS={errorCSS}
-                        handleMyListOfItems={handleMyListOfItems}
-                        itemSubmitHandler={itemSubmitHandler}
                     />
                 </Route>
                 : null
@@ -530,17 +440,13 @@ const LayoutWrapper = ({ children }) => {
             {(loanItemClicked && formS ) ?
                 <Route path='/loan/items/:id'>
                     <ItemBorrow
-                        error={error}
-                        errorCSS={errorCSS}
-                        // itemId={itemId}
-                        // setItemId={setItemId}
                         handleLoanInterest={handleLoanInterest}
                     />
                 </Route>
                 : null
             }
 
-            {(!participantListClicked && !participantDetailsClicked && formS) || editS ?
+            {(!participantListClicked && !participantDetailsClicked && formS) || !editS ?
                 <Route path='/participant/:id'>
                 <ConfirmationScreen
                 />
@@ -558,10 +464,8 @@ const LayoutWrapper = ({ children }) => {
             {(formS ) ?
                 <Route path='/item/loan/:itemId'>
                 <ItemLoanAction
-                    itemId={itemId}
-                    setItemId={setItemId}
-                    ownerDetailsClickHandler={ownerDetailsClickHandler}
                     handleOwnerDetailViewedItems={handleOwnerDetailViewedItems}
+                    ownerDetailsClickHandler={ownerDetailsClickHandler}
                     setOwnerId={setOwnerId}
                     ownerId={ownerId}
                 />

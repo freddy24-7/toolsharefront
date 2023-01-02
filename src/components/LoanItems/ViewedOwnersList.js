@@ -74,9 +74,9 @@ const ViewedOwnersList = () => {
         //which then triggers this code-block to run given the dependency array
         setTimeout(function() {
             //merging to the two object arrays by mapping through them, using the itemId as key
-            let mergedArray = myViewedItems.map((item, i) => Object.assign({}, item, items[i]));
-            console.log(mergedArray)
+            const mergedArray = myViewedItems.map(m => ({ ...m, ...items.find(i => i.itemId === m.itemId) }));
             setViewedItems(mergedArray)
+            console.log(viewedItems)
         }, 0);
     },[myViewedItems])
 
@@ -101,6 +101,8 @@ const ViewedOwnersList = () => {
                     viewedItems.map(item =>
 
                         ( <div className={classes.actions} key={item.itemId}>
+                            <h5>Loan Id: {item.loanId}</h5>
+                            <h5>Item Id: {item.itemId}</h5>
                             <h3>Name: {item.itemName} </h3>
                             <h4>Description: {item.description}</h4>
                             <div className={classes.photo}>
