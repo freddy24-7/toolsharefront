@@ -1,6 +1,6 @@
 import classes from './StartingPageContent.module.css';
 import workman from '../../assets/pexels-photo-1453499.jpeg'
-import mapfragment from '../../assets/data=q8Yb3i1ZJDgME8lObg6m8S37Tina54xfIBd3D8q6TYqFxJVKcuxcl65TU9BlFfCnIlds9WLCt4DD0mYMnStbOwjdslmpL0q3zK5e8Z5PMGNdlVUZfua6I3EkTdeo298Zxbgucw5IeBxf-aG6PwtGnY2ebwSVyArd7pvgM3VWSjkBKFyx8jFCIgmBr4I_IjsqZHhgNzAvQYdVJplgICfFgSzqfM6CpId2WsLv6GPHbWP.png'
+import mapfragment from '../../assets/areamap.png'
 
 
 //Application starting page
