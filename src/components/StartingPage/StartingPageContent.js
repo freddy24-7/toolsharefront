@@ -8,7 +8,7 @@ const StartingPageContent = () => {
     return (
         <>
             <div className={classes.starting}>
-                    <h1 className="starting h1">Spullen lenen op fiets afstand & geld sparen </h1>
+                    <h1 className="starting h1">Spullen lenen op fietsafstand & geld sparen </h1>
                 <h3>Een milieuvriendelijk initiatief om nuttige dingen met elkaar te delen in Utrecht Terwijde (postcode 3543)</h3>
             </div>
             <div className={classes.mapDetails}>

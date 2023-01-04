@@ -180,8 +180,8 @@ const ViewItemOwnerDetails = () => {
             <section className={classes.base} >
                 <div className={classes.control}>
                     <p className={classes.success}>De eigenaar is {firstName +" "+ lastName}.
-                    Als {firstName} heeft een geldig whatsapp-nummer geüpload,
-                        de QR-code brengt je naar een whatsapp-chat met {firstName}.
+                    Als {firstName} een geldig whatsapp-nummer heeft geüpload,
+                        dan brengt de QR-code je naar een whatsapp-chat met {firstName}.
                         Wijs gewoon naar de code met je foto-app op je mobiel.
                     </p>
                     <p>Of bel {firstName} op: {mobileNumber}</p>
