@@ -1,3 +1,4 @@
+//custom-hook to get all participants
 import React, {useEffect, useState} from 'react';
 import ParticipantService from "../services/ParticipantService";
 

@@ -1,20 +1,14 @@
-import React, {Fragment, useEffect, useState} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import classes from './ProfileForm.module.css';
-import ParticipantService from "../../services/ParticipantService";
 import machineworker from "../../assets/pexels-karolina-grabowska-6920104.jpg";
 import {useForm} from "react-hook-form";
 import useFileUpload from "../../hooks/useFileUpload";
-import useAxiosCall from "../../hooks/useAxiosCall";
 
 function ProfileForm({firstName, setFirstName, lastName, setLastName, email, setEmail,
                          mobileNumber, setMobileNumber, submitHandler,
-                         error, errorCSS, id, photoURL, setPhotoURL}, item) {
+                         error, errorCSS, id, photoURL, setPhotoURL, postcode, setPostcode}, item) {
 
-    //Getting existing users in database
-    //Using custom hook useAxiosCall to get all the participants from the list
-    const { participants, setParticipants } = useAxiosCall ();
-
-    //This code forces a reload to obtain participant data
+    //This code-block forces a reload post submission, to ensure the behaviour we want
     const reloadCount = Number(sessionStorage.getItem('reloadCount')) || 0;
     useEffect(() => {
         if(reloadCount < 2) {
@@ -23,11 +17,10 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
         } else {
             sessionStorage.removeItem('reloadCount');
         }
+        //Webstorm wants that "reloadCount" is to be added as dependency here.
+        //However, this is not done as that creates infinite loop.
+        //This code should also only run once, does not removing dependency array
     }, []);
-
-    console.log(firstName)
-    console.log(id)
-    console.log(photoURL)
 
     //This code section is made to simplify the JSX in the return statement
     const firstNameInputChangeHandler = (event) => {
@@ -38,6 +31,10 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
         setLastName(event.target.value);
         console.log(lastName)
     }
+    const postcodeInputChangeHandler = (event) => {
+        setPostcode(event.target.value);
+        console.log(postcode)
+    }
     const emailInputChangeHandler = (event) => {
         setEmail(event.target.value);
         console.log(email)
@@ -46,11 +43,12 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
         setMobileNumber(event.target.value);
         console.log(mobileNumber)
     }
-    //using react hook form for image upload
+
+    //using react hook form for image upload (inbuilt react hook)
     const {register, handleSubmit} = useForm();
     //using the useFileUpload custom hook
     const { obtainPhotoURL, onSubmit, setObtainPhotoURL } = useFileUpload ();
-    const URLChangeHandler = (event) => {
+    const URLChangeHandler = () => {
         setObtainPhotoURL(obtainPhotoURL);
         setPhotoURL(obtainPhotoURL)
     }
@@ -64,14 +62,19 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
     return (
         <Fragment>
             <section className={inputClasses}>
-                <div>Welcome!
+                <div>Welkom!
                     <br/>
                     <br/>
-                    Please add some more details to get started
+                    Voeg wat meer details toe om aan de slag te gaan
                     <br/>
                     <br/>
-                    Please start with adding your photo.
-                    Choose file, press submit, then type any key in the next line (FILE URL)
+                    Begin met het toevoegen van een foto van jezelf.
+                    Kies een foto om te uploaden en druk vervolgens op de "roze-text" submitknop,
+                    en typ daarna een willekeurige letter in het volgend veld met het label "FILE URL".
+                    Het toevoegen van een foto is verplicht.
+                    <br/>
+                    <br/>
+                    jpg-, jpeg-, and png-files worden geaccepteerd.
                 </div>
                 <div className={classes.photo}>
                     <form onSubmit={handleSubmit(onSubmit)} >
@@ -85,7 +88,7 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
                             <label htmlFor='File URL'>File URL</label>
                             <input
                                 type="url"
-                                placeholder="Click, then type any key to upload"
+                                placeholder="Typ op het toetsenbord om te uploaden"
                                 name="url"
                                 className="form-control"
                                 value={photoURL}
@@ -93,10 +96,10 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
                             />
                         </div>
                         <div className={classes.control}>
-                            <label htmlFor='first name'>Please enter your first name</label>
+                            <label htmlFor='first name'>Aub uw voornaam invullen</label>
                             <input
                                 type="text"
-                                placeholder="First Name"
+                                placeholder="Voornaam"
                                 name="firstName"
                                 className="form-control"
                                 value={firstName}
@@ -104,10 +107,10 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
                             />
                         </div>
                         <div className={classes.control}>
-                            <label htmlFor='last name'>Please enter your last Name</label>
+                            <label htmlFor='last name'>Aub uw achternaam invullen</label>
                             <input
                                 type="text"
-                                placeholder="Last Name"
+                                placeholder="Achternaam"
                                 name="last name"
                                 className="form-control"
                                 value={lastName}
@@ -115,7 +118,18 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
                             />
                         </div>
                         <div className={classes.control}>
-                            <label htmlFor='email'>Please enter your email address</label>
+                            <label htmlFor='postcode'>Aub uw postcode invullen</label>
+                            <input
+                                type="text"
+                                placeholder="Postcode"
+                                name="postcode"
+                                className="form-control"
+                                value={postcode}
+                                onChange={postcodeInputChangeHandler}
+                            />
+                        </div>
+                        <div className={classes.control}>
+                            <label htmlFor='email'>Aub uw email-adres invullen</label>
                             <input
                                 type="text"
                                 placeholder="Email"
@@ -126,7 +140,7 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
                             />
                         </div>
                         <div className={classes.control}>
-                            <label htmlFor='mobile number'>Please enter your mobile number</label>
+                            <label htmlFor='mobile number'>Uw mobiele telefoon</label>
                             <input
                                 type="text"
                                 placeholder="Mobile Number"

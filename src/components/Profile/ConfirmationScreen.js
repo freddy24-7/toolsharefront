@@ -1,9 +1,7 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {useHistory, useParams} from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useParams } from "react-router-dom";
 import classes from "./ProfileForm.module.css";
 import laptopworker from "../../assets/pexels-andrea-piacquadio-761993.jpg";
-import { useForm } from "react-hook-form";
-import useFileUpload from "../../hooks/useFileUpload";
 import axios from "axios";
 import {GET_ALL_PARTICIPANTS_URL} from "../../backend-urls/constants";
 
@@ -18,18 +16,18 @@ console.log(initialToken)
 //Here we will use route parameters to access individual participants
 //Using "useParams", with "id" as key. Matches the ":id" key from the app component
 //Displays the username back to the user in the welcome message to the user
-
 const ConfirmationScreen = () => {
 
     const {id} = useParams();
 
+    //Defining variables
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [mobileNumber, setMobileNumber] = useState('')
+    const [postcode, setPostcode] = useState('')
     const [photoURL, setPhotoURL] = useState('')
-
-    const participant = {firstName, lastName, email, mobileNumber, photoURL}
+    const participant = {firstName, lastName, email, mobileNumber, postcode, photoURL }
 
     console.log(id)
     const participantId = id;
@@ -42,6 +40,8 @@ const ConfirmationScreen = () => {
         },
         'credentials': 'include'
     })
+
+    //Obtaining details from backend
     useEffect(() => {
         getAxios
             .then((response) => {
@@ -50,6 +50,7 @@ const ConfirmationScreen = () => {
                 setLastName(response.data.lastName)
                 setEmail(response.data.email)
                 setMobileNumber(response.data.mobileNumber)
+                setPostcode(response.data.postcode)
                 setPhotoURL(response.data.photoURL)
             } ).catch(error => {
             console.log(error)
@@ -64,11 +65,9 @@ const ConfirmationScreen = () => {
             setPhotoURL(JSON.parse(data))
         }
     },[]);
-
     useEffect(() => {
         localStorage.setItem("photo", JSON.stringify(photoURL));
     });
-
 
     // conditional render: if there is a photoURL, the photo is displayed
     //alternatively, a default photo is displayed
@@ -78,7 +77,7 @@ const ConfirmationScreen = () => {
             <>
                 <section className={classes.base} >
                     <div className={classes.control}>
-                        <p className={classes.success}>Ready to go {id}!</p>
+                        <p className={classes.success}>Ready to go {firstName}!</p>
                         <br/>
                         <br/>
                         <p>Klik op een link om te beginnen. </p>

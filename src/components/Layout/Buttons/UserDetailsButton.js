@@ -1,13 +1,14 @@
 import React from 'react';
 import classes from './Button.module.css'
 
+//passing down props from MainNavigation
 const UserDetailsButton = ( {onEdit} ) => {
     return (
 
         <button className={classes.button}
                 onClick={onEdit}
         >
-            <span>Edit mijn details</span>
+            <span>Details bewerken</span>
         </button>
     );
 };

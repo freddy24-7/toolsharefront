@@ -8,6 +8,8 @@ const ParticipantList = () => {
     const { participants, setParticipants } = useAxiosCall ();
 
     return (
+
+        <>
         <ul>
             {/*checking that we have "participants", then using the map-method to output the participants*/}
             {participants &&
@@ -20,6 +22,7 @@ const ParticipantList = () => {
                     </div>
                 </div>))}
         </ul>
+        </>
     );
 };
 

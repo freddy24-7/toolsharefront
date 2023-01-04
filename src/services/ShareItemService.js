@@ -10,7 +10,7 @@ console.log(initialToken)
     const getApiURL = GET_SHARE_ITEM_URL;
 
 //Creating a variable that grants access, taking the initial token as parameter
-//At this stage, back-end was also updated to allow foe the "Authorization-header" (in addition to "Content-Type")
+//At this stage, back-end was also updated to allow for the "Authorization-header" (in addition to "Content-Type")
 const authAxios = axios.create(
     {
         baseURL: getApiURL,
@@ -22,11 +22,9 @@ const authAxios = axios.create(
 
 //Using the authAxios variable here, taking the URL and the relevant class as parameters
     class ShareItemService {
-
         getAllItems() {
             return authAxios.get(getApiURL);
         }
-
     }
 
 export default new ShareItemService();
