@@ -1,7 +1,8 @@
 .header {
     width: 100%;
     height: 5rem;
-    background-color: #ebe4db;
+    /*background-color: #ebe4db;*/
+    background-color: cornflowerblue;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
     display: flex;
     justify-content: space-between;
