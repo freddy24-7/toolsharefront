@@ -468,7 +468,7 @@ const LayoutWrapper = ({ children }) => {
             }
 
             {(!participantListClicked && !participantDetailsClicked && formS) || !editS ?
-                <Route path='/participant/:id'>
+                <Route exact path='/participant/:id'>
                 <ConfirmationScreen
                 />
                 </Route>
