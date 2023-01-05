@@ -202,7 +202,7 @@ const LayoutWrapper = ({ children }) => {
     //This function is used to close the ParticipantDetails component on click
     const participantDetailsCloseHandler = () => {
         setParticipantDetailsClicked(false);
-        history.push('/')
+        history.push('/participant/${id}')
     }
 
     //Opens the edit component, closes the other components
