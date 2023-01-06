@@ -188,8 +188,8 @@ const ViewItemOwnerDetails = () => {
                     <div className={classes.photo}>
                         <img src={photoURL} height={300} width={290}/>
                     </div>
-                    <p className={classes.cycle}>Maak er straks een leuk fietstocht van. U woont op {bikeDistance} afstand
-                       van de eigenaar. Dat is {bikeTime} op de fiets.</p>
+                    <p className={classes.cycle}>Maak er straks een leuk fietstocht van. U woont op korte afstand
+                       van de eigenaar {bikeDistance}. Duurt niet lang op det fiets {bikeTime}.</p>
                     <p>Er kan ook een e-mail gestuurd worden naar {email}</p>
                 </div>
             </section>
