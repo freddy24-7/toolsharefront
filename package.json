@@ -7,7 +7,6 @@
     "node": ">=16.0.0 <18.12.2"
   },
   "dependencies": {
-
     "@chakra-ui/react": "^1.8.6",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
@@ -52,6 +51,7 @@
   },
   "devDependencies": {
     "@qur/typetest": "^1.0.7",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
     "source-map-loader": "^4.0.1"
   }
 }
