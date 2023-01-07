@@ -176,7 +176,6 @@ const ItemLoanAction = ( {handleOwnerDetailViewedItems, ownerDetailsClickHandler
             <section className={classes.base} >
                 <div className={classes.control}>
                     <p className={classes.success}>U heeft interesse getoond in een {displayName}</p>
-                    <p className={classes.success}> {displayDescription} </p>
                     <p>Een foto van het object is hier:</p>
                 </div>
             </section>
