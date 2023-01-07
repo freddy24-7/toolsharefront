@@ -120,8 +120,7 @@ const ViewItemOwnerDetails = () => {
 
     //Getting the API and API key, and adding language as per documentation to get the output in Dutch
     const { isLoaded } = useJsApiLoader({
-        // googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-        googleMapsApiKey: 'AIzaSyBz-MTYvs7Q6aW8zSFTisnStArNuZNXtcs',
+        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
         libraries: ['places'],
         language: ['nl'],
     })
