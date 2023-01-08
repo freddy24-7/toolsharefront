@@ -1,5 +1,6 @@
 // Production constant
-export const BASE_API_URL = "https://toolshare-production.up.railway.app";
+// export const BASE_API_URL = "https://toolshare-production.up.railway.app";
+export const BASE_API_URL = "https://spullify.com";
 // Dev constant
 // export const BASE_API_URL = "http://localhost:8080";
 export const SIGN_UP_URL = BASE_API_URL + '/api/authentication/sign-up';
