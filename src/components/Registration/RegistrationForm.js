@@ -140,7 +140,7 @@ const RegistrationForm = () => {
                     <input
                         type='password'
                         id='password'
-                        placeholder= "Wachtwoord"
+                        placeholder= "Wachtwoord - ten minste 8 karakters"
                         value={password}
                         onChange={passwordInputChangeHandler}
                     />
