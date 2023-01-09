@@ -69,8 +69,8 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
                     <br/>
                     <br/>
                     Begin met het toevoegen van een foto van jezelf.
-                    Kies een foto om te uploaden en druk vervolgens op de "roze-text" submitknop,
-                    en typ daarna een willekeurige letter in het volgend veld met het label "FILE URL".
+                    Kies een foto om te uploaden en druk vervolgens op de "verzenden"-knop,
+                    en typ daarna een willekeurige letter in het volgend veld met het label "Photo URL".
                     Het toevoegen van een foto is verplicht.
                     <br/>
                     <br/>
@@ -85,7 +85,7 @@ function ProfileForm({firstName, setFirstName, lastName, setLastName, email, set
                 <form onSubmit={submitHandler} key={item.id}>
                     <div className={classes.click}>
                         <div className={classes.control}>
-                            <label htmlFor='File URL'>File URL</label>
+                            <label htmlFor='File URL'>Photo URL</label>
                             <input
                                 type="url"
                                 placeholder="Typ op het toetsenbord om te uploaden"
